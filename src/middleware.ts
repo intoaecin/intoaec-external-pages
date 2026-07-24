@@ -10,5 +10,9 @@ export function middleware(_req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/leadCapture/:path*", "/leadCaptureV2/:path*"],
+  matcher: [
+    "/leadCapture/:path*",
+    "/leadCaptureV2/:path*",
+    "/architectAvailableSlots/:path*",
+  ],
 };

@@ -11,6 +11,9 @@ Public Next.js app for **external** lead capture forms extracted from `intoaec-U
 | `/leadCapture/thankYou` | V1 thank-you |
 | `/leadCapture/customer-portal/[leadId]` | V1 legacy / portal prefill |
 | `/leadCaptureV2/[leadCaptureV2Id]` | V2 public form |
+| `/architectAvailableSlots` | Public architect consultation booking |
+| `/architectAvailableSlots/[projectId]` | Booking for a specific lead/project |
+| `/architectAvailableSlots/thankYou` | Booking confirmation |
 
 Admin / preference builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`).
 
@@ -29,5 +32,5 @@ Dev server defaults to port **3001**.
 
 - All routes are public (no auth middleware gate).
 - Org is resolved from subdomain via `OrganizationDetailsProvider` (`GET_ORGANIZATION_WITH_DOMAIN`).
-- Point org custom domains / reverse proxy at this app for `/leadCapture*` and `/leadCaptureV2*`.
-# intoaec-external-pages
+- Point org custom domains / reverse proxy at this app for `/leadCapture*`, `/leadCaptureV2*`, and `/architectAvailableSlots*`.
+

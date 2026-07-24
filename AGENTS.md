@@ -4,9 +4,9 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 
 ## Scope
 
-- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`.
-- Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`).
-- Prefer fixing public capture flows here; do not reintroduce auth-gated admin UI.
+- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`.
+- Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`, architect availability prefs).
+- Prefer fixing public capture / booking flows here; do not reintroduce auth-gated admin UI.
 
 ## Stack
 
