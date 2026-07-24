@@ -30,3 +30,4 @@ Dev server defaults to port **3001**.
 - All routes are public (no auth middleware gate).
 - Org is resolved from subdomain via `OrganizationDetailsProvider` (`GET_ORGANIZATION_WITH_DOMAIN`).
 - Point org custom domains / reverse proxy at this app for `/leadCapture*` and `/leadCaptureV2*`.
+# intoaec-external-pages
