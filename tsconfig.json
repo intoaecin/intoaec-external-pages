@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "lib": ["ES2015", "dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "plugins": [{ "name": "next" }]
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/pages/**/*.ts",
+    "src/pages/**/*.tsx",
+    "src/middleware.ts",
+    "src/config/**/*.ts",
+    "src/styles/**/*.ts",
+    "src/types/**/*.d.ts",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "src/components/plate-ui",
+    "src/components/plate-editor.tsx",
+    "src/components/plate-editor-inner.tsx",
+    "src/components/custom-toolbar.tsx",
+    "src/lib/plate",
+    "src/features/myVendor",
+    "src/features/automation",
+    "src/features/boq",
+    "src/features/lead",
+    "src/features/projectSchedule",
+    "src/features/userHub"
+  ]
+}
