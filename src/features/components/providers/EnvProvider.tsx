@@ -1,27 +1,27 @@
 import { ReactNode, createContext, useEffect, useMemo, useState } from "react";
-import { envConfig, getWindowEnvConfig } from "@/config/env";
+import { envConfig, getWindowEnvConfig, type EnvConfig } from "@/config/env";
 
 interface EnvProviderProps {
-  env: any;
+  env: EnvConfig;
 }
 
 export const EnvContext = createContext<EnvProviderProps>({
-  env: {},
+  env: envConfig,
 });
 
+/**
+ * Hydrates env from `/api/publicEnv` (and optional `window.__ENV`) so server
+ * `APIKEY` is available as `NEXT_PUBLIC_APIKEY` on public lead-capture pages —
+ * same pattern as intoaec-UI. Children wait until runtime env is loaded so
+ * FETCH_THEME / BIND_MACRO_VALUES never fire without the apiKey header.
+ */
 export const EnvProvider = ({ children }: { children: ReactNode }) => {
   const initialEnv = useMemo(
     () => ({ ...envConfig, ...getWindowEnvConfig() }),
     [],
   );
-  const [env, setEnv] = useState<any>(initialEnv);
-  const [isReady, setIsReady] = useState(
-    Boolean(
-      initialEnv?.NEXT_PUBLIC_USERHUB_ENDPOINT ||
-      initialEnv?.NEXT_PUBLIC_LEADMANAGER_ENDPOINT ||
-      initialEnv?.NEXT_PUBLIC_PAYMASTER_ENDPOINT,
-    ),
-  );
+  const [env, setEnv] = useState<EnvConfig>(initialEnv);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -29,11 +29,11 @@ export const EnvProvider = ({ children }: { children: ReactNode }) => {
     const loadRuntimeEnv = async () => {
       try {
         const res = await fetch("/api/publicEnv", { cache: "no-store" });
-        if (!res.ok) return;
-
-        const runtimeEnv = await res.json();
-        if (isMounted && runtimeEnv && typeof runtimeEnv === "object") {
-          setEnv((prev: any) => ({ ...prev, ...runtimeEnv }));
+        if (res.ok) {
+          const runtimeEnv = await res.json();
+          if (isMounted && runtimeEnv && typeof runtimeEnv === "object") {
+            setEnv((prev) => ({ ...prev, ...runtimeEnv }));
+          }
         }
       } catch (e) {
         console.log(e);
@@ -44,7 +44,6 @@ export const EnvProvider = ({ children }: { children: ReactNode }) => {
       }
     };
 
-    // Always refresh from runtime env for deployment-time secrets.
     loadRuntimeEnv();
 
     return () => {

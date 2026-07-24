@@ -1,7 +1,8 @@
 /**
- * Environment configuration
+ * Environment configuration from `process.env`.
  * NEXT_PUBLIC_* values are often replaced at build time in client bundles.
- * To support deployment-time env updates, we can hydrate from window.__ENV.
+ * Runtime hydration via `/api/publicEnv` (and optional `window.__ENV`) supplies
+ * deployment-time secrets such as APIKEY → NEXT_PUBLIC_APIKEY.
  */
 
 export const PUBLIC_ENV_KEYS = [
@@ -137,16 +138,16 @@ export const getProcessEnvConfig = (): EnvConfig => {
   return config;
 };
 
-export const getWindowEnvConfig = (): EnvConfig => {
+export const getWindowEnvConfig = (): Partial<EnvConfig> => {
   if (typeof window === "undefined") {
-    return {} as EnvConfig;
+    return {};
   }
   const browserEnv = (window as Window & { __ENV?: Partial<EnvConfig> })
     .__ENV;
   if (!browserEnv) {
-    return {} as EnvConfig;
+    return {};
   }
-  return browserEnv as EnvConfig;
+  return browserEnv;
 };
 
 export const envConfig = getProcessEnvConfig();
