@@ -1,4 +1,4 @@
-# intoaec-lead-capture
+# intoaec-external-pages
 
 Public Next.js app for **external** lead capture forms extracted from `intoaec-UI`.
 

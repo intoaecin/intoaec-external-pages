@@ -1,4 +1,4 @@
-# intoaec-lead-capture Agent Instructions
+# intoaec-external-pages Agent Instructions
 
 Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 
