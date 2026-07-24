@@ -119,7 +119,7 @@
     "@types/react-swipeable-views": "^0.13.5",
     "@types/uuid": "^9.0.4",
     "autoprefixer": "^10.4.16",
-    "eslint": "8.49.0",
+    "eslint": "^8.57.0",
     "eslint-config-next": "^14.0.0",
     "postcss": "^8.4.31",
     "sass": "^1.68.0",
