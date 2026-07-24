@@ -130,7 +130,7 @@ const RenderProjectTypes = forwardRef<
   const updateProjectTypeImage = async (imageUrl: string) => {
     if (!activeProjectType?.projectTypeId) return false;
     if (!organizationId || !organizationType) return false;
-    const updatedBy = "CLIENT";
+    const updatedBy = "SYSTEM";
 
     setUpdatingTypeId(activeProjectType.projectTypeId);
     const response = await updateProjectTypeDefault({
@@ -328,15 +328,15 @@ const RenderProjectTypes = forwardRef<
                     opacity: 1,
                     background:
                       selectedType === String(type?.projectTypeValue ?? "") ||
-                      selectedType === String(type?.projectTypeId)
+                        selectedType === String(type?.projectTypeId)
                         ? "rgba(0, 0, 0, 0.5)"
                         : "transparent",
                   }}
                 >
                   {(selectedType === String(type?.projectTypeValue ?? "") ||
                     selectedType === String(type?.projectTypeId)) && (
-                    <ProjectTypeCheck width={"30px"} />
-                  )}
+                      <ProjectTypeCheck width={"30px"} />
+                    )}
                 </div>
                 <div
                   style={{
