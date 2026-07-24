@@ -4,7 +4,7 @@ import Link from "next/link";
 const Home: NextPage = () => {
   return (
     <div style={{ padding: 24, fontFamily: "system-ui" }}>
-      <h1>intoaec Lead Capture</h1>
+      <h1>intoaec External Pages</h1>
       <p>Public lead capture forms (V1 &amp; V2).</p>
       <ul>
         <li>
