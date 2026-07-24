@@ -1,27 +1,31 @@
-import type { NextPage } from "next";
-import Link from "next/link";
+import type { GetServerSideProps, NextPage } from "next";
+import { useEffect } from "react";
+import { useEnv } from "@/features/hooks/useEnv";
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const destination = process.env.NEXT_PUBLIC_WEBSITE_URL?.trim();
+  if (destination) {
+    return {
+      redirect: {
+        destination,
+        permanent: false,
+      },
+    };
+  }
+  return { props: {} };
+};
 
 const Home: NextPage = () => {
-  return (
-    <div style={{ padding: 24, fontFamily: "system-ui" }}>
-      <h1>intoaec External Pages</h1>
-      <p>Public lead capture forms (V1 &amp; V2).</p>
-      <ul>
-        <li>
-          <code>/leadCapture</code> — org subdomain V1 form
-        </li>
-        <li>
-          <code>/leadCapture/[projectSource]</code> — V1 with channel source
-        </li>
-        <li>
-          <code>/leadCaptureV2/[leadCaptureV2Id]</code> — V2 public form
-        </li>
-      </ul>
-      <p>
-        <Link href="/leadCapture">Open /leadCapture</Link>
-      </p>
-    </div>
-  );
+  const { NEXT_PUBLIC_WEBSITE_URL } = useEnv();
+
+  useEffect(() => {
+    const destination = NEXT_PUBLIC_WEBSITE_URL?.trim();
+    if (destination) {
+      window.location.replace(destination);
+    }
+  }, [NEXT_PUBLIC_WEBSITE_URL]);
+
+  return null;
 };
 
 export default Home;
