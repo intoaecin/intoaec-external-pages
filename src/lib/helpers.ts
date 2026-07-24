@@ -28,7 +28,6 @@ import { envConfig } from "@/config/env";
 // Public lead-capture app: stub admin-only product/invoice/session types
 type InvoiceData = Record<string, unknown>;
 type ProductType = Record<string, unknown>;
-type Session = Record<string, any>;
 
 export const parseJwt = async (token: string) => {
   const base64Url = token.split(".")[1];
@@ -562,7 +561,7 @@ export const formatToCamelCaseWithAmpersand = (text: string) => {
           "&" +
           (arr[index + 1]
             ? arr[index + 1].charAt(0).toUpperCase() +
-              arr[index + 1].slice(1).toLowerCase()
+            arr[index + 1].slice(1).toLowerCase()
             : "")
         );
       }
@@ -613,101 +612,7 @@ export const hasPreferencesOrLegacyLocalizationSubscription = (
   );
 };
 
-/**
- * Resolves permission keys stored in different shapes across sessions:
- * - Flat: `FEATURES/QUESTIONNAIRE` (current User Hub / JWT)
- * - Nested (enum): `FEATURES/LEAD_MANAGER/QUESTIONNAIRE`, `FEATURES/CLIENT/ESTIMATION`
- * - Legacy: `LEAD_MANAGER/QUESTIONNAIRE`, `CLIENT/ESTIMATION`, `CLIENT/PROCUREMENT/RFQ`
- */
-function expandPermissionCheckKeys(key: string): readonly string[] {
-  const out = new Set<string>([key]);
-  const nestedLead = "FEATURES/LEAD_MANAGER/";
-  const nestedClient = "FEATURES/CLIENT/";
 
-  if (key.startsWith(nestedLead)) {
-    const tail = key.slice(nestedLead.length);
-    out.add(`FEATURES/${tail}`);
-    out.add(`LEAD_MANAGER/${tail}`);
-  }
-
-  if (key.startsWith(nestedClient)) {
-    const rest = key.slice(nestedClient.length);
-    out.add(`CLIENT/${rest}`);
-    if (rest.startsWith("PROCUREMENT/")) {
-      out.add(`FEATURES/${rest.slice("PROCUREMENT/".length)}`);
-    } else {
-      out.add(`FEATURES/${rest}`);
-    }
-  }
-
-  const flatFeature = /^FEATURES\/([^/]+)$/.exec(key);
-  if (flatFeature) {
-    const tail = flatFeature[1];
-    out.add(`LEAD_MANAGER/${tail}`);
-    out.add(`CLIENT/${tail}`);
-    out.add(`CLIENT/PROCUREMENT/${tail}`);
-  }
-
-  if (key === PathsKeyForPermission.PREFERENCES_ORGANIZATIONS_PREFERENCES) {
-    for (const legacy of [
-      "PREFERENCES/LEAD",
-      "PREFERENCES/WEBSITE",
-      "PREFERENCES/LEAD_CAPTURE",
-      "LOCALIZATION",
-      "LOCALIZATION/TIME_ZONE_&_CURRENCY",
-      "LOCALIZATION/TAXES",
-      "LOCALIZATION/DISCOUNT",
-    ]) {
-      out.add(legacy);
-    }
-  }
-  if (key === PathsKeyForPermission.PREFERENCES_PROJECT_CRM) {
-    out.add("PREFERENCES/ADMIN");
-  }
-
-  return [...out];
-}
-
-const CLIENT_HUB_PERMISSION = "CLIENT";
-const LEAD_MANAGER_HUB_PERMISSION = "LEAD_MANAGER";
-const FEATURES_HUB_PERMISSION = "FEATURES";
-
-/** Hub routes (`/client`, `/leadmanager/*`) historically required `CLIENT` / `LEAD_MANAGER`; JWTs now use `FEATURES` and `FEATURES/*`. */
-function hasFeatureHubAccess(permSet: Set<string>, perms: string[]): boolean {
-  if (
-    permSet.has(FEATURES_HUB_PERMISSION) ||
-    permSet.has(CLIENT_HUB_PERMISSION) ||
-    permSet.has(LEAD_MANAGER_HUB_PERMISSION)
-  ) {
-    return true;
-  }
-  return perms.some((p) => p.startsWith(`${FEATURES_HUB_PERMISSION}/`));
-}
-
-export const checkAccessForComponent = (session: Session, key: string) => {
-  if (session.isSuperAdmin) {
-    return true;
-  }
-
-  const perms = session?.permissions;
-  if (!perms?.length) {
-    return false;
-  }
-
-  const permSet = new Set(perms);
-
-  if (
-    key === CLIENT_HUB_PERMISSION ||
-    key === LEAD_MANAGER_HUB_PERMISSION
-  ) {
-    if (permSet.has(key)) {
-      return true;
-    }
-    return hasFeatureHubAccess(permSet, perms);
-  }
-
-  return expandPermissionCheckKeys(key).some((k) => permSet.has(k));
-};
 
 export { formatPathname } from "@/lib/formatPathname";
 
@@ -1861,18 +1766,17 @@ export const generateInvoiceDetailHtml = async (
 ) => {
   return `${invoicePaymentSchedules?.map((invoice) => {
     return `<ul style="color: #192a3e">
-    <li><span><strong>Invoice Number: </strong>${
-      invoice?.invoiceSerial
-    }</span></li>
+    <li><span><strong>Invoice Number: </strong>${invoice?.invoiceSerial
+      }</span></li>
   <li><span><strong>Amount Due:</strong>${currency} ${formatNumberITL(
-    localizationValue,
-    invoice?.totalAmount as string | number | undefined,
-  )}</span></li>
+        localizationValue,
+        invoice?.totalAmount as string | number | undefined,
+      )}</span></li>
    <li><span><strong>Due Date:</strong> ${formatDateBasedOnOrganizationLocalization(
-     localizationValue,
-     invoice?.invoiceDueDate,
-     true,
-   )}</span></li>
+        localizationValue,
+        invoice?.invoiceDueDate,
+        true,
+      )}</span></li>
  </ul>`;
   })}`;
 };
@@ -1881,9 +1785,8 @@ export const formatUnitType = (unit: {
   itemUnitValue: string;
   powerValue?: number;
 }) => {
-  return `${unit?.itemUnitValue}${
-    unit?.powerValue === 2 ? "²" : unit?.powerValue === 3 ? "³" : ""
-  }`;
+  return `${unit?.itemUnitValue}${unit?.powerValue === 2 ? "²" : unit?.powerValue === 3 ? "³" : ""
+    }`;
 };
 
 export const convertDateStringToTimestamp = (dateStr: string) => {

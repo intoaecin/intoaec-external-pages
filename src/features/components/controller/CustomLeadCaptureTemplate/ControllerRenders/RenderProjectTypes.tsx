@@ -130,8 +130,7 @@ const RenderProjectTypes = forwardRef<
   const updateProjectTypeImage = async (imageUrl: string) => {
     if (!activeProjectType?.projectTypeId) return false;
     if (!organizationId || !organizationType) return false;
-    const updatedBy = session?.username || "";
-    if (!updatedBy) return false;
+    const updatedBy = "CLIENT";
 
     setUpdatingTypeId(activeProjectType.projectTypeId);
     const response = await updateProjectTypeDefault({
@@ -169,7 +168,7 @@ const RenderProjectTypes = forwardRef<
   ) => {
     const currentTypeId = activeProjectType?.projectTypeId;
     if (!currentTypeId) return [];
-    if (!organizationId || !organizationType || !session?.username) {
+    if (!organizationId || !organizationType) {
       toast.error(t("common.requiredField"));
       return [];
     }
