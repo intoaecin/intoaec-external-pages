@@ -84,7 +84,9 @@ export const OrganizationDetailsProvider = ({
   //   }, []);
 
   const {
+    NEXT_PUBLIC_WEBSITE_URL,
     NEXT_PUBLIC_USERHUB_ENDPOINT,
+    NEXTAUTH_URL,
     NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
     NEXT_PUBLIC_APIKEY,
   } = useEnv();
@@ -120,8 +122,10 @@ export const OrganizationDetailsProvider = ({
     (async () => {
       setLoading(true);
 
-      // Local/dev: always resolve marineinteriors; never redirect to marketing site.
-      const domainName = "marineinteriors";
+      if (window.location.origin == NEXTAUTH_URL) {
+        return window.location.replace(NEXT_PUBLIC_WEBSITE_URL);
+      }
+      const domainName = window.location.hostname.split(".")?.[0];
 
       const res = await fetch(NEXT_PUBLIC_USERHUB_ENDPOINT + "/session", {
         method: "POST",
@@ -160,6 +164,8 @@ export const OrganizationDetailsProvider = ({
         } else {
           fetchTheme(res?.body?.organizationId, res?.body?.logoUrl);
         }
+      } else {
+        return window.location.replace(NEXT_PUBLIC_WEBSITE_URL);
       }
       setLoading(false);
     })();

@@ -1,8 +1,6 @@
 /**
  * Environment configuration from `process.env`.
- * NEXT_PUBLIC_* values are often replaced at build time in client bundles.
- * Runtime hydration via `/api/publicEnv` (and optional `window.__ENV`) supplies
- * deployment-time secrets such as APIKEY → NEXT_PUBLIC_APIKEY.
+ * NEXT_PUBLIC_* values are inlined at build time in client bundles (set them in Vercel before deploy).
  */
 
 export const PUBLIC_ENV_KEYS = [
@@ -115,7 +113,7 @@ export const getProcessEnvConfig = (): EnvConfig => {
     NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID:
       process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID ?? "",
     NEXT_PUBLIC_RUN_POD_API_KEY: process.env.NEXT_PUBLIC_RUN_POD_API_KEY ?? "",
-    NEXT_PUBLIC_APIKEY: process.env.NEXT_PUBLIC_APIKEY ?? process.env.APIKEY ?? "",
+    NEXT_PUBLIC_APIKEY: process.env.NEXT_PUBLIC_APIKEY ?? "",
     NEXT_WHITELISTED_DOMAINS: process.env.NEXT_WHITELISTED_DOMAINS ?? "",
     NEXT_PUBLIC_INTOAEC_ORG_EMAIL:
       process.env.NEXT_PUBLIC_INTOAEC_ORG_EMAIL ?? "",
@@ -136,18 +134,6 @@ export const getProcessEnvConfig = (): EnvConfig => {
       process.env.NEXT_PUBLIC_CHAT_VAPID_PUBLIC_KEY ?? "",
   };
   return config;
-};
-
-export const getWindowEnvConfig = (): Partial<EnvConfig> => {
-  if (typeof window === "undefined") {
-    return {};
-  }
-  const browserEnv = (window as Window & { __ENV?: Partial<EnvConfig> })
-    .__ENV;
-  if (!browserEnv) {
-    return {};
-  }
-  return browserEnv;
 };
 
 export const envConfig = getProcessEnvConfig();
