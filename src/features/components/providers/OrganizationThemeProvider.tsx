@@ -20,6 +20,8 @@ interface OrganizationDetailsContextType {
   emailId?: string;
   addressLine1?: string;
   addressLine2?: string;
+  website?: string;
+  websiteUrl?: string;
 }
 
 // Create a context with default values
@@ -51,6 +53,8 @@ export const OrganizationDetailsProvider = ({
     emailId?: string;
     addressLine1?: string;
     addressLine2?: string;
+    website?: string;
+    websiteUrl?: string;
   }>();
 
   //   const { post: fetch } = useAxios(
@@ -156,6 +160,7 @@ export const OrganizationDetailsProvider = ({
             res?.body?.organizationType ??
             NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
           website: res?.body?.websiteOrBlog,
+          websiteUrl: res?.body?.websiteUrl,
           address: `${res?.body?.addressLine1},${res?.body?.addressLine2},${res?.body?.city},${res?.body?.state},${res?.body?.country},${res?.body?.zipCode}`,
         }));
 

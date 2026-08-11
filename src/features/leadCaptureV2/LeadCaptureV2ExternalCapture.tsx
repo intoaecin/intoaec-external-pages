@@ -34,7 +34,7 @@ const LeadCaptureV2ExternalCapture = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const organization = useOrganization();
-  const { logoUrl, organizationName } = organization;
+  const { logoUrl, organizationName, websiteUrl } = organization;
   const {
     NEXT_PUBLIC_LEADMANAGER_ENDPOINT,
   } = useEnv();
@@ -241,15 +241,31 @@ const LeadCaptureV2ExternalCapture = () => {
           }}
         >
           <Box
-            component="img"
-            src={logoUrl}
-            alt={organizationName ?? "Organization logo"}
+            component={websiteUrl ? "a" : "div"}
+            {...(websiteUrl
+              ? {
+                  href: websiteUrl,
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                }
+              : {})}
             sx={{
-              width: 160,
-              height: 48,
-              objectFit: "contain",
+              display: "inline-flex",
+              cursor: websiteUrl ? "pointer" : "default",
+              textDecoration: "none",
             }}
-          />
+          >
+            <Box
+              component="img"
+              src={logoUrl}
+              alt={organizationName ?? "Organization logo"}
+              sx={{
+                width: 160,
+                height: 48,
+                objectFit: "contain",
+              }}
+            />
+          </Box>
         </Box>
       ) : null}
       <Box
