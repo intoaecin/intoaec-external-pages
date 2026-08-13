@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import Image from "next/image";
 import React from "react";
 
 const NextImage = ({
@@ -16,7 +15,7 @@ const NextImage = ({
   loading?: "lazy" | "eager";
 }) => {
   return (
-    <Image
+    <img
       src={src}
       style={{ height: height ?? "auto", width: width }}
       alt={alt}

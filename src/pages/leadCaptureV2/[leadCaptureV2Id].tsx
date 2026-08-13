@@ -7,7 +7,6 @@ import {
 import LeadCaptureV2ExternalCapture from "@/features/leadCaptureV2/LeadCaptureV2ExternalCapture";
 import { createOrganizationTheme } from "@/utils/createOrganizationTheme";
 import { ThemeProvider } from "@mui/material";
-import Head from "next/head";
 import { ToastContainer } from "react-toastify";
 
 const LeadCaptureV2ExternalWrapper = () => {
@@ -34,14 +33,9 @@ const LeadCaptureV2ExternalWrapper = () => {
 };
 
 const LeadCaptureV2ExternalPage = () => (
-  <>
-    <Head>
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-    </Head>
-    <OrganizationDetailsProvider>
-      <LeadCaptureV2ExternalWrapper />
-    </OrganizationDetailsProvider>
-  </>
+  <OrganizationDetailsProvider>
+    <LeadCaptureV2ExternalWrapper />
+  </OrganizationDetailsProvider>
 );
 
 export default LeadCaptureV2ExternalPage;

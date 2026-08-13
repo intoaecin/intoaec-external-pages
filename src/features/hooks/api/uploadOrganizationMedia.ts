@@ -48,7 +48,7 @@ export async function uploadOrganizationMedia({
     throw new FileTooLargeError(file.name, maxBytes);
   }
 
-  const resolvedApiKey = apiKey ?? process.env.NEXT_PUBLIC_APIKEY ?? null;
+  const resolvedApiKey = apiKey ?? null;
   const filePath = `${organizationId}/${organizationType}/${relativePath}`;
   const formData = new FormData();
   const filename = file.name || "file";

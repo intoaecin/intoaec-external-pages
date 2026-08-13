@@ -3,13 +3,11 @@ import { useTranslation } from "react-i18next";
 import { IconButton, Menu, MenuItem, Tooltip } from "@mui/material";
 import LanguageIcon from "@mui/icons-material/Language";
 import { translationLanguages } from "@/features/constants/languages";
-import { useRouter } from "next/router";
 import SpainFlagIcon from "@/assets/icons/spain-country-flag-icon";
 import UkFlagIcon from "@/assets/icons/uk-flag";
 
 const LanguageSwitcher = () => {
   const { i18n } = useTranslation();
-  const router = useRouter();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -19,8 +17,8 @@ const LanguageSwitcher = () => {
       const savedLanguage = localStorage.getItem("preferredLanguage");
       if (savedLanguage) {
         try {
-          router.locale = savedLanguage;
           await i18n.changeLanguage(savedLanguage);
+          document.documentElement.lang = savedLanguage;
         } catch (error) {
           console.error("Failed to initialize language:", error);
         }
@@ -39,8 +37,8 @@ const LanguageSwitcher = () => {
 
   const handleLanguageChange = async (lng: string) => {
     try {
-      router.locale = lng;
       await i18n.changeLanguage(lng);
+      document.documentElement.lang = lng;
       localStorage.setItem("preferredLanguage", lng);
       handleClose();
     } catch (error) {

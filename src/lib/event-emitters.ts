@@ -1,10 +1,34 @@
-// eventEmitter.js
-import { EventEmitter } from "events";
-export const macroEventEmitter = new EventEmitter();
-macroEventEmitter.setMaxListeners(20);
+type Listener = (...args: any[]) => void;
 
-export const textEditorEventEmitter = new EventEmitter();
-textEditorEventEmitter.setMaxListeners(20);
+class BrowserEventEmitter {
+  private readonly listeners = new Map<string, Set<Listener>>();
 
-export const AIGeneratorEventEmitter = new EventEmitter();
-AIGeneratorEventEmitter.setMaxListeners(20);
+  on(eventName: string, listener: Listener) {
+    const eventListeners = this.listeners.get(eventName) ?? new Set<Listener>();
+    eventListeners.add(listener);
+    this.listeners.set(eventName, eventListeners);
+    return this;
+  }
+
+  removeListener(eventName: string, listener: Listener) {
+    const eventListeners = this.listeners.get(eventName);
+    eventListeners?.delete(listener);
+    if (eventListeners?.size === 0) this.listeners.delete(eventName);
+    return this;
+  }
+
+  off(eventName: string, listener: Listener) {
+    return this.removeListener(eventName, listener);
+  }
+
+  emit(eventName: string, ...args: any[]) {
+    for (const listener of this.listeners.get(eventName) ?? []) {
+      listener(...args);
+    }
+    return this.listeners.has(eventName);
+  }
+}
+
+export const macroEventEmitter = new BrowserEventEmitter();
+export const textEditorEventEmitter = new BrowserEventEmitter();
+export const AIGeneratorEventEmitter = new BrowserEventEmitter();

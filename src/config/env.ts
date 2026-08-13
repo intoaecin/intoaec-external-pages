@@ -1,7 +1,4 @@
-/**
- * Environment configuration from `process.env`.
- * NEXT_PUBLIC_* values are inlined at build time in client bundles (set them in Vercel before deploy).
- */
+/** Public configuration loaded from `/runtime-env.json` before routes render. */
 
 export const PUBLIC_ENV_KEYS = [
   "NEXT_PUBLIC_LEADMANAGER_ENDPOINT",
@@ -53,87 +50,21 @@ export const PUBLIC_ENV_KEYS = [
 type PublicEnvKey = (typeof PUBLIC_ENV_KEYS)[number];
 export type EnvConfig = Record<PublicEnvKey, string>;
 
-const EMPTY_ENV_CONFIG = PUBLIC_ENV_KEYS.reduce((acc, key) => {
+export const EMPTY_ENV_CONFIG = PUBLIC_ENV_KEYS.reduce((acc, key) => {
   acc[key] = "";
   return acc;
 }, {} as EnvConfig);
 
-export const getProcessEnvConfig = (): EnvConfig => {
-  const config: EnvConfig = {
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT:
-      process.env.NEXT_PUBLIC_LEADMANAGER_ENDPOINT ?? "",
-    NEXT_PUBLIC_USERHUB_ENDPOINT:
-      process.env.NEXT_PUBLIC_USERHUB_ENDPOINT ?? "",
-    NEXT_PUBLIC_MEETANDNOTE_ENDPOINT:
-      process.env.NEXT_PUBLIC_MEETANDNOTE_ENDPOINT ?? "",
-    NEXT_PUBLIC_PROPOSAL_ENDPOINT:
-      process.env.NEXT_PUBLIC_PROPOSAL_ENDPOINT ?? "",
-    NEXT_PUBLIC_AECPOSTMAN_ENDPOINT:
-      process.env.NEXT_PUBLIC_AECPOSTMAN_ENDPOINT ?? "",
-    NEXT_PUBLIC_AEC_AUTOPILOT_ENDPOINT:
-      process.env.NEXT_PUBLIC_AEC_AUTOPILOT_ENDPOINT ?? "",
-    NEXT_PUBLIC_AEC_CHATBOT_ENDPOINT:
-      process.env.NEXT_PUBLIC_AEC_CHATBOT_ENDPOINT ?? "",
-    NEXT_PUBLIC_BOTSYNC_AI: process.env.NEXT_PUBLIC_BOTSYNC_AI ?? "",
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT:
-      process.env.NEXT_PUBLIC_PROCUREMENT_ENDPOINT ?? "",
-    NEXT_PUBLIC_PAYMASTER_ENDPOINT:
-      process.env.NEXT_PUBLIC_PAYMASTER_ENDPOINT ?? "",
-    NEXT_PUBLIC_ROOT_DOMAIN_NAME:
-      process.env.NEXT_PUBLIC_ROOT_DOMAIN_NAME ?? "",
-    NEXT_PUBLIC_WEBSITE_URL: process.env.NEXT_PUBLIC_WEBSITE_URL ?? "",
-    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL ?? "",
-    NEXT_PUBLIC_VENDOR_URL: process.env.NEXT_PUBLIC_VENDOR_URL ?? "",
-    NEXT_PUBLIC_CLIPPER_EXTENSION_URL:
-      process.env.NEXT_PUBLIC_CLIPPER_EXTENSION_URL ?? "",
-    NEXTAUTH_URL: process.env.NEXTAUTH_URL ?? "",
-    NEXT_PUBLIC_AEC_BUCKET_NAME: process.env.NEXT_PUBLIC_AEC_BUCKET_NAME ?? "",
-    NEXT_PUBLIC_CUSTOMER_PORTAL_BUCKET_NAME:
-      process.env.NEXT_PUBLIC_CUSTOMER_PORTAL_BUCKET_NAME ?? "",
-    NEXT_PUBLIC_ORGANIZATIONS_BUCKET_NAME:
-      process.env.NEXT_PUBLIC_ORGANIZATIONS_BUCKET_NAME ?? "",
-    NEXT_PUBLIC_REGION: process.env.NEXT_PUBLIC_REGION ?? "",
-    NEXT_PUBLIC_INTOAEC_LOGO: process.env.NEXT_PUBLIC_INTOAEC_LOGO ?? "",
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE:
-      process.env.NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE ?? "",
-    NEXT_PUBLIC_PRIVACY_POLICY_URL:
-      process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL ?? "",
-    NEXT_PUBLIC_REFUND_POLICY_URL:
-      process.env.NEXT_PUBLIC_REFUND_POLICY_URL ?? "",
-    NEXT_PUBLIC_TERMS_OF_SERVICES_URL:
-      process.env.NEXT_PUBLIC_TERMS_OF_SERVICES_URL ?? "",
-    NEXT_PUBLIC_CURRENT_ENV: process.env.NEXT_PUBLIC_CURRENT_ENV ?? "",
-    NEXT_PUBLIC_GOOGLE_MAP_APIKEY:
-      process.env.NEXT_PUBLIC_GOOGLE_MAP_APIKEY ?? "",
-    NEXT_PUBLIC_ACCESS_KEY: process.env.NEXT_PUBLIC_ACCESS_KEY ?? "",
-    NEXT_PUBLIC_RECAPTCHA_KEY: process.env.NEXT_PUBLIC_RECAPTCHA_KEY ?? "",
-    NEXT_PUBLIC_CLARITY_KEY: process.env.NEXT_PUBLIC_CLARITY_KEY ?? "",
-    NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID:
-      process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_MEASUREMENT_ID ?? "",
-    NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID:
-      process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID ?? "",
-    NEXT_PUBLIC_RUN_POD_API_KEY: process.env.NEXT_PUBLIC_RUN_POD_API_KEY ?? "",
-    NEXT_PUBLIC_APIKEY: process.env.NEXT_PUBLIC_APIKEY ?? "",
-    NEXT_WHITELISTED_DOMAINS: process.env.NEXT_WHITELISTED_DOMAINS ?? "",
-    NEXT_PUBLIC_INTOAEC_ORG_EMAIL:
-      process.env.NEXT_PUBLIC_INTOAEC_ORG_EMAIL ?? "",
-    NEXT_PUBLIC_INTOAEC_SALES_EMAIL:
-      process.env.NEXT_PUBLIC_INTOAEC_SALES_EMAIL ?? "",
-    NEXT_PUBLIC_GRACE_PERIOD_DAYS:
-      process.env.NEXT_PUBLIC_GRACE_PERIOD_DAYS ?? "",
-    NEXT_PUBLIC_ORGANIZATION_TYPE:
-      process.env.NEXT_PUBLIC_ORGANIZATION_TYPE ??
-      process.env.NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE ??
-      "",
-    HELP_CENTER_URL: process.env.HELP_CENTER_URL ?? "",
-    NEXT_PUBLIC_HELP_CENTER_URL: process.env.NEXT_PUBLIC_HELP_CENTER_URL ?? "",
-    NEXT_PUBLIC_MODEL_URI: process.env.NEXT_PUBLIC_MODEL_URI ?? "",
-    NEXT_PUBLIC_AUTH_PREVIEW_VIDEO_URL:
-      process.env.NEXT_PUBLIC_AUTH_PREVIEW_VIDEO_URL ?? "",
-    NEXT_PUBLIC_CHAT_VAPID_PUBLIC_KEY:
-      process.env.NEXT_PUBLIC_CHAT_VAPID_PUBLIC_KEY ?? "",
-  };
+export const createEnvConfig = (value: unknown): EnvConfig => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return { ...EMPTY_ENV_CONFIG };
+  }
+
+  const source = value as Record<string, unknown>;
+  const config = { ...EMPTY_ENV_CONFIG };
+  for (const key of PUBLIC_ENV_KEYS) {
+    if (typeof source[key] === "string") config[key] = source[key] as string;
+  }
+  config.NEXT_PUBLIC_ORGANIZATION_TYPE ||= config.NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE;
   return config;
 };
-
-export const envConfig = getProcessEnvConfig();
