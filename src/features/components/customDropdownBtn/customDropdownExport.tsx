@@ -14,6 +14,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import jsPDF from "jspdf";
+import "jspdf-autotable";
 import moment from "moment";
 import { FileDown } from "lucide-react";
 import React, { useState } from "react";

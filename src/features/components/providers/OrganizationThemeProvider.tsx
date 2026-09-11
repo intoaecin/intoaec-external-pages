@@ -129,7 +129,7 @@ export const OrganizationDetailsProvider = ({
       if (window.location.origin == VITE_AUTH_URL) {
         return window.location.replace(VITE_WEBSITE_URL);
       }
-      const domainName = window.location.hostname.split(".")?.[0];
+      const domainName = "shabab"
 
       const res = await fetch(VITE_USERHUB_ENDPOINT + "/session", {
         method: "POST",

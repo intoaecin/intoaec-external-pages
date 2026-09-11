@@ -13,6 +13,26 @@ import LeadCaptureV2Page from "@/pages/leadCaptureV2/[leadCaptureV2Id]";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
 import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
 import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
+import ReportsPage from "@/pages/reportsPage";
+import AssetsReportPage from "@/pages/reportsPage/Assets";
+import BillsExpensesReportPage from "@/pages/reportsPage/BillsExpenses";
+import ClientsReportPage from "@/pages/reportsPage/Clients";
+import EmailsReportPage from "@/pages/reportsPage/Emails";
+import EstimateReportPage from "@/pages/reportsPage/Estimate";
+import ExpensesReportPage from "@/pages/reportsPage/Expenses";
+import IncomeReportPage from "@/pages/reportsPage/Income";
+import IndentReportPage from "@/pages/reportsPage/Indent";
+import InventoryReportPage from "@/pages/reportsPage/Inventory";
+import LeadsReportPage from "@/pages/reportsPage/Leads";
+import ProposalReportPage from "@/pages/reportsPage/Proposal";
+import PurchaseOrderReportPage from "@/pages/reportsPage/PurchaseOrder";
+import QuestionnaireReportPage from "@/pages/reportsPage/Questionnaire";
+import RfqReportPage from "@/pages/reportsPage/RFQ";
+import ScheduleReportPage from "@/pages/reportsPage/Schedule";
+import TasksReportPage from "@/pages/reportsPage/Tasks";
+import TimeTrackingReportPage from "@/pages/reportsPage/TimeTracking";
+import WorkOrderReportPage from "@/pages/reportsPage/WorkOrder";
+import WorkersReportPage from "@/pages/reportsPage/Workers";
 
 const APP_FONT_FAMILY = "'Poppins', system-ui, -apple-system, sans-serif";
 
@@ -67,6 +87,26 @@ export default function App() {
                   path="/architectAvailableSlots/:projectId"
                   element={<ArchitectProjectSlotsPage />}
                 />
+                <Route path="/reportsPage" element={<ReportsPage />} />
+                <Route path="/reportsPage/Assets" element={<AssetsReportPage />} />
+                <Route path="/reportsPage/BillsExpenses" element={<BillsExpensesReportPage />} />
+                <Route path="/reportsPage/Clients" element={<ClientsReportPage />} />
+                <Route path="/reportsPage/Emails" element={<EmailsReportPage />} />
+                <Route path="/reportsPage/Estimate" element={<EstimateReportPage />} />
+                <Route path="/reportsPage/Expenses" element={<ExpensesReportPage />} />
+                <Route path="/reportsPage/Income" element={<IncomeReportPage />} />
+                <Route path="/reportsPage/Indent" element={<IndentReportPage />} />
+                <Route path="/reportsPage/Inventory" element={<InventoryReportPage />} />
+                <Route path="/reportsPage/Leads" element={<LeadsReportPage />} />
+                <Route path="/reportsPage/Proposal" element={<ProposalReportPage />} />
+                <Route path="/reportsPage/PurchaseOrder" element={<PurchaseOrderReportPage />} />
+                <Route path="/reportsPage/Questionnaire" element={<QuestionnaireReportPage />} />
+                <Route path="/reportsPage/RFQ" element={<RfqReportPage />} />
+                <Route path="/reportsPage/Schedule" element={<ScheduleReportPage />} />
+                <Route path="/reportsPage/Tasks" element={<TasksReportPage />} />
+                <Route path="/reportsPage/TimeTracking" element={<TimeTrackingReportPage />} />
+                <Route path="/reportsPage/WorkOrder" element={<WorkOrderReportPage />} />
+                <Route path="/reportsPage/Workers" element={<WorkersReportPage />} />
                 <Route path="*" element={<HomeRedirect />} />
               </Routes>
             </main>
