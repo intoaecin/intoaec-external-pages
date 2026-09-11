@@ -1,0 +1,1 @@
+export const CUSTOM_DISCOUNT_ID = "__INTOAEC_CUSTOM_DISCOUNT__";

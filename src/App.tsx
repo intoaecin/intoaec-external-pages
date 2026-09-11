@@ -10,6 +10,7 @@ import LeadCaptureSourcePage from "@/pages/leadCapture/[projectSource]";
 import LeadCaptureThankYouPage from "@/pages/leadCapture/thankYou";
 import LeadCaptureCustomerPortalPage from "@/pages/leadCapture/customer-portal/[leadId]";
 import LeadCaptureV2Page from "@/pages/leadCaptureV2/[leadCaptureV2Id]";
+import LeadProposalPage from "@/pages/proposal/[leadProposalId]";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
 import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
 import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
@@ -74,6 +75,10 @@ export default function App() {
                 <Route
                   path="/leadCaptureV2/:leadCaptureV2Id"
                   element={<LeadCaptureV2Page />}
+                />
+                <Route
+                  path="/proposal/:leadProposalId"
+                  element={<LeadProposalPage />}
                 />
                 <Route
                   path="/architectAvailableSlots"

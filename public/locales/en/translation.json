@@ -7746,6 +7746,7 @@
     "typecheckboxcontent": "Type checkbox content"
   },
   "toast": {
+    "pleaseUploadYourSignature": "Please upload your signature",
     "leadCaptureTemplateUpdatedSuccessfully": "Lead capture template updated successfully",
     "workingCalendarUpdatedSuccessfully": "Working calendar updated successfully",
     "userWorkingCalendarUpdatedSuccessfully": "User calendar updated successfully",

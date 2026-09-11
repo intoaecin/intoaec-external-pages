@@ -7727,6 +7727,7 @@
     "typecheckboxcontent": "Escriba el contenido de la casilla de verificación"
   },
   "toast": {
+    "pleaseUploadYourSignature": "Por favor, suba su firma",
     "leadCaptureTemplateUpdatedSuccessfully": "Plantilla de captura de leads actualizada exitosamente",
     "workingCalendarUpdatedSuccessfully": "Calendario laboral actualizado correctamente",
     "userWorkingCalendarUpdatedSuccessfully": "Calendario del usuario actualizado correctamente",
