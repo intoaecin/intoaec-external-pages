@@ -134,14 +134,14 @@ const CustomLeadCapture = () => {
     Record<string, any>
   >({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { NEXT_PUBLIC_GOOGLE_MAP_APIKEY } = useEnv();
+  const { VITE_GOOGLE_MAP_APIKEY } = useEnv();
   const { organizationId, organizationType, logoUrl, organizationName } =
     useOrganization();
   const router = useRouter();
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT, NEXT_PUBLIC_INTOAEC_LOGO } =
+  const { VITE_LEADMANAGER_ENDPOINT, VITE_INTOAEC_LOGO } =
     useEnv();
   const { post: createLead, loading: isGenerateOtpLoading } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const isSmallDevice = useMediaQuery("(max-width:768px)");
   const { t } = useTranslation();
@@ -149,7 +149,7 @@ const CustomLeadCapture = () => {
 
   // const [logoUrl, setLogoUrl] = useState("");
   // const { post: fetch } = useAxiosWithAuth<any>(
-  //   NEXT_PUBLIC_USERHUB_ENDPOINT + "/myorganization"
+  //   VITE_USERHUB_ENDPOINT + "/myorganization"
   // );
   // const fetchData = async () => {
   //   try {
@@ -765,7 +765,7 @@ const CustomLeadCapture = () => {
   return (
     <div className="d-flex column justify-content-center">
       <LoadScript
-        googleMapsApiKey={NEXT_PUBLIC_GOOGLE_MAP_APIKEY}
+        googleMapsApiKey={VITE_GOOGLE_MAP_APIKEY}
         libraries={["places"]}
       >
         <div
@@ -811,7 +811,7 @@ const CustomLeadCapture = () => {
                           <>
                             <img
                               width={"100%"}
-                              src={logoUrl ? logoUrl : NEXT_PUBLIC_INTOAEC_LOGO}
+                              src={logoUrl ? logoUrl : VITE_INTOAEC_LOGO}
                               height={"60px"}
                               style={{
                                 position: "absolute",

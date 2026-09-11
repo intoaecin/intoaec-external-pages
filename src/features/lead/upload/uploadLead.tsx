@@ -75,10 +75,10 @@ const UploadedLead = ({ isClient }: UploadLeadProps) => {
   const failureUploads = data.filter(
     (uploads: any) => uploads?.status === "FAILURE"
   );
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_LEADMANAGER_ENDPOINT } =
+  const { VITE_USERHUB_ENDPOINT, VITE_LEADMANAGER_ENDPOINT } =
     useEnv();
   const { post, response, error } = useAxiosWithAuth(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/create"
+    VITE_LEADMANAGER_ENDPOINT + "/create"
   );
   const theme = useTheme();
   const { data: session } = useSession();

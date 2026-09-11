@@ -51,7 +51,7 @@ const UISignatureUploader = forwardRef(
   ) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const isSmallScreen = useMediaQuery("(max-width: 600px)");
-    const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT, NEXT_PUBLIC_APIKEY } = useEnv();
+    const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
     const [isSigning, setIsSigning] = useState<boolean>(false);
     const [signatureImageUrl, setSignatureImageUrl] = useState<any>();
     const [selectedValue, setSelectedValue] = useState("upload");
@@ -99,7 +99,7 @@ const UISignatureUploader = forwardRef(
       };
     }, []);
     // const { post: update } = useAxiosWithAuth(
-    //   NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/organization"
+    //   VITE_MEETANDNOTE_ENDPOINT + "/organization"
     // );
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       const value = event.target.value;
@@ -124,12 +124,12 @@ const UISignatureUploader = forwardRef(
         formData.append("eventSource", props?.eventSource ?? "PROPOSAL");
 
         const { data }: any = await axios.post(
-          NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+          VITE_MEETANDNOTE_ENDPOINT + "/upload",
           formData,
           {
             headers: {
               "Content-Type": "multipart/form-data",
-              ...(NEXT_PUBLIC_APIKEY ? { apikey: NEXT_PUBLIC_APIKEY } : {}),
+              ...(VITE_APIKEY ? { apikey: VITE_APIKEY } : {}),
             },
           },
         );

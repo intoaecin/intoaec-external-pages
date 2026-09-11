@@ -39,9 +39,9 @@ interface ProposalSuggestionProviderProps {
 export const ProposalSuggestionProvider: React.FC<
   ProposalSuggestionProviderProps
 > = ({ children, leadProposalId, withAuth, proposalRevision }) => {
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT } = useEnv();
+  const { VITE_PROPOSAL_ENDPOINT } = useEnv();
   const { post: fetch } = useAxios<any>(
-    `${NEXT_PUBLIC_PROPOSAL_ENDPOINT}/lead-proposals`,
+    `${VITE_PROPOSAL_ENDPOINT}/lead-proposals`,
     withAuth
   );
   const router = useRouter();

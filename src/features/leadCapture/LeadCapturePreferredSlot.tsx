@@ -34,7 +34,7 @@ const LeadCapturePreferredSLot = ({handleNextQuestions,handlePreviousQuestions}:
   const [hoveredDate, setHoveredDate] = useState(null);
 
   const { leadCaptureData } = LeadCaptureStore.useState();
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
   const [currentIntegrationDetails, setCurrentIntegrationDetails] =
     useState<
       Array<{ valueofKey?: string; keyName: string; keyLabel: string }>
@@ -43,9 +43,9 @@ const LeadCapturePreferredSLot = ({handleNextQuestions,handlePreviousQuestions}:
 
   const [fetchDetailsLoading, setFetchDetailsLoading] = useState(false);
 
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post: postIntegrations } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/integrations"
+    VITE_USERHUB_ENDPOINT + "/integrations"
   );
   const getCurrentIntegration = async (currentIntegration: string) => {
     setFetchDetailsLoading(true);
@@ -90,7 +90,7 @@ const LeadCapturePreferredSLot = ({handleNextQuestions,handlePreviousQuestions}:
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   const { post: fetchData } = useAxios<any>(
-    `${NEXT_PUBLIC_MEETANDNOTE_ENDPOINT}/session`
+    `${VITE_MEETANDNOTE_ENDPOINT}/session`
   );
 
   useEffect(() => {

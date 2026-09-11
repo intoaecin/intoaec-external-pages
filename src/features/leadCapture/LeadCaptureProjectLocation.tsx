@@ -18,7 +18,7 @@ const LeadCaptureProjectLocation = ({handleNextQuestions,handlePreviousQuestions
   const router = useRouter();
   const { logoUrl } = useOrganization();
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
-  const { NEXT_PUBLIC_GOOGLE_MAP_APIKEY } = useEnv();
+  const { VITE_GOOGLE_MAP_APIKEY } = useEnv();
   const currentQuestionNumber = router.query.question;
   const [selectedLocation, setSelectedLocation] = useState<string>("");
   const handleProjectLocationChange = (location: string) => {
@@ -123,7 +123,7 @@ const LeadCaptureProjectLocation = ({handleNextQuestions,handlePreviousQuestions
         </div>
         <div className="d-flex align-items-center ml-3">
           <LoadScript
-            googleMapsApiKey={NEXT_PUBLIC_GOOGLE_MAP_APIKEY}
+            googleMapsApiKey={VITE_GOOGLE_MAP_APIKEY}
             libraries={["places"]}
           >
             <StandaloneSearchBox

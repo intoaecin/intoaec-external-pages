@@ -37,14 +37,14 @@ export const useProducts = ({
   filters,
 }: UseProductsParams) => {
   const {
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT,
-    NEXT_PUBLIC_USERHUB_ENDPOINT,
+    VITE_PROCUREMENT_ENDPOINT,
+    VITE_USERHUB_ENDPOINT,
   } = useEnv();
   const { post: fetchProducts } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products",
+    VITE_PROCUREMENT_ENDPOINT + "/products",
   );
   const { post: fetchVendors } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/userhub",
+    VITE_USERHUB_ENDPOINT + "/userhub",
   );
   const { data: session } = useSession();
   const organizationId = session?.["custom:organization_id"] as

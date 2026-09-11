@@ -67,14 +67,14 @@ const LeadCaptureMail = ({
   const [isExistingEmail, setIsExistingEmail] = useState<boolean>(false);
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_LEADMANAGER_ENDPOINT } =
+  const { VITE_USERHUB_ENDPOINT, VITE_LEADMANAGER_ENDPOINT } =
     useEnv();
   const [emailtimer, setEmailTimer] = useState<Duration | null>(null);
   const { post: existingMail } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const { post: otpVerification, loading: isGenerateOtpLoading } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/signup"
+    VITE_USERHUB_ENDPOINT + "/signup"
   );
   // const handleProjectTypeChange = (emailValue: string) => {
   //   setCreateLeadFormData({

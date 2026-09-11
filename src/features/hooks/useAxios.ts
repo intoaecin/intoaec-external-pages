@@ -9,7 +9,7 @@ import { useEnv } from "./useEnv";
  * Always uses apiKey — no session / bearer token.
  */
 export const useAxios = <T>(_pathparam: string, _withAuth?: boolean) => {
-  const { NEXT_PUBLIC_APIKEY } = useEnv();
+  const { VITE_APIKEY } = useEnv();
   const path = _pathparam.trim();
 
   const loading = useRef<boolean>();
@@ -21,8 +21,8 @@ export const useAxios = <T>(_pathparam: string, _withAuth?: boolean) => {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
-    if (NEXT_PUBLIC_APIKEY) {
-      headers["apiKey"] = NEXT_PUBLIC_APIKEY;
+    if (VITE_APIKEY) {
+      headers["apiKey"] = VITE_APIKEY;
     }
     return headers;
   };

@@ -39,11 +39,11 @@ const LeadCaptureForm = ({
   const [selectedQuestion, setSelectedQuestion] = useState<any>(null);
 
   const {
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT,
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+    VITE_LEADMANAGER_ENDPOINT,
+    VITE_DEFAULT_ORGANIZATION_TYPE,
   } = useEnv();
   const { post: createLead, loading: isGenerateOtpLoading } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const { leadCaptureData } = LeadCaptureStore.useState();
 
@@ -62,7 +62,7 @@ const LeadCaptureForm = ({
             : 0,
         organizationName: organizationName,
         organizationId: organizationId,
-        organizationType: NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+        organizationType: VITE_DEFAULT_ORGANIZATION_TYPE,
         ...(isCustomerPortal ? { leadChannel: "Customer Portal" } : {}),
         projectSource: router?.query?.projectSource
           ? capitalizeFirstLetter(router?.query?.projectSource as any)

@@ -40,7 +40,7 @@ const UICameraVerification = forwardRef<
   const [isCameraLoading, setIsCameraLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [cameraError, setCameraError] = useState("");
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
   const { t } = useTranslation();
 
   const stopCamera = useCallback(() => {
@@ -128,7 +128,7 @@ const UICameraVerification = forwardRef<
       formData.append("eventSource", "PROPOSAL");
 
       const { data }: any = await axios.post(
-        NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+        VITE_MEETANDNOTE_ENDPOINT + "/upload",
         formData,
         {
           headers: {

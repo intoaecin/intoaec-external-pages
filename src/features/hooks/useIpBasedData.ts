@@ -5,10 +5,10 @@ import { useEnv } from "./useEnv";
 export const useIpBasedData = () => {
   const [geoIpValue, setGeoIpValue] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
-  const { post } = useAxios(NEXT_PUBLIC_USERHUB_ENDPOINT + "/session");
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
+  const { post } = useAxios(VITE_USERHUB_ENDPOINT + "/session");
   const { post: postUserhub } = useAxiosWithAuth(
-      NEXT_PUBLIC_USERHUB_ENDPOINT + "/signup"
+      VITE_USERHUB_ENDPOINT + "/signup"
     );
 
   const fetchIpLocation = async () => {

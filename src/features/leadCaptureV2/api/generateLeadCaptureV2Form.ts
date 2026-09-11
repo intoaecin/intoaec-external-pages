@@ -147,7 +147,7 @@ const FINAL_STREAM_EVENTS = new Set(["complete", "completed"]);
 const buildInstantProposalAiUrl = (modelUri?: string): string => {
   const baseUrl = (modelUri ?? "").trim().replace(/\/$/, "");
   if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_MODEL_URI is required.");
+    throw new Error("VITE_MODEL_URI is required.");
   }
 
   return `${baseUrl}${INSTANT_PROPOSAL_AI_PATH}`;

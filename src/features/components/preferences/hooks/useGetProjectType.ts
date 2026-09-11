@@ -10,9 +10,9 @@ interface GetProjectTypePayload {
 }
 
 const useGetProjectType = () => {
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/customized-project-types`,
+    `${VITE_LEADMANAGER_ENDPOINT}/customized-project-types`,
   );
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);

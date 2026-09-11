@@ -45,7 +45,7 @@ export const LeadDataProvider = ({ children }: { children: any }) => {
     clientDetailsTypes | LeadDetailsTypes
   >();
 
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const router = useRouter();
 
   const projectId = router.isReady
@@ -53,7 +53,7 @@ export const LeadDataProvider = ({ children }: { children: any }) => {
     : undefined;
 
   const { post, response } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/fetch"
+    VITE_LEADMANAGER_ENDPOINT + "/fetch"
   );
 
   // Use React Query to fetch lead data

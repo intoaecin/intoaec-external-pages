@@ -132,9 +132,9 @@ const normalizeCalendar = (
 });
 
 export function useUserWorkingCalendar(userId: string | null) {
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth<UserWorkingCalendarResponse>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/settings",
+    VITE_USERHUB_ENDPOINT + "/settings",
   );
   const { data: session } = useSession();
   const organizationId = session?.["custom:organization_id"];
@@ -174,9 +174,9 @@ export function useUserWorkingCalendar(userId: string | null) {
 }
 
 export function useSaveUserWorkingCalendar() {
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth<UserWorkingCalendarResponse>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/settings",
+    VITE_USERHUB_ENDPOINT + "/settings",
   );
   const { data: session } = useSession();
   const organizationId = session?.["custom:organization_id"];

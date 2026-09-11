@@ -12,13 +12,13 @@ import VideocamIcon from "@mui/icons-material/Videocam";
 import { useTranslation } from "react-i18next";
 
 const RenderPreferredMode = ({ disabled = false }: { disabled?: boolean }) => {
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { t } = useTranslation();
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery("(max-width: 768px)");
   const { post: leadCaptureFetch } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const selectedMode = LeadCaptureStore.useState(
     (s) => s.leadCaptureData?.preferedContactType

@@ -27,9 +27,9 @@ export const useLeadCaptureV2OtpVerification = ({
   organizationId,
   organizationType,
 }: UseLeadCaptureV2OtpVerificationArgs) => {
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post: otpRequest } = useAxios(
-    `${NEXT_PUBLIC_USERHUB_ENDPOINT}/signup`,
+    `${VITE_USERHUB_ENDPOINT}/signup`,
   );
   const { localizationValue } = useOrganizationLocalization();
   const [otpSent, setOtpSent] = useState(false);

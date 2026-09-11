@@ -72,9 +72,9 @@ const LeadCaptureV2SlotSetupPicker = ({
 }: LeadCaptureV2PreferredSlotsProps) => {
   const theme = useTheme();
   const { t } = useTranslation();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post: postIntegrations } = useAxios(
-    `${NEXT_PUBLIC_USERHUB_ENDPOINT}/integrations`,
+    `${VITE_USERHUB_ENDPOINT}/integrations`,
     false,
   );
   const { leadCaptureData } = LeadCaptureStore.useState();
@@ -317,14 +317,14 @@ const LeadCaptureV2PreferredSlotsInner = ({
   organizationType: organizationTypeProp,
 }: LeadCaptureV2PreferredSlotsProps) => {
   const organizationFromContext = useOrganization();
-  const { NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE } = useEnv();
+  const { VITE_DEFAULT_ORGANIZATION_TYPE } = useEnv();
 
   const organizationId =
     organizationIdProp ?? organizationFromContext.organizationId;
   const organizationType =
     organizationTypeProp ??
     organizationFromContext.organizationType ??
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE;
+    VITE_DEFAULT_ORGANIZATION_TYPE;
 
   return (
     <LeadCaptureV2SlotSetupPicker
@@ -346,7 +346,7 @@ const LeadCaptureV2PreferredSlots = ({
   organizationId,
   organizationType,
 }: LeadCaptureV2PreferredSlotsProps) => {
-  const { NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE } = useEnv();
+  const { VITE_DEFAULT_ORGANIZATION_TYPE } = useEnv();
 
   if (!organizationId) {
     return (
@@ -360,7 +360,7 @@ const LeadCaptureV2PreferredSlots = ({
   }
 
   const resolvedOrganizationType =
-    organizationType ?? NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE;
+    organizationType ?? VITE_DEFAULT_ORGANIZATION_TYPE;
 
   return (
     <OrganizationDetailsOverrideProvider

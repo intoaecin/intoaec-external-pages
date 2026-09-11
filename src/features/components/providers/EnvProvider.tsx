@@ -30,13 +30,13 @@ export const EnvProvider = ({ children }: { children: ReactNode }) => {
         }
         const config = createEnvConfig(await response.json());
         const requiredKeys: Array<keyof EnvConfig> = [
-          "NEXT_PUBLIC_LEADMANAGER_ENDPOINT",
-          "NEXT_PUBLIC_USERHUB_ENDPOINT",
-          "NEXT_PUBLIC_MEETANDNOTE_ENDPOINT",
-          "NEXT_PUBLIC_PROPOSAL_ENDPOINT",
-          "NEXT_PUBLIC_APIKEY",
-          "NEXT_PUBLIC_GOOGLE_MAP_APIKEY",
-          "NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE",
+          "VITE_LEADMANAGER_ENDPOINT",
+          "VITE_USERHUB_ENDPOINT",
+          "VITE_MEETANDNOTE_ENDPOINT",
+          "VITE_PROPOSAL_ENDPOINT",
+          "VITE_APIKEY",
+          "VITE_GOOGLE_MAP_APIKEY",
+          "VITE_DEFAULT_ORGANIZATION_TYPE",
         ];
         const missingKeys = requiredKeys.filter((key) => !config[key]?.trim());
         if (missingKeys.length) {

@@ -38,9 +38,9 @@ const RenderThankYouCard: React.FC<RenderThankYouCardProps> = ({
     mobileNumber,
     emailId,
   } = useOrganization();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv() as EnvConfig;
+  const { VITE_USERHUB_ENDPOINT } = useEnv() as EnvConfig;
   const { post: fetch } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/myorganization",
+    VITE_USERHUB_ENDPOINT + "/myorganization",
   );
   const [logoUrl, setLogoUrl] = useState("");
   const { leadCaptureTemplateData, editMode } = useLeadCaptureTemplate();

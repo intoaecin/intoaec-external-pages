@@ -36,10 +36,10 @@ const LeadCaptureV2ExternalCapture = () => {
   const organization = useOrganization();
   const { logoUrl, organizationName, websiteUrl } = organization;
   const {
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT,
+    VITE_LEADMANAGER_ENDPOINT,
   } = useEnv();
   const { post: createLead } = useAxios(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/lead-capture`,
+    `${VITE_LEADMANAGER_ENDPOINT}/lead-capture`,
     false,
   );
   const {

@@ -80,13 +80,13 @@ const LeadCaptureMobile = ({
     MuiTelInputCountry | undefined
   >();
   const { countryCode, hasResolved } = useIpCountryCode();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_LEADMANAGER_ENDPOINT } =
+  const { VITE_USERHUB_ENDPOINT, VITE_LEADMANAGER_ENDPOINT } =
     useEnv();
   const { post: existingMobile } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const { post: otpVerification, loading: isGenerateOtpLoading } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/signup"
+    VITE_USERHUB_ENDPOINT + "/signup"
   );
 
   // const handleProjectTypeChange = (mobileNumber: string) => {

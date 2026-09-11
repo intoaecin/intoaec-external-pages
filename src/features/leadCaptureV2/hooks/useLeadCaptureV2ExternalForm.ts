@@ -34,14 +34,14 @@ export const useLeadCaptureV2ExternalForm = (
   organization: LeadCaptureV2ExternalOrganizationContext | null,
 ) => {
   const router = useRouter();
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT, NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE } =
+  const { VITE_LEADMANAGER_ENDPOINT, VITE_DEFAULT_ORGANIZATION_TYPE } =
     useEnv();
   const { post: fetchForm } = useAxios(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/session`,
+    `${VITE_LEADMANAGER_ENDPOINT}/session`,
     false,
   );
   const { post: fetchServiceTypes } = useAxios(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/session`,
+    `${VITE_LEADMANAGER_ENDPOINT}/session`,
     false,
   );
   const fetchFormRef = useRef(fetchForm);
@@ -58,7 +58,7 @@ export const useLeadCaptureV2ExternalForm = (
   }, [router.query.leadCaptureV2Id]);
 
   const resolvedOrganizationType =
-    organizationType ?? NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE;
+    organizationType ?? VITE_DEFAULT_ORGANIZATION_TYPE;
 
   useEffect(() => {
     fetchFormRef.current = fetchForm;

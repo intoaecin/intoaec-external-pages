@@ -64,7 +64,7 @@ export const RenderAddImage = ({
   questionnaireId?: string;
   pageId?: string;
 }) => {
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT, NEXT_PUBLIC_APIKEY } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
   const [zoomedImage, setZoomedImage] = useState<any>(null);
 
   const handleImageClick = (image: any) => {
@@ -105,12 +105,12 @@ export const RenderAddImage = ({
     formData.append("eventSource", "QUESTIONNAIRE");
 
     const { data } = await axios.post(
-      NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+      VITE_MEETANDNOTE_ENDPOINT + "/upload",
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          ...(NEXT_PUBLIC_APIKEY ? { apikey: NEXT_PUBLIC_APIKEY } : {}),
+          ...(VITE_APIKEY ? { apikey: VITE_APIKEY } : {}),
         },
       }
     );

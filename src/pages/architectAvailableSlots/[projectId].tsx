@@ -24,10 +24,10 @@ const OrganizationDetailsWrapper = () => {
   } = useOrganization();
   const router = useRouter();
   const { t } = useTranslation();
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { post: fetchLeadByProjectId, response } = useAxios<{
     code?: string;
-  }>(`${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/session`);
+  }>(`${VITE_LEADMANAGER_ENDPOINT}/session`);
   const [leadValidated, setLeadValidated] = useState<boolean | null>(null);
   const [leadData, setLeadData] = useState<any>(null);
 

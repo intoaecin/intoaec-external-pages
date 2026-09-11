@@ -21,7 +21,7 @@ const RenderIntroCard = ({
     leadCaptureTemplateData,
     setLeadCaptureTemplateData,
   } = useLeadCaptureTemplate();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_INTOAEC_LOGO } =
+  const { VITE_USERHUB_ENDPOINT, VITE_INTOAEC_LOGO } =
     useEnv() as EnvConfig;
   const [logoUrl, setLogoUrl] = useState("");
   const [content, setContent] = useState(controller?.options[0]?.value);
@@ -32,7 +32,7 @@ const RenderIntroCard = ({
 
   const introTextContentRef = useRef<any>();
   const { post: fetch } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/myorganization"
+    VITE_USERHUB_ENDPOINT + "/myorganization"
   );
   const fetchData = async () => {
     try {

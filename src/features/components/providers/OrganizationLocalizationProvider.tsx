@@ -31,9 +31,9 @@ export const OrganizationLocalizationProvider = ({
   defaultLocalizationValue?: OrganizationLocalizationType[];
   block?: boolean;
 }) => {
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post: getLocalization } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/userhub",
+    VITE_USERHUB_ENDPOINT + "/userhub",
     isAuth
   );
 

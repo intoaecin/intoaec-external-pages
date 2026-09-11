@@ -26,9 +26,9 @@ export function useProjectTypesQuery(params: UseProjectTypesQueryParams = {}) {
     organizationId: themeOrganizationId,
     organizationType: themeOrganizationType,
   } = useOrganization();
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { post } = useAxios(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}${PROJECT_TYPES_API_PATH}`,
+    `${VITE_LEADMANAGER_ENDPOINT}${PROJECT_TYPES_API_PATH}`,
   );
 
   const organizationId =

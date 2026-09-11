@@ -19,7 +19,7 @@ export const translateTexts = async ({
 }): Promise<TranslationTextResponseItem[]> => {
   const baseUrl = (modelUri ?? "").trim().replace(/\/$/, "");
   if (!baseUrl) {
-    throw new Error("NEXT_PUBLIC_MODEL_URI is required.");
+    throw new Error("VITE_MODEL_URI is required.");
   }
 
   const response = await axios.post(
@@ -44,7 +44,7 @@ export const translateTexts = async ({
 };
 
 export const useTranslationText = () => {
-  const { NEXT_PUBLIC_MODEL_URI } = useEnv();
+  const { VITE_MODEL_URI } = useEnv();
 
   const mutation = useMutation({
     mutationFn: async ({
@@ -55,7 +55,7 @@ export const useTranslationText = () => {
       language: string;
     }) =>
       translateTexts({
-        modelUri: NEXT_PUBLIC_MODEL_URI,
+        modelUri: VITE_MODEL_URI,
         texts: data,
         language,
       }),

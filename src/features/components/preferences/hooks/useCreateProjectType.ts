@@ -36,9 +36,9 @@ const isSuccessResponse = (data: any) => {
 };
 
 export const useCreateProjectType = () => {
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/customized-project-types`,
+    `${VITE_LEADMANAGER_ENDPOINT}/customized-project-types`,
   );
   const { t } = useTranslation();
   const [loading, setLoading] = useState(false);

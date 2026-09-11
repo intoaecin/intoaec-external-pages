@@ -43,10 +43,10 @@ const CustomEstimateMoreActionActive: React.FC<
   const [isMarkAsCompletedDialogOpen, setMarkAsCompletedDialogOpen] =
     useState(false);
   const { popup, closeModal, setPreventClose } = useDialog();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_LEADMANAGER_ENDPOINT } =
+  const { VITE_USERHUB_ENDPOINT, VITE_LEADMANAGER_ENDPOINT } =
     useEnv();
   const { post } = useAxiosWithAuth(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/update"
+    VITE_LEADMANAGER_ENDPOINT + "/update"
   );
 
   const { push, query } = useRouter();

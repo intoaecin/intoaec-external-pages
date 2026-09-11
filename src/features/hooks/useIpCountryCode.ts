@@ -19,9 +19,9 @@ export const useIpCountryCode = () => {
   const [city, setCity] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [hasResolved, setHasResolved] = useState(false);
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post } = useAxios<IpLocationResponse>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/session"
+    VITE_USERHUB_ENDPOINT + "/session"
   );
 
   useEffect(() => {

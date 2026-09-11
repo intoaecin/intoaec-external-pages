@@ -51,15 +51,15 @@ export const FixtureContext = createContext<FixtureProviderProps>({
 
 export const FixtureProvider = ({ children }: { children: ReactNode }) => {
   const {
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT,
-    NEXT_PUBLIC_USERHUB_ENDPOINT,
-    NEXT_PUBLIC_AECPOSTMAN_ENDPOINT,
+    VITE_LEADMANAGER_ENDPOINT,
+    VITE_USERHUB_ENDPOINT,
+    VITE_AECPOSTMAN_ENDPOINT,
   } = useEnv();
   const { post, response, error } = useAxiosWithAuth(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/fetch",
+    VITE_LEADMANAGER_ENDPOINT + "/fetch",
   );
   const { post: projectTypesAxiosPost } = useAxiosWithAuth(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/customized-project-types",
+    VITE_LEADMANAGER_ENDPOINT + "/customized-project-types",
   );
 
   const { data: session } = useSession();
@@ -69,7 +69,7 @@ export const FixtureProvider = ({ children }: { children: ReactNode }) => {
     post: userhubPost,
     response: userHubResponse,
     error: userHubError,
-  } = useAxiosWithAuth(NEXT_PUBLIC_USERHUB_ENDPOINT + "/userhub");
+  } = useAxiosWithAuth(VITE_USERHUB_ENDPOINT + "/userhub");
   const { i18n } = useTranslation();
   const { translateText } = useTranslationText();
   const theme = useTheme();

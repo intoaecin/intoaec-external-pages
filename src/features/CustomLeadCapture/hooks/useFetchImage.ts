@@ -19,8 +19,8 @@ const normalizeImageUrls = (response: any): string[] => {
 
 const useFetchImage = () => {
   const { organizationId, organizationType } = useOrganization();
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT } = useEnv();
-  const { post } = useAxios(`${NEXT_PUBLIC_PROPOSAL_ENDPOINT}/fetch`);
+  const { VITE_PROPOSAL_ENDPOINT } = useEnv();
+  const { post } = useAxios(`${VITE_PROPOSAL_ENDPOINT}/fetch`);
 
   return useQuery({
     queryKey: ["organizationImages", organizationId, organizationType],

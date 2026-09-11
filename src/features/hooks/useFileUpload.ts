@@ -20,10 +20,10 @@ export const useFileUpload = ({
   customEndpoint,
 }: UseFileUploadOptions) => {
   const { organizationId, organizationType } = useOrganization();
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT, NEXT_PUBLIC_APIKEY } = useEnv();
-  const endpoint = customEndpoint || NEXT_PUBLIC_MEETANDNOTE_ENDPOINT;
+  const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
+  const endpoint = customEndpoint || VITE_MEETANDNOTE_ENDPOINT;
   const { post: mediaHandler } = useAxios(
-    endpoint === NEXT_PUBLIC_MEETANDNOTE_ENDPOINT
+    endpoint === VITE_MEETANDNOTE_ENDPOINT
       ? endpoint + "/delete-media"
       : endpoint + "/delete",
   );
@@ -48,7 +48,7 @@ export const useFileUpload = ({
         relativePath: `${basePath}/${path}`,
         eventSource,
         mediaVaultEndpoint: endpoint,
-        apiKey: NEXT_PUBLIC_APIKEY,
+        apiKey: VITE_APIKEY,
         maxBytes: maxFileSizeBytes,
         timeoutMs: uploadTimeoutMs,
       });

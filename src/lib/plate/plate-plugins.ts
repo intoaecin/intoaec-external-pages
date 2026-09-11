@@ -196,7 +196,7 @@ const helperUpload = async (file: any) => {
   formData.append("eventSource", "COMMON");
 
   const { data } = await axios.post(
-    process.env.NEXT_PUBLIC_MEETANDNOTE_ENDPOINT! + "/upload",
+    process.env.VITE_MEETANDNOTE_ENDPOINT! + "/upload",
     formData,
     {
       headers: {

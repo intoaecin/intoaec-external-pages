@@ -37,10 +37,10 @@ const CustomEstimateMoreActionArchive: React.FC<
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { t } = useTranslation();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT, NEXT_PUBLIC_LEADMANAGER_ENDPOINT } =
+  const { VITE_USERHUB_ENDPOINT, VITE_LEADMANAGER_ENDPOINT } =
     useEnv();
   const { post } = useAxiosWithAuth(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/update"
+    VITE_LEADMANAGER_ENDPOINT + "/update"
   );
   const { popup } = useDialog();
   const reason = useRef<any>();

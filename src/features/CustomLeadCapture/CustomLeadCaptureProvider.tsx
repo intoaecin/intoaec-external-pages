@@ -50,11 +50,11 @@ export const CreateLeadCaptureTemplateProvider = ({
   children: ReactNode;
   withAuth?: boolean;
 }) => {
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT, NEXT_PUBLIC_AECPOSTMAN_ENDPOINT } =
+  const { VITE_PROPOSAL_ENDPOINT, VITE_AECPOSTMAN_ENDPOINT } =
     useEnv();
-  const { post } = useAxios(NEXT_PUBLIC_PROPOSAL_ENDPOINT + "/session");
+  const { post } = useAxios(VITE_PROPOSAL_ENDPOINT + "/session");
   const { post: bindMacroshandler } = useAxios(
-    NEXT_PUBLIC_AECPOSTMAN_ENDPOINT + "/macros",
+    VITE_AECPOSTMAN_ENDPOINT + "/macros",
   );
   const [loading, setLoading] = useState(true);
   const [isMacroBinding, setIsMacroBinding] = useState(false);

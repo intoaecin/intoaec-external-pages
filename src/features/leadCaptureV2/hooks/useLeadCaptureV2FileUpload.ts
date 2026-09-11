@@ -16,7 +16,7 @@ export const useLeadCaptureV2FileUpload = ({
   organizationType,
   leadCaptureV2Id,
 }: UseLeadCaptureV2FileUploadParams) => {
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT, NEXT_PUBLIC_APIKEY } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
   const [isUploading, setIsUploading] = useState(false);
   const [uploadingFieldId, setUploadingFieldId] = useState<string | null>(null);
 
@@ -50,8 +50,8 @@ export const useLeadCaptureV2FileUpload = ({
           organizationType,
           relativePath,
           eventSource: "LEAD_CAPTURE_V2",
-          mediaVaultEndpoint: NEXT_PUBLIC_MEETANDNOTE_ENDPOINT,
-          apiKey: NEXT_PUBLIC_APIKEY,
+          mediaVaultEndpoint: VITE_MEETANDNOTE_ENDPOINT,
+          apiKey: VITE_APIKEY,
         });
 
         return { url, fileName: file.name };
@@ -64,8 +64,8 @@ export const useLeadCaptureV2FileUpload = ({
       leadCaptureV2Id,
       organizationId,
       organizationType,
-      NEXT_PUBLIC_MEETANDNOTE_ENDPOINT,
-      NEXT_PUBLIC_APIKEY,
+      VITE_MEETANDNOTE_ENDPOINT,
+      VITE_APIKEY,
     ],
   );
 

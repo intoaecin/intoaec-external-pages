@@ -28,8 +28,8 @@ const OrganizationDetailsWrapper = () => {
     mainColor,
     textColor,
   } = useOrganization();
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
-  const { post } = useAxios(NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/fetch");
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
+  const { post } = useAxios(VITE_LEADMANAGER_ENDPOINT + "/fetch");
 
   const { t } = useTranslation();
   const router = useRouter();

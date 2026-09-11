@@ -8,14 +8,8 @@ const projectRoot = path.dirname(fileURLToPath(import.meta.url));
 const publicRuntimeEnv = (mode: string) => {
   const env = loadEnv(mode, projectRoot, "");
   const runtimeEnv = Object.fromEntries(
-    Object.entries(env).filter(
-      ([key]) => key.startsWith("NEXT_PUBLIC_") || key === "NEXTAUTH_URL",
-    ),
+    Object.entries(env).filter(([key]) => key.startsWith("VITE_")),
   );
-
-  if (!runtimeEnv.NEXT_PUBLIC_APIKEY && env.APIKEY) {
-    runtimeEnv.NEXT_PUBLIC_APIKEY = env.APIKEY;
-  }
 
   return runtimeEnv;
 };

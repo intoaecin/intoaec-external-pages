@@ -29,10 +29,10 @@ const LeadCapturePreferredMode = ({handleNextQuestions,handlePreviousQuestions}:
   const theme = useTheme();
   const { logoUrl } = useOrganization();
   const currentQuestionNumber = router.query.question;
-  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
   const { post: leadCaptureFetch } = useAxios(
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/lead-capture"
+    VITE_LEADMANAGER_ENDPOINT + "/lead-capture"
   );
   const selectedMode = LeadCaptureStore.useState(
     (s) => s.leadCaptureData?.preferedContactType

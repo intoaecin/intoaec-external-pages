@@ -20,25 +20,25 @@ const ArchitectAvailabilityPreview = ({
   const { organizationId, organizationName, organizationType } =
     useOrganization();
   const {
-    NEXT_PUBLIC_USERHUB_ENDPOINT,
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+    VITE_USERHUB_ENDPOINT,
+    VITE_DEFAULT_ORGANIZATION_TYPE,
   } = useEnv();
   const { post: fetchId } = useAxios<any>(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/session"
+    VITE_USERHUB_ENDPOINT + "/session"
   );
   const fetchData = async (organizationId: string) => {
     try {
       const requestData = {
         eventType: "GET_ORGANIZATION_USER_ADMIN_INFORMATION",
         organizationId: organizationId,
-        organizationType: NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+        organizationType: VITE_DEFAULT_ORGANIZATION_TYPE,
       };
       const data = await fetchId(requestData);
       if (data.code === "ORGANIZATION_DETAILS_RETRIEVED") {
         setArchitectData((prev: any) => ({
           ...data.body,
           ...(prev ?? {}),
-          organizationType: NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+          organizationType: VITE_DEFAULT_ORGANIZATION_TYPE,
         }));
       }
     } catch {

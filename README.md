@@ -27,7 +27,7 @@ npm run dev
 
 The development server runs on `http://localhost:3001`. Vite exposes values from
 the local `.env` through its development-only `/runtime-env.json` middleware.
-`APIKEY` is mapped to `NEXT_PUBLIC_APIKEY` when the latter is absent.
+`APIKEY` is mapped to `VITE_APIKEY` when the latter is absent.
 
 ## Runtime configuration
 
@@ -38,17 +38,17 @@ existing names, for example:
 
 ```json
 {
-  "NEXT_PUBLIC_LEADMANAGER_ENDPOINT": "https://leadmanager.example.com",
-  "NEXT_PUBLIC_USERHUB_ENDPOINT": "https://userhub.example.com",
-  "NEXT_PUBLIC_MEETANDNOTE_ENDPOINT": "https://meetandnote.example.com",
-  "NEXT_PUBLIC_PROPOSAL_ENDPOINT": "https://proposal.example.com",
-  "NEXT_PUBLIC_AECPOSTMAN_ENDPOINT": "https://postman.example.com",
-  "NEXT_PUBLIC_APIKEY": "public-api-key",
-  "NEXT_PUBLIC_GOOGLE_MAP_APIKEY": "maps-key",
-  "NEXT_PUBLIC_WEBSITE_URL": "https://www.example.com",
-  "NEXT_PUBLIC_INTOAEC_LOGO": "https://assets.example.com/logo.svg",
-  "NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE": "ARCHITECT",
-  "NEXT_PUBLIC_CURRENT_ENV": "production"
+  "VITE_LEADMANAGER_ENDPOINT": "https://leadmanager.example.com",
+  "VITE_USERHUB_ENDPOINT": "https://userhub.example.com",
+  "VITE_MEETANDNOTE_ENDPOINT": "https://meetandnote.example.com",
+  "VITE_PROPOSAL_ENDPOINT": "https://proposal.example.com",
+  "VITE_AECPOSTMAN_ENDPOINT": "https://postman.example.com",
+  "VITE_APIKEY": "public-api-key",
+  "VITE_GOOGLE_MAP_APIKEY": "maps-key",
+  "VITE_WEBSITE_URL": "https://www.example.com",
+  "VITE_INTOAEC_LOGO": "https://assets.example.com/logo.svg",
+  "VITE_DEFAULT_ORGANIZATION_TYPE": "ARCHITECT",
+  "VITE_CURRENT_ENV": "production"
 }
 ```
 

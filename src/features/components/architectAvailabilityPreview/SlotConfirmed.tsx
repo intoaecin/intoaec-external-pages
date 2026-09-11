@@ -10,7 +10,7 @@ import LanguageSwitcher from "../LanguageSwitcher";
 const SlotConfirmed = (props: { organizationDetails: any }) => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { NEXT_PUBLIC_INTOAEC_LOGO } = useEnv();
+  const { VITE_INTOAEC_LOGO } = useEnv();
   const redirect = router.query.redirect;
   const organizationName =
     props?.organizationDetails?.organizationName || "intoAEC";
@@ -42,7 +42,7 @@ const SlotConfirmed = (props: { organizationDetails: any }) => {
       >
         <Box
           component="img"
-          src={NEXT_PUBLIC_INTOAEC_LOGO || "/images/logo.png"}
+          src={VITE_INTOAEC_LOGO || "/images/logo.png"}
           alt="intoAEC"
           sx={{ height: { xs: 26, md: 34 }, objectFit: "contain" }}
         />

@@ -53,7 +53,7 @@ const ProductSearchGrid = ({
   showSearch = true,
 }: ProductSearchGridProps) => {
   const [searchValue, setSearchValue] = useState<string>("");
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT, NEXT_PUBLIC_PROCUREMENT_ENDPOINT } =
+  const { VITE_PROPOSAL_ENDPOINT, VITE_PROCUREMENT_ENDPOINT } =
     useEnv();
   const { t } = useTranslation();
   const {
@@ -63,7 +63,7 @@ const ProductSearchGrid = ({
   } = useDialog();
   const deleteProductRef = useRef<string | undefined>();
   const { post: deleteProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const { localizationLoading, localizationValue, refetch } =
     useOrganizationLocalization();

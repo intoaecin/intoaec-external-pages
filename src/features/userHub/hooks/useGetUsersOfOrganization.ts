@@ -34,9 +34,9 @@ export function mapOrganizationUserEmails(
 
 export const useGetUsersOfOrganization = (enabled = true) => {
   const { t } = useTranslation();
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth<GetUsersOfOrganizationResponse>(
-    `${NEXT_PUBLIC_USERHUB_ENDPOINT}/userhub`,
+    `${VITE_USERHUB_ENDPOINT}/userhub`,
   );
   const postRef = useRef(post);
   postRef.current = post;

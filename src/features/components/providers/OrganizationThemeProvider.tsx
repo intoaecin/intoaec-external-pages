@@ -88,27 +88,27 @@ export const OrganizationDetailsProvider = ({
   //   }, []);
 
   const {
-    NEXT_PUBLIC_WEBSITE_URL,
-    NEXT_PUBLIC_USERHUB_ENDPOINT,
-    NEXTAUTH_URL,
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
-    NEXT_PUBLIC_APIKEY,
+    VITE_WEBSITE_URL,
+    VITE_USERHUB_ENDPOINT,
+    VITE_AUTH_URL,
+    VITE_DEFAULT_ORGANIZATION_TYPE,
+    VITE_APIKEY,
   } = useEnv();
 
   const fetchTheme = async (id: string, logoUrl: string) => {
     const requestData = {
       eventType: "FETCH_THEME",
       organizationId: id,
-      organizationType: NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+      organizationType: VITE_DEFAULT_ORGANIZATION_TYPE,
     };
     const data = await fetch(
-      NEXT_PUBLIC_USERHUB_ENDPOINT + "/organization-themes",
+      VITE_USERHUB_ENDPOINT + "/organization-themes",
       {
         method: "POST",
         body: JSON.stringify(requestData),
         headers: {
           "Content-Type": "application/json",
-          ...(NEXT_PUBLIC_APIKEY ? { apiKey: NEXT_PUBLIC_APIKEY } : {}),
+          ...(VITE_APIKEY ? { apiKey: VITE_APIKEY } : {}),
         },
       },
     ).then((data) => data.json());
@@ -126,12 +126,12 @@ export const OrganizationDetailsProvider = ({
     (async () => {
       setLoading(true);
 
-      if (window.location.origin == NEXTAUTH_URL) {
-        return window.location.replace(NEXT_PUBLIC_WEBSITE_URL);
+      if (window.location.origin == VITE_AUTH_URL) {
+        return window.location.replace(VITE_WEBSITE_URL);
       }
       const domainName = window.location.hostname.split(".")?.[0];
 
-      const res = await fetch(NEXT_PUBLIC_USERHUB_ENDPOINT + "/session", {
+      const res = await fetch(VITE_USERHUB_ENDPOINT + "/session", {
         method: "POST",
         body: JSON.stringify({
           eventType: "GET_ORGANIZATION_WITH_DOMAIN",
@@ -139,7 +139,7 @@ export const OrganizationDetailsProvider = ({
         }),
         headers: {
           "Content-Type": "application/json",
-          ...(NEXT_PUBLIC_APIKEY ? { apiKey: NEXT_PUBLIC_APIKEY } : {}),
+          ...(VITE_APIKEY ? { apiKey: VITE_APIKEY } : {}),
         },
       }).then((res) => res.json());
 
@@ -158,7 +158,7 @@ export const OrganizationDetailsProvider = ({
           instagram: res?.body?.instagram,
           organizationType:
             res?.body?.organizationType ??
-            NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE,
+            VITE_DEFAULT_ORGANIZATION_TYPE,
           website: res?.body?.websiteOrBlog,
           websiteUrl: res?.body?.websiteUrl,
           address: `${res?.body?.addressLine1},${res?.body?.addressLine2},${res?.body?.city},${res?.body?.state},${res?.body?.country},${res?.body?.zipCode}`,
@@ -170,7 +170,7 @@ export const OrganizationDetailsProvider = ({
           fetchTheme(res?.body?.organizationId, res?.body?.logoUrl);
         }
       } else {
-        return window.location.replace(NEXT_PUBLIC_WEBSITE_URL);
+        return window.location.replace(VITE_WEBSITE_URL);
       }
       setLoading(false);
     })();

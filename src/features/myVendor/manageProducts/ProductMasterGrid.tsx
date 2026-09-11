@@ -105,10 +105,10 @@ const ProductMasterGrid = ({
     }
   }, [localizationValue]);
 
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT, NEXT_PUBLIC_PROCUREMENT_ENDPOINT } =
+  const { VITE_PROPOSAL_ENDPOINT, VITE_PROCUREMENT_ENDPOINT } =
     useEnv();
   const { post: deleteProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const router = useRouter();
   const deleteProductRef = useRef<string | undefined>();

@@ -56,9 +56,9 @@ export const ChooseTermsAndConditionsModal = forwardRef(
       setOpen(false);
     };
 
-    const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+    const { VITE_USERHUB_ENDPOINT } = useEnv();
     const { post } = useAxiosWithAuth(
-      NEXT_PUBLIC_USERHUB_ENDPOINT + "/terms-and-conditions"
+      VITE_USERHUB_ENDPOINT + "/terms-and-conditions"
     );
 
     const [loading, setLoading] = useState(false);

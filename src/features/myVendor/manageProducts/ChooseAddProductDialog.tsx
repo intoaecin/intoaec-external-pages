@@ -58,15 +58,15 @@ const ChooseAddProductDialog: React.FC<ChooseAddProductDialogProps> = ({
   const { t } = useTranslation();
   const { push } = useRouter();
   const { data: session, status } = useSession();
-  const { NEXT_PUBLIC_AEC_CHATBOT_ENDPOINT, NEXT_PUBLIC_PROCUREMENT_ENDPOINT } =
+  const { VITE_AEC_CHATBOT_ENDPOINT, VITE_PROCUREMENT_ENDPOINT } =
     useEnv();
   const { post: getProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const [productCategories, setProductCategories] = useState<string[]>();
   const proposalId = uuid();
   const { post: addProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const fileInputRef = React.useRef<HTMLInputElement | null>(null);
   // const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {

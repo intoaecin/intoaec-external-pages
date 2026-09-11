@@ -38,13 +38,13 @@ export const LeadProposalProvider: React.FC<LeadProposalProviderProps> = ({
   withAuth,
   expiryCheck,
 }) => {
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT, NEXT_PUBLIC_AECPOSTMAN_ENDPOINT } = useEnv();
+  const { VITE_PROPOSAL_ENDPOINT, VITE_AECPOSTMAN_ENDPOINT } = useEnv();
   const { post: fetch } = useAxios<any>(
-    `${NEXT_PUBLIC_PROPOSAL_ENDPOINT}/lead-proposals`,
+    `${VITE_PROPOSAL_ENDPOINT}/lead-proposals`,
     withAuth
   );
   const { post: bindMacros } = useAxios<any>(
-    `${NEXT_PUBLIC_AECPOSTMAN_ENDPOINT}/macros`,
+    `${VITE_AECPOSTMAN_ENDPOINT}/macros`,
     false
   );
   const [newProposalRevision, setNewProposalRevision] = useState<any>();

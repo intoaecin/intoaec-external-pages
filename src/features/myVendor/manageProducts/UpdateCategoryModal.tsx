@@ -43,10 +43,10 @@ export const UpdateCategoryModal = forwardRef<
   { selectedProducts: string[]; onClose: () => void }
 >((props, ref) => {
   const [open, setOpen] = useState(false);
-  const { NEXT_PUBLIC_PROPOSAL_ENDPOINT, NEXT_PUBLIC_PROCUREMENT_ENDPOINT } =
+  const { VITE_PROPOSAL_ENDPOINT, VITE_PROCUREMENT_ENDPOINT } =
     useEnv();
   const { post: getProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const { data: session } = useSession();
   const [productCategories, setProductCategories] = useState<any[]>();

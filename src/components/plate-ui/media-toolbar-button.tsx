@@ -28,7 +28,7 @@ export const MediaToolbarButton = withRef<
   const { props } = useMediaToolbarButton({ nodeType });
   const editor = useMyEditorRef();
   const imageUploaderRef = useRef<any>();
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
   const { data: session } = useSession();
 
   const helperUpload = async (file: any) => {
@@ -61,7 +61,7 @@ export const MediaToolbarButton = withRef<
     formData.append("eventSource", "QUESTIONNAIRE");
 
     const { data } = await axios.post(
-      NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+      VITE_MEETANDNOTE_ENDPOINT + "/upload",
       formData,
       {
         headers: {

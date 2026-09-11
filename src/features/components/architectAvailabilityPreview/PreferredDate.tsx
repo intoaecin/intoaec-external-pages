@@ -57,7 +57,7 @@ const PreferredDate = (props: {
   const [visibleStartIndex, setVisibleStartIndex] = useState(0);
   const [dateView, setDateView] = useState<"weekly" | "monthly">("weekly");
 
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
   const { localizationValue } = useOrganizationLocalization();
   const organizationTimeZoneId =
     getLocalizationValue(localizationValue ?? [], "TIMEZONE", "ID") ??
@@ -65,7 +65,7 @@ const PreferredDate = (props: {
   const organizationTimeZoneCode =
     getLocalizationValue(localizationValue ?? [], "TIMEZONE", "CODE") ?? "IST";
   const { post: fetchData } = useAxios<any>(
-    `${NEXT_PUBLIC_MEETANDNOTE_ENDPOINT}/session`
+    `${VITE_MEETANDNOTE_ENDPOINT}/session`
   );
   const [slotsLoading, setSlotsLoading] = useState(false);
   const getDisplayTimeZone = () => {

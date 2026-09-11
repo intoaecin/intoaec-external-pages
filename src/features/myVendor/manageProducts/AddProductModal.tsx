@@ -91,9 +91,9 @@ export const AddOrEditProductModal = ({
   const { popup, closeModal, setCustomButton } = useDialog();
   const { t: tr } = useTranslation();
   const {
-    NEXT_PUBLIC_PROPOSAL_ENDPOINT,
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT,
-    NEXT_PUBLIC_MEETANDNOTE_ENDPOINT,
+    VITE_PROPOSAL_ENDPOINT,
+    VITE_PROCUREMENT_ENDPOINT,
+    VITE_MEETANDNOTE_ENDPOINT,
   } = useEnv();
   const { data: session } = useSession();
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -134,13 +134,13 @@ export const AddOrEditProductModal = ({
   const [isWidthDisabled, setIsWidthDisabled] = useState<boolean>(false);
   const [isHeightDisabled, setIsHeightDisabled] = useState<boolean>(false);
   const { post: getProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const { post: addProductDetails } = useAxiosWithAuth(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products"
+    VITE_PROCUREMENT_ENDPOINT + "/products"
   );
   const { post, response } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_PROPOSAL_ENDPOINT + "/boq-templates"
+    VITE_PROPOSAL_ENDPOINT + "/boq-templates"
   );
   const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
@@ -377,7 +377,7 @@ export const AddOrEditProductModal = ({
 
     try {
       const { data } = await axios.post(
-        NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+        VITE_MEETANDNOTE_ENDPOINT + "/upload",
         formData,
         {
           headers: {
@@ -499,7 +499,7 @@ export const AddOrEditProductModal = ({
         formData.append("eventSource", "NOTES");
 
         const response = await axios.post(
-          NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+          VITE_MEETANDNOTE_ENDPOINT + "/upload",
           formData,
           {
             headers: {

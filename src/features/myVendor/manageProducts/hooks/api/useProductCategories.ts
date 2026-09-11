@@ -9,9 +9,9 @@ export interface ProductCategoryOption {
 }
 
 export const useProductCategories = () => {
-  const { NEXT_PUBLIC_PROCUREMENT_ENDPOINT } = useEnv();
+  const { VITE_PROCUREMENT_ENDPOINT } = useEnv();
   const { post } = useAxiosWithAuth<any>(
-    NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/products",
+    VITE_PROCUREMENT_ENDPOINT + "/products",
   );
   const { data: session } = useSession();
 

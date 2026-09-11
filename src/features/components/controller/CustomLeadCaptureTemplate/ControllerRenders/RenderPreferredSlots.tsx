@@ -31,13 +31,13 @@ const RenderPreferredSlots = ({
   const router = useRouter();
   const theme = useTheme();
   const organizationFromContext = useOrganization();
-  const { NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE } = useEnv();
+  const { VITE_DEFAULT_ORGANIZATION_TYPE } = useEnv();
   const organizationId =
     organizationIdProp ?? organizationFromContext.organizationId;
   const organizationType =
     organizationTypeProp ??
     organizationFromContext.organizationType ??
-    NEXT_PUBLIC_DEFAULT_ORGANIZATION_TYPE;
+    VITE_DEFAULT_ORGANIZATION_TYPE;
   const currentQuestionNumber = router.query.question;
   const currentDate = new Date();
   // const [selectedDate, setSelectedDate] = useState<any>(null);
@@ -48,7 +48,7 @@ const RenderPreferredSlots = ({
   const [hoveredDate, setHoveredDate] = useState(null);
 
   const { leadCaptureData } = LeadCaptureStore.useState();
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
   const [currentIntegrationDetails, setCurrentIntegrationDetails] =
     useState<
       Array<{ valueofKey?: string; keyName: string; keyLabel: string }>
@@ -57,9 +57,9 @@ const RenderPreferredSlots = ({
 
   const [fetchDetailsLoading, setFetchDetailsLoading] = useState(false);
 
-  const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
+  const { VITE_USERHUB_ENDPOINT } = useEnv();
   const { post: postIntegrations } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/integrations",
+    VITE_USERHUB_ENDPOINT + "/integrations",
     false,
   );
 
@@ -109,7 +109,7 @@ const RenderPreferredSlots = ({
   const isSmallScreen = useMediaQuery("(max-width: 1000px)");
 
   const { post: fetchData } = useAxios<any>(
-    `${NEXT_PUBLIC_MEETANDNOTE_ENDPOINT}/session`,
+    `${VITE_MEETANDNOTE_ENDPOINT}/session`,
     false,
   );
 

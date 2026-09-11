@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "vite --port 3001",
     "build": "vite build",
+    "postbuild": "node scripts/generate-runtime-env.mjs",
     "preview": "vite preview --port 3001",
     "start": "vite preview --port 3001",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"

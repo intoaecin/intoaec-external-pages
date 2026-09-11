@@ -101,7 +101,7 @@ export const RenderFileUpload = ({
 
     return <FileType {...iconProps} color={theme.palette.text.secondary} />;
   };
-  const { NEXT_PUBLIC_MEETANDNOTE_ENDPOINT, NEXT_PUBLIC_APIKEY } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
 
   const helperUpload = async (file: any) => {
     const filePath: any = `${organizationId}/${organizationType}/QUESTIONNAIRE/${questionnaireId}/${pageId}`;
@@ -132,12 +132,12 @@ export const RenderFileUpload = ({
     formData.append("eventSource", "QUESTIONNAIRE");
 
     const { data } = await axios.post(
-      NEXT_PUBLIC_MEETANDNOTE_ENDPOINT + "/upload",
+      VITE_MEETANDNOTE_ENDPOINT + "/upload",
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
-          ...(NEXT_PUBLIC_APIKEY ? { apikey: NEXT_PUBLIC_APIKEY } : {}),
+          ...(VITE_APIKEY ? { apikey: VITE_APIKEY } : {}),
         },
       }
     );

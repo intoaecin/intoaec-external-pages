@@ -39,7 +39,7 @@ const LeadCaptureThankYouPage = () => {
     marginBottom: "1rem",
   };
   const projectLocationIconRef = useRef<any>({});
-  const { NEXT_PUBLIC_INTOAEC_LOGO } = useEnv();
+  const { VITE_INTOAEC_LOGO } = useEnv();
   const org = useOrganization();
 
   const getRedirectQuery = router.query.redirect;

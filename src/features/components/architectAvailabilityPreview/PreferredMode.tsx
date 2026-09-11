@@ -76,24 +76,24 @@ const PreferredMode = (props: {
   const [fetchDetailsLoading, setFetchDetailsLoading] = useState(true);
 
   const {
-    NEXT_PUBLIC_LEADMANAGER_ENDPOINT,
-    NEXT_PUBLIC_MEETANDNOTE_ENDPOINT,
-    NEXT_PUBLIC_USERHUB_ENDPOINT,
+    VITE_LEADMANAGER_ENDPOINT,
+    VITE_MEETANDNOTE_ENDPOINT,
+    VITE_USERHUB_ENDPOINT,
   } = useEnv();
   const { post: postIntegrations } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/integrations",
+    VITE_USERHUB_ENDPOINT + "/integrations",
   );
   const { post: fetchData, response } = useAxios(
-    `${NEXT_PUBLIC_LEADMANAGER_ENDPOINT}/session`,
+    `${VITE_LEADMANAGER_ENDPOINT}/session`,
   );
   const { post: fetchCurrentUserData } = useAxios(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/userhub",
+    VITE_USERHUB_ENDPOINT + "/userhub",
   );
   const { post: createSlot } = useAxios(
-    `${NEXT_PUBLIC_MEETANDNOTE_ENDPOINT}/session`,
+    `${VITE_MEETANDNOTE_ENDPOINT}/session`,
   );
   const { post: fetchIpLocationPost } = useAxiosWithAuth(
-    NEXT_PUBLIC_USERHUB_ENDPOINT + "/session",
+    VITE_USERHUB_ENDPOINT + "/session",
   );
 
   const { t } = useTranslation();

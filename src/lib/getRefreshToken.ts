@@ -6,8 +6,8 @@ export default async function getRefreshToken(
 ) {
   try {
     const result = await fetch(
-      (process.env.NEXT_PUBLIC_USERHUB_ENDPOINT
-        ? process.env.NEXT_PUBLIC_USERHUB_ENDPOINT
+      (process.env.VITE_USERHUB_ENDPOINT
+        ? process.env.VITE_USERHUB_ENDPOINT
         : path) + "/session",
       {
         method: "POST",
