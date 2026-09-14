@@ -8151,6 +8151,7 @@
     "uploadTimedOut": "La subida expiró. Inténtelo de nuevo con una conexión más rápida o un archivo más pequeño.",
     "attachmentUploadFailed": "Error al subir el adjunto. Inténtelo de nuevo.",
     "failedToDownloadFile": "Algo salió mal. Por favor, inténtelo de nuevo más tarde o contacte con soporte.",
+    "pdfDownloadFailed": "Algo salió mal al generar el PDF. Por favor, inténtelo de nuevo más tarde o contacte con soporte.",
     "slotDeletedSuccessfully": "Franja horaria eliminada correctamente",
     "timeSlotAddedSuccessfully": "Franja horaria agregada correctamente",
     "timeSlotUpdatedSuccessfully": "Franja horaria actualizada correctamente",

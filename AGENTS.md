@@ -4,7 +4,7 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 
 ## Scope
 
-- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`, `/proposal/[leadProposalId]` (client-facing proposal view/accept/sign page).
+- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`, `/proposal/[leadProposalId]` (client-facing proposal view/accept/sign page), `/client-boq/[clientEstimateId]` (client-facing estimate view/accept/sign page).
 - Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`, architect availability prefs, proposal template/builder/analytics UI under `client/profile/proposal`, `leadmanager/profile/proposal`, `template-center/proposal`).
 - Prefer fixing public capture / booking / proposal-viewing flows here; do not reintroduce auth-gated admin UI.
 

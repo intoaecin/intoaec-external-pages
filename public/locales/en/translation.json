@@ -8176,6 +8176,7 @@
     "uploadTimedOut": "Upload timed out. Try again on a faster connection or upload a smaller file.",
     "attachmentUploadFailed": "Attachment upload failed. Please try again.",
     "failedToDownloadFile": "Something went wrong. Please try again later or contact support.",
+    "pdfDownloadFailed": "Something went wrong while generating the PDF. Please try again later or contact support.",
     "slotDeletedSuccessfully": "Time slot deleted successfully",
     "timeSlotAddedSuccessfully": "Time slot added successfully",
     "timeSlotUpdatedSuccessfully": "Time slot updated successfully",
