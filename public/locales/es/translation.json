@@ -1,4 +1,16 @@
 {
+  "clientInvoice": {
+    "printOrSavePdf": "Imprimir o guardar PDF",
+    "noLineItems": "Esta factura no tiene partidas disponibles.",
+    "status": {
+      "PAID": "Pagada",
+      "PARTIALLY_PAID": "Parcialmente pagada",
+      "AWAITING_PAYMENT": "Pendiente de pago",
+      "OVERDUE": "Vencida",
+      "VOIDED": "Anulada",
+      "CANCELLED": "Cancelada"
+    }
+  },
   "clientReport": {
     "scheduleProgress": "Progreso del cronograma",
     "foundation": "Cimentación",

@@ -1,4 +1,16 @@
 {
+  "clientInvoice": {
+    "printOrSavePdf": "Print or save PDF",
+    "noLineItems": "No line items are available for this invoice.",
+    "status": {
+      "PAID": "Paid",
+      "PARTIALLY_PAID": "Partially paid",
+      "AWAITING_PAYMENT": "Awaiting payment",
+      "OVERDUE": "Overdue",
+      "VOIDED": "Voided",
+      "CANCELLED": "Cancelled"
+    }
+  },
   "clientReport": {
     "scheduleProgress": "Schedule Progress",
     "foundation": "Foundation",
