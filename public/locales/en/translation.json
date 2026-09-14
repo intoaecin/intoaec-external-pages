@@ -9547,6 +9547,10 @@
       "title": "Credit note unavailable",
       "description": "This credit note link is invalid or the document is no longer available."
     },
+    "clientRefund": {
+      "title": "Refund unavailable",
+      "description": "This refund link is invalid or the refund is no longer available."
+    },
     "clientReceipt": {
       "title": "Receipt unavailable",
       "description": "This receipt link is invalid or the receipt is no longer available."

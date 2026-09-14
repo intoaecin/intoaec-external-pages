@@ -9502,6 +9502,10 @@
       "title": "Nota de crédito no disponible",
       "description": "Este enlace de nota de crédito no es válido o el documento ya no está disponible."
     },
+    "clientRefund": {
+      "title": "Reembolso no disponible",
+      "description": "Este enlace de reembolso no es válido o el reembolso ya no está disponible."
+    },
     "clientReceipt": {
       "title": "Recibo no disponible",
       "description": "Este enlace de recibo no es válido o el recibo ya no está disponible."
