@@ -23,6 +23,7 @@ import SalesOrderExternalPage from "@/pages/sales-order/[salesOrderId]";
 import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
 import PoPreviewPage from "@/pages/po-preview/[poid]";
 import ChangeOrderPreviewPage from "@/pages/change-order-preview/[changeOrderId]";
+import ClientReportPage from "@/pages/client-report";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
 import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
 import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
@@ -116,6 +117,7 @@ export default function App() {
                   path="/change-order-preview/:changeOrderId"
                   element={<ChangeOrderPreviewPage />}
                 />
+                <Route path="/client-report" element={<ClientReportPage />} />
                 <Route
                   path="/architectAvailableSlots"
                   element={<ArchitectAvailableSlotsPage />}
