@@ -4,7 +4,7 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 
 ## Scope
 
-- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`, `/proposal/[leadProposalId]` (client-facing proposal view/accept/sign page), `/client-boq/[clientEstimateId]` (client-facing estimate view/accept/sign page).
+- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`, `/proposal/[leadProposalId]` (client-facing proposal view/accept/sign page), `/client-boq/[clientEstimateId]` (client-facing estimate view/accept/sign page), `/rfq-preview/[rfqid]` (vendor-facing RFQ view/comment page), `/po-preview/[poid]` (vendor-facing Purchase Order / Work Order view/comment page — one route/component handles both via the `isWorkOrder` data flag).
 - Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`, architect availability prefs, proposal template/builder/analytics UI under `client/profile/proposal`, `leadmanager/profile/proposal`, `template-center/proposal`).
 - Prefer fixing public capture / booking / proposal-viewing flows here; do not reintroduce auth-gated admin UI.
 
@@ -26,3 +26,5 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 Copy `.env.sample` → `.env`. Required public endpoints mirror intoaec-UI lead-capture usage (`LEADMANAGER`, `USERHUB`, `PROPOSAL`, `MEETANDNOTE`, `AECPOSTMAN`, `APIKEY`, maps key). Set either `APIKEY` or `NEXT_PUBLIC_APIKEY`; `/api/publicEnv` exposes `APIKEY` as `NEXT_PUBLIC_APIKEY` at runtime.
 
 Proposal view/sign analytics (`REGISTER_PROPOSAL_ANALYTICS`) POST to `${VITE_AEC_PORTAL_URL}/api/add-to-queue` — this app has no server of its own (static Vite build), so the event is forwarded to `intoaec-UI`'s existing `/api/add-to-queue` route, which owns the AWS SQS credentials.
+
+RFQ preview's PDF download (`RfqClientHeader`) fetches `${VITE_AEC_PORTAL_URL}/client-rfqexport?params=...` for the SSR HTML used to build the PDF, same forwarding pattern as the estimate preview above. Unlike `/createEstimatePreview`, `/client-rfqexport` is not yet CORS-enabled in intoaec-UI's `next.config.js` — that page will fail cross-origin until CORS headers are added there for that route. PO/WO preview's PDF download (`PoClientHeader` → `usePdfDownload`) is self-contained (clones the on-page DOM and posts straight to `VITE_AEC_CHATBOT_ENDPOINT`), so it needs no forwarding or CORS change.

@@ -12,6 +12,8 @@ import LeadCaptureCustomerPortalPage from "@/pages/leadCapture/customer-portal/[
 import LeadCaptureV2Page from "@/pages/leadCaptureV2/[leadCaptureV2Id]";
 import LeadProposalPage from "@/pages/proposal/[leadProposalId]";
 import ClientBoqEstimatePage from "@/pages/client-boq/[clientEstimateId]";
+import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
+import PoPreviewPage from "@/pages/po-preview/[poid]";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
 import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
 import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
@@ -84,6 +86,14 @@ export default function App() {
                 <Route
                   path="/client-boq/:clientEstimateId"
                   element={<ClientBoqEstimatePage />}
+                />
+                <Route
+                  path="/rfq-preview/:rfqid"
+                  element={<RfqPreviewPage />}
+                />
+                <Route
+                  path="/po-preview/:poid"
+                  element={<PoPreviewPage />}
                 />
                 <Route
                   path="/architectAvailableSlots"
