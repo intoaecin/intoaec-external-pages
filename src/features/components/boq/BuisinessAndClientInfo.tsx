@@ -169,8 +169,7 @@ const BusinessAndClientInfo = ({
     try {
       const requestData: any = {
         eventType: "FETCH_ORGANIZATION_SOCIAL_MEDIA",
-        // estimateId: "fc4ede06-1d18-435b-b1e7-8ee65f8f3494",
-        senderId: organizationId,
+        organizationId,
       };
       const data: any = await fetchUserHub(requestData);
       // console.log(data.body?.Organizations_logoUrl, "organization detail");
@@ -194,8 +193,7 @@ const BusinessAndClientInfo = ({
     try {
       const requestData: any = {
         eventType: "GET_ORGANIZATION_ADDRESS_INFO",
-        // estimateId: "fc4ede06-1d18-435b-b1e7-8ee65f8f3494",
-        senderId: organizationId,
+        organizationId,
       };
       const data: any = await fetchUserHubOrg(requestData);
 

@@ -1677,7 +1677,10 @@ export function maskApiKey(apiKey: string) {
   return masked;
 }
 
-export async function fetchAndInlineResources(html: string) {
+export async function fetchAndInlineResources(
+  html: string,
+  baseUrl: string = window.location.origin,
+) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
   const cssLinks = doc.querySelectorAll('link[rel="stylesheet"]');
@@ -1686,7 +1689,7 @@ export async function fetchAndInlineResources(html: string) {
   async function fetchAndInlineCSS(link: Element) {
     const href = link.getAttribute("href");
     if (href) {
-      const cssUrl = new URL(href, window.location.origin).href;
+      const cssUrl = new URL(href, baseUrl).href;
       try {
         const cssResponse = await fetch(cssUrl);
         const cssText = await cssResponse.text();
@@ -1704,7 +1707,7 @@ export async function fetchAndInlineResources(html: string) {
   async function fetchAndInlineFont(link: Element) {
     const href = link.getAttribute("href");
     if (href) {
-      const fontUrl = new URL(href, window.location.origin).href;
+      const fontUrl = new URL(href, baseUrl).href;
       try {
         const fontResponse = await fetch(fontUrl);
         const fontBlob = await fontResponse.blob();

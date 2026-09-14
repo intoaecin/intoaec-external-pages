@@ -397,7 +397,7 @@ const BoqAcceptAndSignInHeader = ({
       }
 
       const htmlContent = (
-        await fetchAndInlineResources(previewHtml)
+        await fetchAndInlineResources(previewHtml, VITE_AEC_PORTAL_URL)
       ).replaceAll("h-100", "");
 
       const response = await axios.post(

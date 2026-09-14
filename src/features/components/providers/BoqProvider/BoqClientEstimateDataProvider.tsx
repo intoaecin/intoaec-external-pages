@@ -313,11 +313,9 @@ export const ClientEstimateDataProvider: React.FC<
     try {
       const requestData: any = {
         eventType: "GET_ORGANIZATION_SUPER_USER",
-        // estimateId: "fc4ede06-1d18-435b-b1e7-8ee65f8f3494",
         organizationId,
       };
-      const data: any = await fetchUserHub(requestData);
-      console.log(data, "data from clinet estiat provider");
+      const data: any = await sessionPost(requestData);
       if (data.code === "ORGANIZATION_SUPER_USER_DETAILS_RETRIEVED") {
         setOrganizationDetail({
           emailId: data.body[0].emailId,
