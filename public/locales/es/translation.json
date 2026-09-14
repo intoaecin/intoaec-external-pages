@@ -7756,6 +7756,8 @@
     "typecheckboxcontent": "Escriba el contenido de la casilla de verificación"
   },
   "toast": {
+    "changeOrderAccepted": "Orden de cambio aceptada correctamente.",
+    "changeOrderDeclined": "Orden de cambio rechazada correctamente.",
     "pleaseUploadYourSignature": "Por favor, suba su firma",
     "leadCaptureTemplateUpdatedSuccessfully": "Plantilla de captura de leads actualizada exitosamente",
     "workingCalendarUpdatedSuccessfully": "Calendario laboral actualizado correctamente",
@@ -8315,6 +8317,7 @@
     "downloadAsPdf": "Descargar como PDF",
     "showComments": "Mostrar comentarios",
     "declineEstimate": "Rechazar Estimación",
+    "declineChangeOrder": "Rechazar Orden de Cambio",
     "editEstimate": "Editar Estimación",
     "saveComment": "Guardar Comentario",
     "exitCommentMode": "Salir del modo de comentarios"
@@ -9469,6 +9472,23 @@
     "formResponses": "Respuestas del formulario",
     "questionFallback": "Pregunta {{index}}"
   },
+  "changeOrder": {
+    "title": "Orden de Cambio",
+    "moduleTitle": "Orden de Cambio",
+    "itemName": "Nombre del artículo",
+    "type": "Tipo",
+    "unit": "Unidad",
+    "planned": "Planificado",
+    "updated": "Actualizado",
+    "items": "Artículos de la Orden de Cambio",
+    "originalEstimate": "Estimación Original",
+    "changeOrderTotal": "Total de la Orden de Cambio",
+    "budgetImpact": "Impacto en el Presupuesto",
+    "legalRepresentative": "Representante Legal de {{organizationName}}",
+    "clientSignature": "Firma del cliente",
+    "adminSignature": "Administrador",
+    "previewLoadError": "No se pudo cargar la vista previa de la orden de cambio."
+  },
   "externalFallback": {
     "badge": "RECURSO NO DISPONIBLE",
     "title": "Proyecto ya no existe",
@@ -9482,6 +9502,10 @@
     "estimate": {
       "title": "Presupuesto no disponible",
       "description": "Este enlace de presupuesto no es válido o el presupuesto ya no está disponible."
+    },
+    "changeOrder": {
+      "title": "Orden de cambio no disponible",
+      "description": "No pudimos cargar esta orden de cambio. Puede que haya sido eliminada o que el enlace no sea válido."
     },
     "questionnairePreview": {
       "title": "Cuestionario no disponible",

@@ -7775,6 +7775,8 @@
     "typecheckboxcontent": "Type checkbox content"
   },
   "toast": {
+    "changeOrderAccepted": "Change Order accepted successfully.",
+    "changeOrderDeclined": "Change Order declined successfully.",
     "pleaseUploadYourSignature": "Please upload your signature",
     "leadCaptureTemplateUpdatedSuccessfully": "Lead capture template updated successfully",
     "workingCalendarUpdatedSuccessfully": "Working calendar updated successfully",
@@ -8342,6 +8344,7 @@
     "downloadAsPdf": "Download as PDF",
     "showComments": "Show comments",
     "declineEstimate": "Decline Estimate",
+    "declineChangeOrder": "Decline Change Order",
     "editEstimate": "Edit Estimate",
     "saveComment": "Save Comment",
     "exitCommentMode": "Exit comment mode"
@@ -9514,6 +9517,23 @@
     "formResponses": "Form Responses",
     "questionFallback": "Question {{index}}"
   },
+  "changeOrder": {
+    "title": "Change Order",
+    "moduleTitle": "Change Order",
+    "itemName": "Item Name",
+    "type": "Type",
+    "unit": "Unit",
+    "planned": "Planned",
+    "updated": "Updated",
+    "items": "Change Order Items",
+    "originalEstimate": "Original Estimate",
+    "changeOrderTotal": "Change Order Total",
+    "budgetImpact": "Budget Impact",
+    "legalRepresentative": "Legal Representative of {{organizationName}}",
+    "clientSignature": "Client signature",
+    "adminSignature": "Admin",
+    "previewLoadError": "Failed to load change order preview."
+  },
   "externalFallback": {
     "badge": "RESOURCE UNAVAILABLE",
     "title": "Project No Longer Exists",
@@ -9527,6 +9547,10 @@
     "estimate": {
       "title": "Estimate unavailable",
       "description": "This estimate link is invalid or the estimate is no longer available."
+    },
+    "changeOrder": {
+      "title": "Change order unavailable",
+      "description": "We couldn't load this change order. It may have been removed or the link is invalid."
     },
     "questionnairePreview": {
       "title": "Questionnaire unavailable",
