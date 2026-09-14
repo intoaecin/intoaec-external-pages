@@ -16,6 +16,7 @@ import LeadProposalPage from "@/pages/proposal/[leadProposalId]";
 import ClientBoqEstimatePage from "@/pages/client-boq/[clientEstimateId]";
 import ClientInvoicePage from "@/pages/client-invoice/[clientInvoiceId]";
 import ClientCreditNotePage from "@/pages/client-credit-note/[creditNoteId]";
+import ClientReceiptPage from "@/pages/client-receipt/[clientReceiptId]";
 import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
 import PoPreviewPage from "@/pages/po-preview/[poid]";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
@@ -95,6 +96,7 @@ export default function App() {
                 />
                 <Route path="/client-invoice/:clientInvoiceId" element={<ClientInvoicePage />} />
                 <Route path="/client-credit-note/:creditNoteId" element={<ClientCreditNotePage />} />
+                <Route path="/client-receipt/:clientReceiptId" element={<ClientReceiptPage />} />
                 <Route
                   path="/rfq-preview/:rfqid"
                   element={<RfqPreviewPage />}
