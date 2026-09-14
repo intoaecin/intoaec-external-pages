@@ -1,4 +1,16 @@
 {
+  "clientCreditNote": {
+    "title": "Credit note",
+    "status": {
+      "REFUNDED": "Refunded",
+      "VOIDED": "Voided",
+      "APPLIED": "Applied",
+      "UNAPPLIED": "Unapplied",
+      "PENDING": "Pending",
+      "PROCESSING": "Processing",
+      "PARTIALLY_REFUNDED": "Partially refunded"
+    }
+  },
   "clientInvoice": {
     "printOrSavePdf": "Print or save PDF",
     "noLineItems": "No line items are available for this invoice.",

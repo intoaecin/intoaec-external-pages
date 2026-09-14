@@ -1,4 +1,16 @@
 {
+  "clientCreditNote": {
+    "title": "Nota de crédito",
+    "status": {
+      "REFUNDED": "Reembolsada",
+      "VOIDED": "Anulada",
+      "APPLIED": "Aplicada",
+      "UNAPPLIED": "No aplicada",
+      "PENDING": "Pendiente",
+      "PROCESSING": "En proceso",
+      "PARTIALLY_REFUNDED": "Parcialmente reembolsada"
+    }
+  },
   "clientInvoice": {
     "printOrSavePdf": "Imprimir o guardar PDF",
     "noLineItems": "Esta factura no tiene partidas disponibles.",
