@@ -19,6 +19,7 @@ import ClientCreditNotePage from "@/pages/client-credit-note/[creditNoteId]";
 import ClientReceiptPage from "@/pages/client-receipt/[clientReceiptId]";
 import VendorReceiptPage from "@/pages/vendor-receipt/[vendorReceiptId]";
 import ClientRefundPage from "@/pages/client-refund/[refundId]";
+import SalesOrderExternalPage from "@/pages/sales-order/[salesOrderId]";
 import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
 import PoPreviewPage from "@/pages/po-preview/[poid]";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
@@ -101,6 +102,7 @@ export default function App() {
                 <Route path="/client-receipt/:clientReceiptId" element={<ClientReceiptPage />} />
                 <Route path="/vendor-receipt/:vendorReceiptId" element={<VendorReceiptPage />} />
                 <Route path="/client-refund/:refundId" element={<ClientRefundPage />} />
+                <Route path="/sales-order/:salesOrderId" element={<SalesOrderExternalPage />} />
                 <Route
                   path="/rfq-preview/:rfqid"
                   element={<RfqPreviewPage />}

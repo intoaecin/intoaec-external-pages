@@ -23,6 +23,7 @@
       "CANCELLED": "Cancelada"
     }
   },
+  "salesOrderLabel": "Orden de venta",
   "clientReport": {
     "scheduleProgress": "Progreso del cronograma",
     "foundation": "Cimentación",
@@ -9501,6 +9502,10 @@
     "creditNote": {
       "title": "Nota de crédito no disponible",
       "description": "Este enlace de nota de crédito no es válido o el documento ya no está disponible."
+    },
+    "salesOrder": {
+      "title": "Orden de venta no disponible",
+      "description": "Este enlace de orden de venta no es válido o la orden ya no está disponible."
     },
     "clientRefund": {
       "title": "Reembolso no disponible",

@@ -23,6 +23,7 @@
       "CANCELLED": "Cancelled"
     }
   },
+  "salesOrderLabel": "Sales Order",
   "clientReport": {
     "scheduleProgress": "Schedule Progress",
     "foundation": "Foundation",
@@ -9546,6 +9547,10 @@
     "creditNote": {
       "title": "Credit note unavailable",
       "description": "This credit note link is invalid or the document is no longer available."
+    },
+    "salesOrder": {
+      "title": "Sales order unavailable",
+      "description": "This sales order link is invalid or the sales order is no longer available."
     },
     "clientRefund": {
       "title": "Refund unavailable",

@@ -769,7 +769,7 @@ const BoqAcceptAndSignInHeader = ({
         onChange={handleSignatureChangeAndAccept}
         displayButtonName={
           isSalesOrder
-            ? t("estimate.salesOrder", { defaultValue: "Sales Order" })
+            ? t("salesOrderLabel")
             : t("common.estimate")
         }
         submitButtonLabel={t("common.signAndAccept", {
