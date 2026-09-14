@@ -3596,6 +3596,10 @@
     "vendorScheduledPaymentsTooltip": "List of payments due from vendors"
   },
   "questionnaire": {
+    "linkExpiredTitle": "Questionnaire link expired",
+    "linkExpiredDescription": "This questionnaire link has expired. Please contact the person who sent it to request a new link.",
+    "alreadySubmittedTitle": "Questionnaire submitted",
+    "alreadySubmittedDescription": "Your response has been submitted successfully.",
     "onOff": "Enable or Disable a questionnaire; the change will apply to the questionnaire you send to the lead & client",
     "answeredByOwn": "Answered by your own",
     "leadAnsweredResponse": "Lead Answered Response",

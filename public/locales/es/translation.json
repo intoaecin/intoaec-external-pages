@@ -3123,6 +3123,10 @@
     "vendorScheduledPaymentsTooltip": "Lista de pagos pendientes de proveedores"
   },
   "questionnaire": {
+    "linkExpiredTitle": "El enlace del cuestionario ha caducado",
+    "linkExpiredDescription": "Este enlace del cuestionario ha caducado. Póngase en contacto con la persona que se lo envió para solicitar uno nuevo.",
+    "alreadySubmittedTitle": "Cuestionario enviado",
+    "alreadySubmittedDescription": "Su respuesta se ha enviado correctamente.",
     "questionnaireSubmitted": "Cuestionario Enviado",
     "yourResponseHasBeenSubmittedSuccessfully.": "Su respuesta ha sido enviada con éxito.",
     "onOff": "Habilitar o deshabilitar un cuestionario; el cambio se aplicará al cuestionario que envíe al cliente potencial y al cliente",

@@ -10,6 +10,8 @@ import LeadCaptureSourcePage from "@/pages/leadCapture/[projectSource]";
 import LeadCaptureThankYouPage from "@/pages/leadCapture/thankYou";
 import LeadCaptureCustomerPortalPage from "@/pages/leadCapture/customer-portal/[leadId]";
 import LeadCaptureV2Page from "@/pages/leadCaptureV2/[leadCaptureV2Id]";
+import LeadQuestionnaireCapturePage from "@/pages/leadQuestionnaireCapture/[questionnaireId]";
+import LeadQuestionnairePreviewPage from "@/pages/leadQuestionnairePreview/[questionnaireId]";
 import LeadProposalPage from "@/pages/proposal/[leadProposalId]";
 import ClientBoqEstimatePage from "@/pages/client-boq/[clientEstimateId]";
 import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
@@ -79,6 +81,8 @@ export default function App() {
                   path="/leadCaptureV2/:leadCaptureV2Id"
                   element={<LeadCaptureV2Page />}
                 />
+                <Route path="/leadQuestionnaireCapture/:questionnaireId" element={<LeadQuestionnaireCapturePage />} />
+                <Route path="/leadQuestionnairePreview/:questionnaireId" element={<LeadQuestionnairePreviewPage />} />
                 <Route
                   path="/proposal/:leadProposalId"
                   element={<LeadProposalPage />}
