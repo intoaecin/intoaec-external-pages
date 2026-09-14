@@ -157,63 +157,15 @@ import { SpacerBlockElement } from "@/components/plate-ui/spacer-block";
 import { createMyPluginFactory } from "./plate-types";
 import { MediaEmbedElement } from "@/components/plate-ui/media-embed-element";
 import { ImageElement } from "@/components/plate-ui/image-element";
-import axios from "axios";
-import { base64ToBlob } from "../helpers";
-import { getSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useEnv } from "@/features/hooks/useEnv";
 
-const helperUpload = async (file: any) => {
-  const session = await getSession();
-
-
-  const filePath: any = `${session?.["custom:organization_id"]}/${session?.["custom:organization_type"]}/OTHERS`;
-  let blob;
-  if (file?.buffer?.startsWith("data")) {
-    blob = base64ToBlob(
-      file?.buffer
-        ?.split(",")
-        .filter((val: any, index: number) => index !== 0)
-        .join(",")
-    );
-  } else {
-    const buffer = Buffer.from(file?.buffer as ArrayBuffer);
-    blob = new Blob([buffer], { type: file?.fileType });
-  }
-
-  const formData = new FormData();
-
-  formData.append("file", blob, {
-    filename: file?.fileName || "file ",
-  } as any);
-  if (file?.fileName?.split(".")[1]) {
-    formData.append("fileExtension", file?.fileName?.split(".")[1]);
-  } else {
-    formData.append("fileExtension", file?.fileExtension);
-  }
-  formData.append("filePath", filePath);
-  formData.append("eventType", "ADD_MEDIA");
-  formData.append("eventSource", "COMMON");
-
-  const { data } = await axios.post(
-    process.env.VITE_MEETANDNOTE_ENDPOINT! + "/upload",
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${session?.IdToken}`,
-      },
-    }
-  );
-  if (data) {
-    // onUpload(data?.body[0]?.uri)
-    return {
-      fileName: file?.name || "file",
-      fileType: file?.fileType || "images/jpeg",
-      url: data?.body[0]?.uri ?? "",
-      description: file?.description ?? "",
-    };
-  }
+// This editor only ever renders in readOnly mode in this app (proposal
+// viewing), so pasted-image upload has no authenticated org session to
+// upload against. Surface a toast instead of pretending it works.
+const helperUpload = async (_file: any) => {
+  toast.error("Image upload is not supported here");
+  return undefined;
 };
 
 const ELEMENT_SPACER = "space-block";

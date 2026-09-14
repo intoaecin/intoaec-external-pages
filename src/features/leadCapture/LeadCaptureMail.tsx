@@ -140,11 +140,12 @@ const LeadCaptureMail = ({
       if (res?.body?.retrywaitTime) {
         toast.error(
           "Maximum retries reached. Try again after " +
-            (localizationValue &&
-              formatDateBasedOnOrganizationLocalization(
-                localizationValue,
-                res?.body?.retrywaitTime
-              )) ?? moment(new Date(res.body.retrywaitTime)).format("hh:mm a"),
+            (localizationValue
+              ? formatDateBasedOnOrganizationLocalization(
+                  localizationValue,
+                  res?.body?.retrywaitTime
+                )
+              : moment(new Date(res.body.retrywaitTime)).format("hh:mm a")),
           { autoClose: 1000 * 10 }
         );
         return;
@@ -177,11 +178,12 @@ const LeadCaptureMail = ({
     } else if (res.code === "GENERATE_OTP_FAILED" && res?.body?.retrywaitTime) {
       toast.error(
         "Maximum retries reached. Try again after " +
-          (localizationValue &&
-            formatDateBasedOnOrganizationLocalization(
-              localizationValue,
-              res?.body?.retrywaitTime
-            )) ?? moment(new Date(res.body.retrywaitTime)).format("hh:mm a"),
+          (localizationValue
+            ? formatDateBasedOnOrganizationLocalization(
+                localizationValue,
+                res?.body?.retrywaitTime
+              )
+            : moment(new Date(res.body.retrywaitTime)).format("hh:mm a")),
         { autoClose: 1000 * 10 }
       );
     }

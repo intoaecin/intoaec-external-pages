@@ -296,6 +296,7 @@ export const ProposalAcceptAndSignHeader = ({
     VITE_AECPOSTMAN_ENDPOINT,
     VITE_LEADMANAGER_ENDPOINT,
     VITE_USERHUB_ENDPOINT,
+    VITE_AEC_PORTAL_URL,
   } = useEnv();
   const { post: update } = useAxios<any>(
     VITE_PROPOSAL_ENDPOINT + "/lead-proposals",
@@ -565,7 +566,7 @@ export const ProposalAcceptAndSignHeader = ({
     const pages = proposalData?.pages;
     if (pages) {
       if (proposalData?.leadProposalId && trackAnalytics) {
-        axios.post("/api/add-to-queue", {
+        axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
           eventType: "REGISTER_PROPOSAL_ANALYTICS",
           leadProposalId: proposalData?.leadProposalId,
           proposalRevision: proposalData?.proposalRevision,

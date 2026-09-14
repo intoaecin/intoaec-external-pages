@@ -4,9 +4,9 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 
 ## Scope
 
-- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`.
-- Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`, architect availability prefs).
-- Prefer fixing public capture / booking flows here; do not reintroduce auth-gated admin UI.
+- Own only public routes: `/leadCapture*`, `/leadCaptureV2/[id]`, `/architectAvailableSlots*`, `/proposal/[leadProposalId]` (client-facing proposal view/accept/sign page).
+- Admin builders stay in `intoaec-UI` (`/preferences/lead-capture`, `/lead-capture-v2`, architect availability prefs, proposal template/builder/analytics UI under `client/profile/proposal`, `leadmanager/profile/proposal`, `template-center/proposal`).
+- Prefer fixing public capture / booking / proposal-viewing flows here; do not reintroduce auth-gated admin UI.
 
 ## Stack
 
@@ -24,3 +24,5 @@ Public Next.js (Pages Router) app for external lead capture forms (V1 + V2).
 ## Env
 
 Copy `.env.sample` → `.env`. Required public endpoints mirror intoaec-UI lead-capture usage (`LEADMANAGER`, `USERHUB`, `PROPOSAL`, `MEETANDNOTE`, `AECPOSTMAN`, `APIKEY`, maps key). Set either `APIKEY` or `NEXT_PUBLIC_APIKEY`; `/api/publicEnv` exposes `APIKEY` as `NEXT_PUBLIC_APIKEY` at runtime.
+
+Proposal view/sign analytics (`REGISTER_PROPOSAL_ANALYTICS`) POST to `${VITE_AEC_PORTAL_URL}/api/add-to-queue` — this app has no server of its own (static Vite build), so the event is forwarded to `intoaec-UI`'s existing `/api/add-to-queue` route, which owns the AWS SQS credentials.
