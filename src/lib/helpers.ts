@@ -18,7 +18,6 @@ import { countries } from "@/features/constants/countries";
 import axios from "axios";
 import moment, { Duration } from "moment";
 import momentTz from "moment-timezone";
-import * as XLSX from "xlsx";
 import { v4 as uuidv4 } from "uuid";
 import dayjs from "dayjs";
 import Resizer from "react-image-file-resizer";
@@ -103,6 +102,7 @@ export const suffixOfNumber = (num: number) => {
 };
 
 export const readexcelAndReturnLeads = async (file: Blob) => {
+  const XLSX = await import("xlsx");
   const reader = new FileReader();
   reader.readAsBinaryString(file);
   const value = await new Promise((resolve, reject) => {
@@ -154,6 +154,7 @@ export const readexcelAndReturnLeads = async (file: Blob) => {
 };
 
 export const readexcelAndReturnBOQ = async (file: Blob) => {
+  const XLSX = await import("xlsx");
   const NOT_ALLOWED_UNITS = [
     "nos",
     "acre",
@@ -404,6 +405,7 @@ export const validateAndFormatDate = (dateStr: any): number | string => {
 };
 
 export const readexcelAndReturnExpense = async (file: Blob) => {
+  const XLSX = await import("xlsx");
   const reader = new FileReader();
   reader.readAsBinaryString(file);
 
@@ -454,6 +456,7 @@ export const readexcelAndReturnExpense = async (file: Blob) => {
 };
 
 export const readexcelAndReturnProducts = async (file: Blob) => {
+  const XLSX = await import("xlsx");
   const reader = new FileReader();
   reader.readAsBinaryString(file);
 
@@ -694,12 +697,13 @@ export const formatLogMessageWithEventType = (text: string, count?: number) => {
     .join(" ");
 };
 
-export const handleExcelExport = (
+export const handleExcelExport = async (
   bodyData: any,
   fileHeaderData: string[],
   fileName: string,
   fileTitle: string,
 ) => {
+  const XLSX = await import("xlsx");
   const wrapText = (val: any, maxLen: number = 22): any => {
     if (typeof val !== "string") return val;
     const words = val.split(" ");

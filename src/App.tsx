@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -5,52 +6,109 @@ import { ToastContainer } from "react-toastify";
 import { EnvProvider } from "@/features/components/providers/EnvProvider";
 import { createAppTheme } from "@/styles/theme";
 import HomeRedirect from "@/routes/HomeRedirect";
-import LeadCapturePage from "@/pages/leadCapture";
-import LeadCaptureSourcePage from "@/pages/leadCapture/[projectSource]";
-import LeadCaptureThankYouPage from "@/pages/leadCapture/thankYou";
-import LeadCaptureCustomerPortalPage from "@/pages/leadCapture/customer-portal/[leadId]";
-import LeadCaptureV2Page from "@/pages/leadCaptureV2/[leadCaptureV2Id]";
-import LeadQuestionnaireCapturePage from "@/pages/leadQuestionnaireCapture/[questionnaireId]";
-import LeadQuestionnairePreviewPage from "@/pages/leadQuestionnairePreview/[questionnaireId]";
-import LeadProposalPage from "@/pages/proposal/[leadProposalId]";
-import ClientBoqEstimatePage from "@/pages/client-boq/[clientEstimateId]";
-import ClientInvoicePage from "@/pages/client-invoice/[clientInvoiceId]";
-import ClientCreditNotePage from "@/pages/client-credit-note/[creditNoteId]";
-import ClientReceiptPage from "@/pages/client-receipt/[clientReceiptId]";
-import VendorReceiptPage from "@/pages/vendor-receipt/[vendorReceiptId]";
-import ClientRefundPage from "@/pages/client-refund/[refundId]";
-import SalesOrderExternalPage from "@/pages/sales-order/[salesOrderId]";
-import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
-import PoPreviewPage from "@/pages/po-preview/[poid]";
-import ChangeOrderPreviewPage from "@/pages/change-order-preview/[changeOrderId]";
-import ClientReportPage from "@/pages/client-report";
-import SubscriptionCheckoutPage from "@/pages/subscription/checkout-payment";
-import SubscriptionAddCardPage from "@/pages/subscription/addCard";
-import SubscriptionPaymentSuccessPage from "@/pages/subscription/payment-success";
-import SubscriptionPaymentFailedPage from "@/pages/subscription/payment-failed";
-import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
-import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
-import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
-import ReportsPage from "@/pages/reportsPage";
-import AssetsReportPage from "@/pages/reportsPage/Assets";
-import BillsExpensesReportPage from "@/pages/reportsPage/BillsExpenses";
-import ClientsReportPage from "@/pages/reportsPage/Clients";
-import EmailsReportPage from "@/pages/reportsPage/Emails";
-import EstimateReportPage from "@/pages/reportsPage/Estimate";
-import ExpensesReportPage from "@/pages/reportsPage/Expenses";
-import IncomeReportPage from "@/pages/reportsPage/Income";
-import IndentReportPage from "@/pages/reportsPage/Indent";
-import InventoryReportPage from "@/pages/reportsPage/Inventory";
-import LeadsReportPage from "@/pages/reportsPage/Leads";
-import ProposalReportPage from "@/pages/reportsPage/Proposal";
-import PurchaseOrderReportPage from "@/pages/reportsPage/PurchaseOrder";
-import QuestionnaireReportPage from "@/pages/reportsPage/Questionnaire";
-import RfqReportPage from "@/pages/reportsPage/RFQ";
-import ScheduleReportPage from "@/pages/reportsPage/Schedule";
-import TasksReportPage from "@/pages/reportsPage/Tasks";
-import TimeTrackingReportPage from "@/pages/reportsPage/TimeTracking";
-import WorkOrderReportPage from "@/pages/reportsPage/WorkOrder";
-import WorkersReportPage from "@/pages/reportsPage/Workers";
+
+const LeadCapturePage = lazy(() => import("@/pages/leadCapture"));
+const LeadCaptureSourcePage = lazy(
+  () => import("@/pages/leadCapture/[projectSource]"),
+);
+const LeadCaptureThankYouPage = lazy(
+  () => import("@/pages/leadCapture/thankYou"),
+);
+const LeadCaptureCustomerPortalPage = lazy(
+  () => import("@/pages/leadCapture/customer-portal/[leadId]"),
+);
+const LeadCaptureV2Page = lazy(
+  () => import("@/pages/leadCaptureV2/[leadCaptureV2Id]"),
+);
+const LeadQuestionnaireCapturePage = lazy(
+  () => import("@/pages/leadQuestionnaireCapture/[questionnaireId]"),
+);
+const LeadQuestionnairePreviewPage = lazy(
+  () => import("@/pages/leadQuestionnairePreview/[questionnaireId]"),
+);
+const LeadProposalPage = lazy(
+  () => import("@/pages/proposal/[leadProposalId]"),
+);
+const ClientBoqEstimatePage = lazy(
+  () => import("@/pages/client-boq/[clientEstimateId]"),
+);
+const ClientInvoicePage = lazy(
+  () => import("@/pages/client-invoice/[clientInvoiceId]"),
+);
+const ClientCreditNotePage = lazy(
+  () => import("@/pages/client-credit-note/[creditNoteId]"),
+);
+const ClientReceiptPage = lazy(
+  () => import("@/pages/client-receipt/[clientReceiptId]"),
+);
+const VendorReceiptPage = lazy(
+  () => import("@/pages/vendor-receipt/[vendorReceiptId]"),
+);
+const ClientRefundPage = lazy(
+  () => import("@/pages/client-refund/[refundId]"),
+);
+const SalesOrderExternalPage = lazy(
+  () => import("@/pages/sales-order/[salesOrderId]"),
+);
+const RfqPreviewPage = lazy(() => import("@/pages/rfq-preview/[rfqid]"));
+const PoPreviewPage = lazy(() => import("@/pages/po-preview/[poid]"));
+const ChangeOrderPreviewPage = lazy(
+  () => import("@/pages/change-order-preview/[changeOrderId]"),
+);
+const ClientReportPage = lazy(() => import("@/pages/client-report"));
+const SubscriptionCheckoutPage = lazy(
+  () => import("@/pages/subscription/checkout-payment"),
+);
+const SubscriptionAddCardPage = lazy(
+  () => import("@/pages/subscription/addCard"),
+);
+const SubscriptionPaymentSuccessPage = lazy(
+  () => import("@/pages/subscription/payment-success"),
+);
+const SubscriptionPaymentFailedPage = lazy(
+  () => import("@/pages/subscription/payment-failed"),
+);
+const ArchitectAvailableSlotsPage = lazy(
+  () => import("@/pages/architectAvailableSlots"),
+);
+const ArchitectProjectSlotsPage = lazy(
+  () => import("@/pages/architectAvailableSlots/[projectId]"),
+);
+const ArchitectSlotsThankYouPage = lazy(
+  () => import("@/pages/architectAvailableSlots/thankYou"),
+);
+const ReportsPage = lazy(() => import("@/pages/reportsPage"));
+const AssetsReportPage = lazy(() => import("@/pages/reportsPage/Assets"));
+const BillsExpensesReportPage = lazy(
+  () => import("@/pages/reportsPage/BillsExpenses"),
+);
+const ClientsReportPage = lazy(() => import("@/pages/reportsPage/Clients"));
+const EmailsReportPage = lazy(() => import("@/pages/reportsPage/Emails"));
+const EstimateReportPage = lazy(() => import("@/pages/reportsPage/Estimate"));
+const ExpensesReportPage = lazy(() => import("@/pages/reportsPage/Expenses"));
+const IncomeReportPage = lazy(() => import("@/pages/reportsPage/Income"));
+const IndentReportPage = lazy(() => import("@/pages/reportsPage/Indent"));
+const InventoryReportPage = lazy(
+  () => import("@/pages/reportsPage/Inventory"),
+);
+const LeadsReportPage = lazy(() => import("@/pages/reportsPage/Leads"));
+const ProposalReportPage = lazy(() => import("@/pages/reportsPage/Proposal"));
+const PurchaseOrderReportPage = lazy(
+  () => import("@/pages/reportsPage/PurchaseOrder"),
+);
+const QuestionnaireReportPage = lazy(
+  () => import("@/pages/reportsPage/Questionnaire"),
+);
+const RfqReportPage = lazy(() => import("@/pages/reportsPage/RFQ"));
+const ScheduleReportPage = lazy(() => import("@/pages/reportsPage/Schedule"));
+const TasksReportPage = lazy(() => import("@/pages/reportsPage/Tasks"));
+const TimeTrackingReportPage = lazy(
+  () => import("@/pages/reportsPage/TimeTracking"),
+);
+const WorkOrderReportPage = lazy(
+  () => import("@/pages/reportsPage/WorkOrder"),
+);
+const WorkersReportPage = lazy(() => import("@/pages/reportsPage/Workers"));
 
 const APP_FONT_FAMILY = "'Poppins', system-ui, -apple-system, sans-serif";
 
@@ -74,7 +132,8 @@ export default function App() {
           <CssBaseline />
           <BrowserRouter>
             <main style={{ fontFamily: APP_FONT_FAMILY }}>
-              <Routes>
+              <Suspense fallback={null}>
+                <Routes>
                 <Route path="/" element={<HomeRedirect />} />
                 <Route path="/leadCapture" element={<LeadCapturePage />} />
                 <Route
@@ -171,7 +230,8 @@ export default function App() {
                 <Route path="/reportsPage/WorkOrder" element={<WorkOrderReportPage />} />
                 <Route path="/reportsPage/Workers" element={<WorkersReportPage />} />
                 <Route path="*" element={<HomeRedirect />} />
-              </Routes>
+                </Routes>
+              </Suspense>
             </main>
           </BrowserRouter>
           <ToastContainer position="top-right" autoClose={4000} />
