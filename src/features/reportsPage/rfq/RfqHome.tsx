@@ -4,7 +4,6 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { Box } from "@mui/material";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
@@ -16,6 +15,7 @@ import ReportsTable from "../ReportsTable";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const RfqHome = () => {
   const { t } = useTranslation();
@@ -63,20 +63,12 @@ const RfqHome = () => {
   const [totalRfq, setTotalRfq] = useState<any>();
   const [totalConvertedPo, setTotalConvertedToPo] = useState<any>();
   const [totalDeviation, setTotalDeviation] = useState<any>();
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = getReportCurrency(localizationValue);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const { organizationId, organizationName, organizationType, logoUrl } =
     useOrganization();
-
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ?? ""
-      );
-    }
-  }, [localizationValue]);
 
   const [reportsConfig, setReportsConfig] = useState<any>();
   const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
@@ -303,4 +295,3 @@ const RfqHome = () => {
 };
 
 export default RfqHome;
-

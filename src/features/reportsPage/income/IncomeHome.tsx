@@ -4,10 +4,10 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { toLowerNoSpace } from "@/utils/string";
 import { Box, useTheme } from "@mui/material";
+import { getReportCurrency } from "../utils";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
@@ -83,7 +83,7 @@ const IncomeHome = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const { localizationValue } = useOrganizationLocalization();
-  const [currency, setCurrency] = useState<string>();
+  const currency = getReportCurrency(localizationValue);
   const [dashboardData, setDashboardData] =
     useState<MoneyMattersDashboardType | null>(null);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
@@ -118,15 +118,6 @@ const IncomeHome = () => {
   useEffect(() => {
     createReportsAutomation();
   }, []);
-
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
 
   const [filters, setFilters] = useState({
     projectIds: [],

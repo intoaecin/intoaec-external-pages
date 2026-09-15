@@ -1,3 +1,20 @@
+import { getLocalizationValue } from "@/lib/helpers";
+import type { OrganizationLocalizationType } from "@/types";
+
+export const getReportCurrency = (
+  localizationValue?: OrganizationLocalizationType[],
+): string => {
+  if (!localizationValue) {
+    return "";
+  }
+
+  return (
+    getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
+    getLocalizationValue(localizationValue, "CURRENCY", "CODE") ??
+    ""
+  );
+};
+
 export const convertToUTC = ({ timestamp, timezone }: { timestamp: number; timezone: string }): number => {
   try {
     const date = new Date(timestamp);

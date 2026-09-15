@@ -5,11 +5,12 @@ import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
 import { useState, useEffect } from "react";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
-import { getLocalizationValue, formatNumberITL, formatSeedValues, formatToCamelCaseWithAmpersand, formatDateBasedOnOrganizationLocalization } from "@/lib/helpers";
+import { formatNumberITL, formatSeedValues, formatToCamelCaseWithAmpersand, formatDateBasedOnOrganizationLocalization } from "@/lib/helpers";
 import { useTranslation } from "react-i18next";
 
 import { useProjectNames } from "./useProjectNames";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
+import { getReportCurrency } from "@/features/reportsPage/utils";
 
 export const useIndentReports = () => {
     const { organizationId, organizationName, organizationType, logoUrl } = useOrganization();
@@ -29,14 +30,8 @@ export const useIndentReports = () => {
     const [sortBy, setSortBy] = useState<string>("createdAt");
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
-    const [currency, setCurrency] = useState<string>();
+    const currency = getReportCurrency(localizationValue);
     const [reportsConfig, setReportsConfig] = useState<any>();
-
-    useEffect(() => {
-        if (localizationValue) {
-            setCurrency(getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ?? "");
-        }
-    }, [localizationValue]);
 
 
 
@@ -168,4 +163,3 @@ export const useIndentReports = () => {
         setRowsPerPage,
     };
 };
-

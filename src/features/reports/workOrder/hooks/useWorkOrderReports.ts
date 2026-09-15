@@ -5,13 +5,13 @@ import {
   formatNumberITL,
   formatSeedValues,
   formatToCamelCaseWithAmpersand,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useRouter } from "@/features/reportsPage/publicRuntime";
+import { getReportCurrency } from "@/features/reportsPage/utils";
 
 export const useWorkOrderReports = () => {
   const router = useRouter();
@@ -36,7 +36,7 @@ export const useWorkOrderReports = () => {
   const [totalWo, setTotalWo] = useState<any>();
   const [totalAcceptedWoCount, setTotalAcceptedWo] = useState<any>();
   const [totalConvertedWoValue, setTotalConvertedWoValue] = useState<any>();
-  const [currency, setCurrency] = useState<string>();
+  const currency = getReportCurrency(localizationValue);
 
   const { post: fetchReports } = useAxiosWithAuth(
     NEXT_PUBLIC_USERHUB_ENDPOINT + "/reports"
@@ -72,15 +72,6 @@ export const useWorkOrderReports = () => {
     endDate: undefined,
     vendorId: { id: "" },
   });
-
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
 
   const mapPurchaseOrderResults = useCallback(
     (result: any[]) => {
@@ -223,10 +214,8 @@ export const useWorkOrderReports = () => {
   };
 
   useEffect(() => {
-    if (currency) {
-      fetchWOData();
-      fetchWODashboardData();
-    }
+    fetchWOData();
+    fetchWODashboardData();
   }, [sortOrder, sortBy, currentPage, rowsPerPage, filters, currency, i18n.language]);
 
   const handleSort = (order: "ASC" | "DESC", column: string) => {
@@ -266,4 +255,3 @@ export const useWorkOrderReports = () => {
     setRowsPerPage,
   };
 };
-

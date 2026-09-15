@@ -4,7 +4,6 @@ import { useEnv } from "@/features/hooks/useEnv";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
 import {
   formatNumberITL,
-  getLocalizationValue,
   formatDateBasedOnOrganizationLocalization,
 } from "@/lib/helpers";
 import { Box } from "@mui/material";
@@ -15,6 +14,7 @@ import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const WorkersReportsHome = () => {
   const { t } = useTranslation();
@@ -131,15 +131,7 @@ const WorkersReportsHome = () => {
     NEXT_PUBLIC_USERHUB_ENDPOINT + "/reports"
   );
 
-  const currency = useMemo(() => {
-    if (localizationValue) {
-      return (
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ?? ""
-      );
-    } else {
-      return "";
-    }
-  }, [localizationValue]);
+  const currency = getReportCurrency(localizationValue);
 
   const createReportsAutomation = async () => {
     const requestData: any = {
@@ -459,4 +451,3 @@ const WorkersReportsHome = () => {
 };
 
 export default WorkersReportsHome;
-

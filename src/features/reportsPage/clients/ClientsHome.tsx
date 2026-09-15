@@ -6,7 +6,6 @@ import { useUsersData } from "@/features/hooks/useUsersData";
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { LeadsMasterTypes } from "@/types";
 import { Box } from "@mui/material";
@@ -18,6 +17,7 @@ import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import { OrganizationLocalizationProvider } from "@/features/components/providers/OrganizationLocalizationProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const ClientsHome = () => {
   const { t } = useTranslation();
@@ -86,17 +86,14 @@ const ClientsHome = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
   const { usersData } = useUsersData();
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = getReportCurrency(localizationValue);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [reportsConfig, setReportsConfig] = useState<any>();
   const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
   const { post: fetchReports } = useAxios(
     NEXT_PUBLIC_USERHUB_ENDPOINT + "/reports"
   );
-  useEffect(() => {
-    console.log("currencycurrencycurrency", localizationValue);
-  }, [localizationValue]);
   const createReportsAutomation = async () => {
     const requestData: any = {
       eventType: "FETCH_REPORTS_AUTOMATION",
@@ -123,17 +120,6 @@ const ClientsHome = () => {
 
   // Add this state with other states
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
-
-  useEffect(() => {
-    console.log("sdhnuvnsdvnosDvjos", localizationValue);
-
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
 
   const fetchData = async (startDate?: any, endDate?: any) => {
     setIsLoading(true);
@@ -311,4 +297,3 @@ const ClientsHome = () => {
 };
 
 export default ClientsHome;
-

@@ -2,7 +2,7 @@ import { useLeadData } from "@/features/components/providers/LeadProfileProvider
 import { useAxios, useAxiosWithAuth } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
-import { getLocalizationValue, formatNumberITL } from "@/lib/helpers";
+import { formatNumberITL } from "@/lib/helpers";
 import { Box } from "@mui/material";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const TimeTrackingHome = () => {
   const { t } = useTranslation();
@@ -64,8 +65,8 @@ const TimeTrackingHome = () => {
     endDate: undefined,
     userId: "",
   });
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = getReportCurrency(localizationValue);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [reportsConfig, setReportsConfig] = useState<any>();
@@ -99,15 +100,6 @@ const TimeTrackingHome = () => {
   useEffect(() => {
     createReportsAutomation();
   }, []);
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
-
   const getTimeSheets = async (startDate?: any, endDate?: any) => {
     setLoading(true);
     const requestData: any = {
@@ -310,4 +302,3 @@ const TimeTrackingHome = () => {
 };
 
 export default TimeTrackingHome;
-

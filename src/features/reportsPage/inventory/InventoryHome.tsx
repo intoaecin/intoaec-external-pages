@@ -2,7 +2,7 @@ import { UIBreadCrumbs } from "@/features/components/UIBreadCrumbs";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
 import ReportCard from "../ReportsDashboard";
 import ReportsTable from "../ReportsTable";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useAxios, useAxiosWithAuth } from "@/features/hooks/useAxios";
 import { Box, Grid, Tooltip, IconButton } from "@mui/material";
@@ -17,7 +17,6 @@ import UsedQuantity from "@/assets/icons/usedQuantity-icon";
 import SettingsIcon from "@mui/icons-material/Settings";
 import EmailDeliveryDialog from "../EmailDeliveryDialog";
 import {
-  getLocalizationValue,
   formatNumberITL,
   formatSeedValues,
 } from "@/lib/helpers";
@@ -25,6 +24,7 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import InventoryReportFilter from "./InventoryReportFilter";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
+import { getReportCurrency } from "../utils";
 
 const InventoryHome = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -59,15 +59,7 @@ const InventoryHome = () => {
     useOrganization();
   const { localizationValue } = useOrganizationLocalization();
 
-  const currency = useMemo(() => {
-    if (localizationValue) {
-      return (
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ?? ""
-      );
-    } else {
-      return "";
-    }
-  }, [localizationValue]);
+  const currency = getReportCurrency(localizationValue);
 
   const handleApplyFilters = (newFilters: any) => {
     setFilters(newFilters);
@@ -455,4 +447,3 @@ const InventoryHome = () => {
 };
 
 export default InventoryHome;
-

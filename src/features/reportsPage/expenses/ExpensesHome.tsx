@@ -4,10 +4,10 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { toLowerNoSpace } from "@/utils/string";
 import { Box } from "@mui/material";
+import { getReportCurrency } from "../utils";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
@@ -92,8 +92,8 @@ const ExpensesHome = () => {
     endDate: undefined,
     paymentMode: "",
   });
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = getReportCurrency(localizationValue);
   const [reportsConfig, setReportsConfig] = useState<any>();
   const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
   const { post: fetchReports } = useAxiosWithAuth(
@@ -122,14 +122,6 @@ const ExpensesHome = () => {
   useEffect(() => {
     createReportsAutomation();
   }, []);
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-        undefined
-      );
-    }
-  }, [localizationValue]);
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
 

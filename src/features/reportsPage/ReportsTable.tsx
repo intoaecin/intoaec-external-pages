@@ -263,7 +263,9 @@ const ReportsTable: React.FC<ReportsTableProps> = ({
                         {column.render
                           ? column.render(row)
                           : column.showCurrency
-                          ? `${currency} ${row[column.field]}`
+                          ? currency
+                            ? `${currency} ${row[column.field]}`
+                            : row[column.field]
                           : row[column.field]}
                       </TableCell>
                     ))}
@@ -286,4 +288,3 @@ const ReportsTable: React.FC<ReportsTableProps> = ({
 };
 
 export default ReportsTable;
-

@@ -4,7 +4,6 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { Box } from "@mui/material";
 import { useSession } from "@/features/reportsPage/publicRuntime";
@@ -15,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const PurchaseOrderHome = () => {
   const { t } = useTranslation();
@@ -61,8 +61,8 @@ const PurchaseOrderHome = () => {
   const [totalPo, setTotalPo] = useState<any>();
   const [totalAcceptedPoCount, setTotalAcceptedPo] = useState<any>();
   const [totalConvertedPoValue, setTotalConvertedPoValue] = useState<any>();
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = getReportCurrency(localizationValue);
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [reportsConfig, setReportsConfig] = useState<any>();
@@ -96,14 +96,6 @@ const PurchaseOrderHome = () => {
     createReportsAutomation();
   }, []);
 
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
   // Add filters state
   const [filters, setFilters] = useState({
     projectIds: [],
@@ -303,4 +295,3 @@ const PurchaseOrderHome = () => {
 };
 
 export default PurchaseOrderHome;
-

@@ -2,14 +2,13 @@ import { useAxios, useAxiosWithAuth } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import ReportsTable from "../ReportsTable";
 
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { toLowerNoSpace } from "@/utils/string";
 import { Box } from "@mui/material";
@@ -17,6 +16,7 @@ import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useTranslation } from "react-i18next";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const parseTimestampQuery = (value: unknown): number | undefined => {
   const normalizedValue = Array.isArray(value) ? value[0] : value;
@@ -82,17 +82,7 @@ const EstimateHome = () => {
   const [totalApprovedAmount, setTotalApprovedAmount] = useState<any>();
   const [averageTimeTaken, setAverageTimeTaken] = useState<any>();
   const { localizationValue } = useOrganizationLocalization();
-  const currency = useMemo(() => {
-    if (!localizationValue) {
-      return "";
-    }
-
-    return (
-      getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-      getLocalizationValue(localizationValue, "CURRENCY", "CODE") ??
-      ""
-    );
-  }, [localizationValue]);
+  const currency = getReportCurrency(localizationValue);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [reportsConfig, setReportsConfig] = useState<any>();
   const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();

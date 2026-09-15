@@ -5,7 +5,6 @@ import { useUsersData } from "@/features/hooks/useUsersData";
 import {
   formatNumberITL,
   formatSeedValues,
-  getLocalizationValue,
 } from "@/lib/helpers";
 import { LeadsMasterTypes } from "@/types";
 import { Box } from "@mui/material";
@@ -18,6 +17,7 @@ import ReportsTable from "../ReportsTable";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+import { getReportCurrency } from "../utils";
 
 const LeadsHome = () => {
   const { t } = useTranslation();
@@ -127,16 +127,8 @@ const LeadsHome = () => {
     createReportsAutomation();
   }, []);
 
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
+  const currency = getReportCurrency(localizationValue);
   const fetchData = async (startDate?: any, endDate?: any) => {
     setIsLoading(true);
     const requestData = {
@@ -302,4 +294,3 @@ const LeadsHome = () => {
 };
 
 export default LeadsHome;
-
