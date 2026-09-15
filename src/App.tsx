@@ -24,6 +24,10 @@ import RfqPreviewPage from "@/pages/rfq-preview/[rfqid]";
 import PoPreviewPage from "@/pages/po-preview/[poid]";
 import ChangeOrderPreviewPage from "@/pages/change-order-preview/[changeOrderId]";
 import ClientReportPage from "@/pages/client-report";
+import SubscriptionCheckoutPage from "@/pages/subscription/checkout-payment";
+import SubscriptionAddCardPage from "@/pages/subscription/addCard";
+import SubscriptionPaymentSuccessPage from "@/pages/subscription/payment-success";
+import SubscriptionPaymentFailedPage from "@/pages/subscription/payment-failed";
 import ArchitectAvailableSlotsPage from "@/pages/architectAvailableSlots";
 import ArchitectProjectSlotsPage from "@/pages/architectAvailableSlots/[projectId]";
 import ArchitectSlotsThankYouPage from "@/pages/architectAvailableSlots/thankYou";
@@ -118,6 +122,22 @@ export default function App() {
                   element={<ChangeOrderPreviewPage />}
                 />
                 <Route path="/client-report" element={<ClientReportPage />} />
+                <Route
+                  path="/subscription/checkout-payment"
+                  element={<SubscriptionCheckoutPage />}
+                />
+                <Route
+                  path="/subscription/addCard"
+                  element={<SubscriptionAddCardPage />}
+                />
+                <Route
+                  path="/subscription/payment-success"
+                  element={<SubscriptionPaymentSuccessPage />}
+                />
+                <Route
+                  path="/subscription/payment-failed"
+                  element={<SubscriptionPaymentFailedPage />}
+                />
                 <Route
                   path="/architectAvailableSlots"
                   element={<ArchitectAvailableSlotsPage />}

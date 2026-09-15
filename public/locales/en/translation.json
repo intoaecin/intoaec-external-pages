@@ -2580,7 +2580,9 @@
     "amountTooSmall": "The amount is too small to process. Please add more user licenses to proceed.",
     "3dsVerificationTitle": "3DS Verification",
     "andConjunction": "&",
-    "subscription": "Subscription"
+    "subscription": "Subscription",
+    "baseRate": "Base Rate",
+    "failedToSavePaymentMethod": "Failed to save payment method"
   },
   "invoiceCheckout": {
     "billedTo": "Billed To",

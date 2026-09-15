@@ -2220,7 +2220,9 @@
     "amountTooSmall": "El monto es demasiado pequeño para procesarse. Por favor agrega más licencias de usuario para continuar.",
     "3dsVerificationTitle": "Verificación 3DS",
     "andConjunction": "y",
-    "subscription": "Suscripción"
+    "subscription": "Suscripción",
+    "baseRate": "Tarifa base",
+    "failedToSavePaymentMethod": "No se pudo guardar el método de pago"
   },
   "invoiceCheckout": {
     "billedTo": "Facturado a",
