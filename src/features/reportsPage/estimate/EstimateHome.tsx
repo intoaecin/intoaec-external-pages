@@ -2,7 +2,7 @@ import { useAxios, useAxiosWithAuth } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useRouter as useNavigation } from "@/features/reportsPage/publicRuntime";
 import { useRouter } from "@/features/reportsPage/publicRuntime";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReportsTable from "../ReportsTable";
 
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
@@ -17,6 +17,16 @@ import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useTranslation } from "react-i18next";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
+
+const parseTimestampQuery = (value: unknown): number | undefined => {
+  const normalizedValue = Array.isArray(value) ? value[0] : value;
+  if (typeof normalizedValue !== "string" || !normalizedValue) {
+    return undefined;
+  }
+
+  const timestamp = Number(normalizedValue);
+  return Number.isFinite(timestamp) ? timestamp : undefined;
+};
 
 const EstimateHome = () => {
   const { t } = useTranslation();
@@ -59,11 +69,6 @@ const EstimateHome = () => {
   const { post: postFetch } = useAxiosWithAuth(
     NEXT_PUBLIC_PROPOSAL_ENDPOINT + "/lead-estimate"
   );
-  // Add filter state
-  const [filters, setFilters] = useState<any>({
-    startDate: undefined,
-    endDate: undefined,
-  });
   const { organizationId, organizationName, organizationType, logoUrl } =
     useOrganization();
   // Add new state variables for pagination and sorting
@@ -76,8 +81,18 @@ const EstimateHome = () => {
   const [acceptedCount, setAcceptedCount] = useState<any>();
   const [totalApprovedAmount, setTotalApprovedAmount] = useState<any>();
   const [averageTimeTaken, setAverageTimeTaken] = useState<any>();
-  const [currency, setCurrency] = useState<string>();
   const { localizationValue } = useOrganizationLocalization();
+  const currency = useMemo(() => {
+    if (!localizationValue) {
+      return "";
+    }
+
+    return (
+      getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
+      getLocalizationValue(localizationValue, "CURRENCY", "CODE") ??
+      ""
+    );
+  }, [localizationValue]);
   const [openEmailDialog, setOpenEmailDialog] = useState(false);
   const [reportsConfig, setReportsConfig] = useState<any>();
   const { NEXT_PUBLIC_USERHUB_ENDPOINT } = useEnv();
@@ -108,20 +123,11 @@ const EstimateHome = () => {
     createReportsAutomation();
   }, []);
 
-  useEffect(() => {
-    if (localizationValue) {
-      setCurrency(
-        getLocalizationValue(localizationValue, "CURRENCY", "SYMBOL") ??
-          undefined
-      );
-    }
-  }, [localizationValue]);
-
   // Add state for row selection
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
   // const [totalSent,setTotalSent] = useState<any>();
 
-  const fetchSentProposals = async (startDate?: any, endDate?: any) => {
+  const fetchSentProposals = async () => {
     setIsLoading(true);
     const requestData = {
       eventType: "FETCH_ESTIMATIONS_BY_PROJECT",
@@ -133,8 +139,8 @@ const EstimateHome = () => {
       page: currentPage,
       rowsPerPage: rowsPerPage,
       // Add filters to request
-      startDate: startDate ?? filters.startDate,
-      endDate: endDate ?? filters.endDate,
+      startDate: parseTimestampQuery(router.query?.startDate),
+      endDate: parseTimestampQuery(router.query?.endDate),
     };
     const res = await post(requestData);
     if (res.code === "BOQ_ESTIMATION_RETRIEVED_SUCCESSFULLY") {
@@ -154,13 +160,13 @@ const EstimateHome = () => {
             id: estimate.estimateId || String(index), // Add unique id
             projectName: estimate.projectName || "-",
             estimateTitle: estimate.estimateTitle || "-",
-            grandTotal: `${currency} ${formatNumberITL(
+            grandTotal: `${currency ? `${currency} ` : ""}${formatNumberITL(
               localizationValue,
-              Number(estimate?.grandTotal)
+              Number(estimate?.grandTotal),
             )}`,
-            totalProfit: `${currency} ${formatNumberITL(
+            totalProfit: `${currency ? `${currency} ` : ""}${formatNumberITL(
               localizationValue,
-              Number(estimate?.totalProfit)
+              Number(estimate?.totalProfit),
             )}`,
             status: t(
               `estimateStatus.${toLowerNoSpace(
@@ -213,20 +219,18 @@ const EstimateHome = () => {
   };
 
   useEffect(() => {
-    setFilters((prev: any) => ({
-      ...prev,
-      startDate: Number(router.query?.startDate),
-      endDate: Number(router.query?.endDate),
-    }));
-    fetchSentProposals(router.query?.startDate, router.query?.endDate);
-  }, [router.query?.startDate, router.query?.endDate]);
-
-  useEffect(() => {
-    console.log("veuafyibchuakdj", filters);
-    fetchSentProposals(router.query?.startDate, router.query?.endDate);
+    fetchSentProposals();
 
     // fetchEstimatesDashboard()
-  }, [sortOrder, sortBy, currentPage, rowsPerPage, filters, currency]); // Add filters to dependencies
+  }, [
+    sortOrder,
+    sortBy,
+    currentPage,
+    rowsPerPage,
+    router.query?.startDate,
+    router.query?.endDate,
+    currency,
+  ]);
 
   useEffect(() => {
     setSelectedRows([]);
@@ -302,4 +306,3 @@ const EstimateHome = () => {
 };
 
 export default EstimateHome;
-
