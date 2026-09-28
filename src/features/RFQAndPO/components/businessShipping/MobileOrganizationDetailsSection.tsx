@@ -1,3 +1,4 @@
+import { Building2 } from "lucide-react";
 import {
   Box,
   Skeleton,
@@ -38,6 +39,10 @@ const MobileOrganizationDetailsSection = ({
   resolvedTaxId,
   onToggleTax,
 }: MobileOrganizationDetailsSectionProps) => {
+  const organizationLogo =
+    organizationDetails?.organizationLogo ??
+    defaultOrganizationDetails?.organizationLogo;
+
   return (
     <Box
       sx={{
@@ -69,16 +74,16 @@ const MobileOrganizationDetailsSection = ({
         {loading ? (
           <Skeleton variant="circular" width={50} height={50} />
         ) : (
-          <img
-            src={
-              organizationDetails?.organizationLogo ??
-              defaultOrganizationDetails?.organizationLogo ??
-              "/images/boqbusinessinfo.png"
-            }
-            alt="Organization Logo"
-            width="50"
-            height="50"
-          />
+          organizationLogo ? (
+            <img
+              src={organizationLogo}
+              alt="Organization Logo"
+              width="50"
+              height="50"
+            />
+          ) : (
+            <Building2 size={32} color="#9CA3AF" aria-hidden />
+          )
         )}
       </Box>
 

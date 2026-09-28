@@ -1,6 +1,7 @@
 import React from "react";
 import { RfqCommentPopup } from "@/features/components/RFQ/RfqCommentPopup";
 import { v4 } from "uuid";
+import { getCommentParties } from "@/features/RFQAndPO/utils/commentParties";
 import type { CreateRFQPOPreviewProps } from "./clientRfqPreviewTypes";
 
 export function ClientRFQPOPreviewCommentHandler({
@@ -24,6 +25,7 @@ export function ClientRFQPOPreviewCommentHandler({
           structuredRfqComments,
         );
         addComments?.(currentId, commentText);
+        const { sender, receiver } = getCommentParties(data as any);
         // Step 1: Find the corresponding vendorRfqLineItemName based on currentId (vendorRfqLineItemId)
         const vendorRfqLineItem = data?.vendorRfqLineItems.find(
           (item) => item.vendorRfqLineItemId === currentId,
@@ -35,12 +37,10 @@ export function ClientRFQPOPreviewCommentHandler({
           const newComment = {
             vrlicId: v4(),
             vendorRfqLineItemId: currentId,
-            senderId: data?.rfq?.organizationId
-              ? data?.rfq?.organizationId
-              : "",
-            senderName: null,
-            senderType: "AEC",
-            receiverType: "VENDOR",
+            senderId: sender.id ?? "",
+            senderName: sender.name ?? null,
+            senderType: sender.type,
+            receiverType: receiver.type,
             comment: commentText,
             createdBy: "Shree Ve",
             createdAt: Date.now().toString(),
@@ -54,7 +54,10 @@ export function ClientRFQPOPreviewCommentHandler({
 
             // If the section for the vendorRfqLineItemName exists, update it
             if (updatedComments[vendorRfqLineItemName]) {
-              updatedComments[vendorRfqLineItemName].push(newComment);
+              updatedComments[vendorRfqLineItemName] = [
+                ...updatedComments[vendorRfqLineItemName],
+                newComment,
+              ];
             } else {
               // If not, create a new section
               updatedComments[vendorRfqLineItemName] = [newComment];

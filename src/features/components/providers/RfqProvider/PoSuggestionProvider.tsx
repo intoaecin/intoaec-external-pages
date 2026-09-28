@@ -9,6 +9,11 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import {
+  getCommentParties,
+  nonEmptyString,
+} from "@/features/RFQAndPO/utils/commentParties";
 
 interface PoCommentsType {
   poEntityId?: string; // Optional because it can be either LINE_ITEM or TERMS_AND_CONDITION
@@ -18,6 +23,7 @@ interface PoCommentsType {
   senderType: string;
   receiverId: string;
   receiverType: string;
+  receiverName?: string;
   comments: string;
 }
 
@@ -34,7 +40,7 @@ type StructuredPoCommentsType = {
 };
 interface PoSuggestionContextType {
   // saveComments: (comments: any) => Promise<any>;
-  saveComments?: () => void;
+  saveComments?: () => Promise<void>;
   addComments?: (vendorRfqLineItemId: string, comment: string) => void;
   setPoComments?: React.Dispatch<React.SetStateAction<PoCommentsType[]>>;
   setStructuredPoComments: React.Dispatch<
@@ -70,38 +76,49 @@ export const PoSuggestionProvider: React.FC<PoSuggestionProviderProps> = ({
   const [poComments, setPoComments] = useState<PoCommentsType[]>([]);
   const [structuredPoComments, setStructuredPoComments] =
     useState<StructuredPoCommentsType>();
-  const hostname = window.location.hostname;
+  const { t } = useTranslation();
 
   const saveComments = async () => {
-    //    save comment api
+    if (!poComments.length) {
+      toast.info(t("toast.noNewComments"));
+      return;
+    }
+    const { sender, receiver } = getCommentParties(vendorRfqData);
     const requestData: any = {
       eventType: "ADD_COMMENTS_TO_PURCHASE_ORDER",
       poId: vendorRfqData?.poId,
-      poTitle: vendorRfqData?.poTitle,
-      clientId:router?.query?.clientId,
-      projectId:router?.query?.projectId ?? vendorRfqData?.projectId,
-      poSerial:vendorRfqData?.poSerial,
+      poTitle: nonEmptyString(vendorRfqData?.poTitle),
+      clientId: nonEmptyString(router?.query?.clientId),
+      projectId: nonEmptyString(
+        router?.query?.projectId ?? vendorRfqData?.projectId
+      ),
+      poSerial: nonEmptyString(vendorRfqData?.poSerial),
       isWorkOrder: vendorRfqData?.isWorkOrder,
-      senderId: hostname.includes("app") ? vendorRfqData?.senderId : vendorRfqData?.receiverId,
-      // senderName:vendorRfqData?
-      senderType: hostname.includes("app") ? vendorRfqData?.senderType : vendorRfqData?.receiverType,
-      receiverId: hostname.includes("app") ? vendorRfqData?.receiverId : vendorRfqData?.senderId,
-      receiverType: hostname.includes("app") ? vendorRfqData?.receiverType : vendorRfqData?.senderType,
+      senderId: sender.id,
+      senderType: sender.type,
+      receiverId: receiver.id,
+      receiverType: receiver.type,
       comments: poComments,
-      ...(organizationId ? {
-        organizationId: organizationId,
-        currentUserName: vendorRfqData?.createdBy,
-        senderName: vendorRfqData?.createdBy,
-        receiverName: vendorRfqData?.receiverName,
-      } : {}),
+      ...(organizationId
+        ? {
+            organizationId: organizationId,
+            currentUserName: sender.name,
+            senderName: sender.name,
+            receiverName: receiver.name,
+          }
+        : {}),
     };
 
     const data: any = await fetch(requestData);
-    // if (data.code === "BOQ_ESTIMATION_COMMENTS_CREATED_SUCCESSFULLY") {
-    //   return data;
-    // } else {
-    //   throw new Error(data?.error);
-    // }
+    if (data?.code === "PURCHASE_ORDER_COMMENTS_ADDED") {
+      toast.success(t("toast.commentsSaved"));
+      // Clear the pending batch so the next save doesn't resend it, then
+      // replace the optimistic thread with what the server stored.
+      setPoComments([]);
+      await fetchRfqComments();
+    } else {
+      toast.error(t("toast.commentsSaveFailed"));
+    }
   };
 
   const fetchRfqComments = async () => {
@@ -128,20 +145,21 @@ export const PoSuggestionProvider: React.FC<PoSuggestionProviderProps> = ({
     }
   }, [vendorRfqId]);
   const addComments = (vendorRfqLineItemId: string, comment: string) => {
-
+    const { sender, receiver } = getCommentParties(vendorRfqData);
     setPoComments((prev) => [
       ...prev,
       {
         poEntityId: vendorRfqLineItemId,
-        poEntityType: vendorRfqLineItemId !== "termsAndCondition " ? "LINE_ITEM" : "TERMS_AND_CONDITION",
-        senderId: vendorRfqData?.senderId ? vendorRfqData?.senderId : "AEC",
-        senderName: vendorRfqData?.createdBy ?? "",
-        senderType: vendorRfqData?.senderType,
-        receiverId: vendorRfqData?.receiverId,
-        receiverType: vendorRfqData?.receiverType
-          ? vendorRfqData?.receiverType
-          : "VENDOR",
-        receiverName: vendorRfqData?.receiverName,
+        poEntityType:
+          vendorRfqLineItemId === "termsAndCondition"
+            ? "TERMS_AND_CONDITION"
+            : "LINE_ITEM",
+        senderId: sender.id ?? "",
+        senderName: sender.name,
+        senderType: sender.type,
+        receiverId: receiver.id ?? "",
+        receiverType: receiver.type,
+        receiverName: receiver.name,
         comments: comment,
       },
     ]);

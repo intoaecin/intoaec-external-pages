@@ -1,4 +1,5 @@
 import React from "react";
+import { Image as ImageIcon } from "lucide-react";
 import { Box, IconButton, Tooltip } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
 import type { Column } from "@/components/custom-table";
@@ -114,6 +115,7 @@ function PreviewItemNameCell({
   descriptionLimit?: number;
 }) {
   const image = getField(row, fields.image);
+  const [imageFailed, setImageFailed] = React.useState(false);
   const name = getField(row, fields.name) ?? "";
   const description = fields.description
     ? getField(row, fields.description)
@@ -125,13 +127,18 @@ function PreviewItemNameCell({
   return (
     <div className="d-flex gap-1">
       <div className="d-flex">
-        <img
-          src={image || "/images/no-image.png"}
-          width={20}
-          height={20}
-          className="rounded"
-          alt=""
-        />
+        {image && !imageFailed ? (
+          <img
+            src={image}
+            width={20}
+            height={20}
+            className="rounded"
+            alt=""
+            onError={() => setImageFailed(true)}
+          />
+        ) : (
+          <ImageIcon size={20} color="#9CA3AF" aria-hidden />
+        )}
       </div>
       <div>
         <span className="fw-600">

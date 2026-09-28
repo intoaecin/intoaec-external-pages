@@ -7766,6 +7766,9 @@
     "typecheckboxcontent": "Escriba el contenido de la casilla de verificación"
   },
   "toast": {
+    "commentsSaved": "Comentarios guardados correctamente",
+    "commentsSaveFailed": "No se pudieron guardar los comentarios. Inténtalo de nuevo.",
+    "noNewComments": "Agrega un comentario antes de guardar",
     "changeOrderAccepted": "Orden de cambio aceptada correctamente.",
     "changeOrderDeclined": "Orden de cambio rechazada correctamente.",
     "pleaseUploadYourSignature": "Por favor, suba su firma",

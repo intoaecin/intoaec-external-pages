@@ -7785,6 +7785,9 @@
     "typecheckboxcontent": "Type checkbox content"
   },
   "toast": {
+    "commentsSaved": "Comments saved successfully",
+    "commentsSaveFailed": "Failed to save comments. Please try again.",
+    "noNewComments": "Add a comment before saving",
     "changeOrderAccepted": "Change Order accepted successfully.",
     "changeOrderDeclined": "Change Order declined successfully.",
     "pleaseUploadYourSignature": "Please upload your signature",

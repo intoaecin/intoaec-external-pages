@@ -8,6 +8,11 @@ import React, {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import { useTranslation } from "react-i18next";
+import {
+  getCommentParties,
+  nonEmptyString,
+} from "@/features/RFQAndPO/utils/commentParties";
 import { useRouter } from "next/router";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useAxiosWithAuth } from "@/features/hooks/useAxios";
@@ -31,7 +36,7 @@ type StructuredRfqCommentsType = {
 };
 interface RfqSuggestionContextType {
   // saveComments: (comments: any) => Promise<any>;
-  saveComments?: () => void;
+  saveComments?: () => Promise<void>;
   addComments?: (vendorRfqLineItemId: string, comment: string) => void;
   setRfqComments?: React.Dispatch<React.SetStateAction<RfqCommentsType[]>>;
   setStructuredRfqComments: React.Dispatch<
@@ -70,39 +75,49 @@ export const RfqSuggestionProvider: React.FC<RfqSuggestionProviderProps> = ({
   const [updatedComments, setUpdatedComments] = useState<string[]>([]);
 
   const { organizationId } = useOrganization();
-  const hostname = window.location.hostname;
+  const { t } = useTranslation();
 
   const saveComments = async () => {
-    //    save comment api
+    if (!RfqComments.length) {
+      toast.info(t("toast.noNewComments"));
+      return;
+    }
+    const { sender, receiver } = getCommentParties(vendorRfqData);
+    // The backend schema is strict: omit null/empty optional strings rather
+    // than sending them, or the whole request is rejected with a 400.
     const requestData: any = {
       eventType: "ADD_COMMENT_TO_RFQ",
       organizationId: organizationId,
       organizationType: "AEC",
       vendorRfqId: vendorRfqId ?? vendorRfqData?.vendorRfqId,
-      clientId: router?.query?.clientId,
-      projectId: router?.query?.projectId ?? vendorRfqData?.projectId,
-      senderId: hostname.includes("app") ? vendorRfqData?.senderId : vendorRfqData?.receiverId,
-      // senderName:vendorRfqData?
-      rfqName: vendorRfqData?.rfq?.rfqName,
-      senderType: hostname.includes("app") ? vendorRfqData?.senderType : vendorRfqData?.receiverType,
-      receiverId: hostname.includes("app") ? vendorRfqData?.receiverId : vendorRfqData?.senderId,
-      receiverType: hostname.includes("app") ? vendorRfqData?.receiverType : vendorRfqData?.senderType,
+      clientId: nonEmptyString(router?.query?.clientId),
+      projectId: nonEmptyString(
+        router?.query?.projectId ?? vendorRfqData?.projectId
+      ),
+      senderId: sender.id,
+      rfqName: nonEmptyString(vendorRfqData?.rfq?.rfqName),
+      senderType: sender.type,
+      receiverId: receiver.id,
+      receiverType: receiver.type,
       vendorRfqLineItemComments: RfqComments,
       ...(!withAuth
         ? {
-            organizationId: organizationId,
-            currentUserName: vendorRfqData?.createdBy,
-            senderName: vendorRfqData?.createdBy,
-            receiverName: vendorRfqData?.receiverName,
+            currentUserName: sender.name,
+            senderName: sender.name,
+            receiverName: receiver.name,
           }
         : {}),
     };
     const data: any = await fetch(requestData);
-    // if (data.code === "BOQ_ESTIMATION_COMMENTS_CREATED_SUCCESSFULLY") {
-    //   return data;
-    // } else {
-    //   throw new Error(data?.error);
-    // }
+    if (data?.code === "COMMENTS_ADDED_TO_RFQ") {
+      toast.success(t("toast.commentsSaved"));
+      // Clear the pending batch so the next save doesn't resend it, then
+      // replace the optimistic thread with what the server stored.
+      setRfqComments([]);
+      await fetchRfqComments();
+    } else {
+      toast.error(t("toast.commentsSaveFailed"));
+    }
   };
 
   const fetchRfqComments = async () => {

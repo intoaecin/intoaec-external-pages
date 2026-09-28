@@ -1,6 +1,7 @@
 import React from "react";
 import { RfqCommentPopup } from "@/features/components/RFQ/RfqCommentPopup";
 import { v4 } from "uuid";
+import { getCommentParties } from "@/features/RFQAndPO/utils/commentParties";
 
 export type POPreviewCommentHandlerProps = {
   commentPopupRef: React.MutableRefObject<any>;
@@ -27,6 +28,7 @@ export function POPreviewCommentHandler({
             currentId
           );
           addComments?.(currentId, commentText);
+          const { sender, receiver } = getCommentParties(data);
           // Step 1: Find the corresponding rfqLineItemName based on currentId (rliId)
           const rfqLineItem = await data?.poLineItems?.find(
             (item: any) => item.poliId === currentId
@@ -39,10 +41,10 @@ export function POPreviewCommentHandler({
               pocId: v4(),
               poEntityId: currentId,
               poEntityType: "LINE_ITEM",
-              senderId: data?.organizationId ? data?.organizationId : "",
-              senderName: null,
-              senderType: "AEC",
-              receiverType: "VENDOR",
+              senderId: sender.id ?? "",
+              senderName: sender.name ?? null,
+              senderType: sender.type,
+              receiverType: receiver.type,
               comments: commentText,
               createdBy: "Shree Ve",
               createdAt: Date.now().toString(),
@@ -56,7 +58,10 @@ export function POPreviewCommentHandler({
 
               // If the section for the rfqLineItemName exists, update it
               if (updatedComments[poItemName]) {
-                updatedComments[poItemName].push(newComment);
+                updatedComments[poItemName] = [
+                  ...updatedComments[poItemName],
+                  newComment,
+                ];
               } else {
                 // If not, create a new section
                 updatedComments[poItemName] = [newComment];
@@ -69,10 +74,10 @@ export function POPreviewCommentHandler({
               pocId: v4(),
               poEntityId: currentId,
               poEntityType: "TERMS_AND_CONDITION",
-              senderId: data?.organizationId ? data?.organizationId : "",
-              senderName: null,
-              senderType: "AEC",
-              receiverType: "VENDOR",
+              senderId: sender.id ?? "",
+              senderName: sender.name ?? null,
+              senderType: sender.type,
+              receiverType: receiver.type,
               comments: commentText,
               createdBy: "Shree Ve",
               createdAt: Date.now().toString(),
@@ -86,7 +91,10 @@ export function POPreviewCommentHandler({
 
               // If the section for the rfqLineItemName exists, update it
               if (updatedComments["termsAndCondition"]) {
-                updatedComments["termsAndCondition"].push(newComment);
+                updatedComments["termsAndCondition"] = [
+                  ...updatedComments["termsAndCondition"],
+                  newComment,
+                ];
               } else {
                 // If not, create a new section
                 updatedComments["termsAndCondition"] = [newComment];

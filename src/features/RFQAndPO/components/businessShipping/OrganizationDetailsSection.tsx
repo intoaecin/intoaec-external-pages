@@ -1,3 +1,4 @@
+import { Building2 } from "lucide-react";
 import {
   Box,
   Skeleton,
@@ -42,6 +43,10 @@ const OrganizationDetailsSection = ({
   onToggleTax,
 }: OrganizationDetailsSectionProps) => {
   const { t } = useTranslation();
+
+  const organizationLogo =
+    organizationDetails?.organizationLogo ??
+    defaultOrganizationDetails?.organizationLogo;
 
   return (
     <Box
@@ -112,24 +117,24 @@ const OrganizationDetailsSection = ({
           {loading ? (
             <Skeleton variant="rectangular" width={64} height={64} />
           ) : (
-            <img
-              src={
-                organizationDetails?.organizationLogo ??
-                defaultOrganizationDetails?.organizationLogo ??
-                "/images/boqbusinessinfo.png"
-              }
-              alt="logo"
-              width={64}
-              height={64}
-              style={{
-                width: "100%",
-                height: "100%",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                objectFit: "contain",
-                display: "block",
-              }}
-            />
+            organizationLogo ? (
+              <img
+                src={organizationLogo}
+                alt="logo"
+                width={64}
+                height={64}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "contain",
+                  display: "block",
+                }}
+              />
+            ) : (
+              <Building2 size={40} color="#9CA3AF" aria-hidden />
+            )
           )}
         </Box>
         <Box
