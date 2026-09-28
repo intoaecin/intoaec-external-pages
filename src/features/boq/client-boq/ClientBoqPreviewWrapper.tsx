@@ -4,6 +4,7 @@ import BoqAcceptAndSignInHeader, {
 import BoqCommentHeader from "@/features/components/boq/BoqPreviewHeader/BoqCommentModeHeader";
 import PageLoader from "@/features/components/Loader/PageLoader";
 import { useEstimationData } from "@/features/components/providers/BoqProvider/BoqClientEstimateDataProvider";
+import { DialogProvider } from "@/features/components/providers/DialogProvider";
 import { OrganizationLocalizationProvider } from "@/features/components/providers/OrganizationLocalizationProvider";
 import { Box } from "@mui/material";
 import { useEffect, useState } from "react";
@@ -83,101 +84,105 @@ const ClientBoqPreviewWrapper = ({
   }, [clientEstimationData?.estimateId]);
 
   return (
-    <OrganizationLocalizationProvider
-      organizationId={clientEstimationData?.organizationId}
-      organizationType={clientEstimationData?.organizationType}
-    >
-      <Box
-        sx={{
-          background: "#F5F6F8",
-          minHeight: "100vh",
-        }}
+    // Decline/accept confirmations use useDialog(); without a provider the
+    // default context's popup() is a no-op and the dialog never opens.
+    <DialogProvider>
+      <OrganizationLocalizationProvider
+        organizationId={clientEstimationData?.organizationId}
+        organizationType={clientEstimationData?.organizationType}
       >
-        {loading ? (
-          <>
-            <PageLoader />
-          </>
-        ) : (
-          <>
-            {commentMode ? (
-              <BoqCommentHeader
-                estimateTitle={clientEstimationData?.estimateTitle ?? ""}
+        <Box
+          sx={{
+            background: "#F5F6F8",
+            minHeight: "100vh",
+          }}
+        >
+          {loading ? (
+            <>
+              <PageLoader />
+            </>
+          ) : (
+            <>
+              {commentMode ? (
+                <BoqCommentHeader
+                  estimateTitle={clientEstimationData?.estimateTitle ?? ""}
+                  setCommentMode={setCommentMode}
+                />
+              ) : (
+                <BoqAcceptAndSignInHeader
+                  setCommentMode={setCommentMode}
+                  onSignatureChange={setSignedClientSignature}
+                  onCameraVerificationChange={setSignedCameraVerificationUrl}
+                  trackAnalytics={
+                    !clientEstimationData?.acceptedAt &&
+                    !clientEstimationData?.declinedAt
+                      ? true
+                      : false
+                  }
+                />
+              )}
+
+              <BoqPreview
+                commentMode={commentMode}
+                allowComments={clientEstimationData?.allowComments}
+                data={data || []}
                 setCommentMode={setCommentMode}
-              />
-            ) : (
-              <BoqAcceptAndSignInHeader
-                setCommentMode={setCommentMode}
-                onSignatureChange={setSignedClientSignature}
-                onCameraVerificationChange={setSignedCameraVerificationUrl}
+                type="CLIENT"
+                clientEstimateId={clientEstimationData?.estimateId}
+                columns={clientEstimationData?.columns}
+                validTill={clientEstimationData?.estimateValidTill || 0}
+                projectId={clientEstimationData?.projectId || ""}
+                clientEstimateData={previewClientEstimateData}
+                withAuth={false}
+                organizationId={clientEstimationData?.organizationId || ""}
+                grandTotal={clientEstimationData?.grandTotal || 0}
                 trackAnalytics={
                   !clientEstimationData?.acceptedAt &&
                   !clientEstimationData?.declinedAt
                     ? true
                     : false
                 }
+                entityType={entityType}
               />
-            )}
-
-            <BoqPreview
-              commentMode={commentMode}
-              allowComments={clientEstimationData?.allowComments}
-              data={data || []}
-              setCommentMode={setCommentMode}
-              type="CLIENT"
-              clientEstimateId={clientEstimationData?.estimateId}
-              columns={clientEstimationData?.columns}
-              validTill={clientEstimationData?.estimateValidTill || 0}
-              projectId={clientEstimationData?.projectId || ""}
-              clientEstimateData={previewClientEstimateData}
-              withAuth={false}
-              organizationId={clientEstimationData?.organizationId || ""}
-              grandTotal={clientEstimationData?.grandTotal || 0}
-              trackAnalytics={
-                !clientEstimationData?.acceptedAt &&
-                !clientEstimationData?.declinedAt
-                  ? true
-                  : false
-              }
-              entityType={entityType}
-            />
-            {/* Off-screen print layout (same as intoaec-UI's
-                /createEstimatePreview) that usePdfDownload clones for the PDF. */}
-            <Box
-              aria-hidden
-              sx={{
-                position: "fixed",
-                top: 0,
-                left: "-10000px",
-                width: "210mm",
-                pointerEvents: "none",
-              }}
-            >
+              {/* Off-screen print layout (same as intoaec-UI's
+                  /createEstimatePreview) that usePdfDownload clones for the PDF. */}
               <Box
-                id={ESTIMATE_PDF_ELEMENT_ID}
-                sx={{ padding: 2, bgcolor: "white" }}
+                aria-hidden
+                sx={{
+                  position: "fixed",
+                  top: 0,
+                  left: "-10000px",
+                  width: "210mm",
+                  pointerEvents: "none",
+                }}
               >
-                <BoqPreview
-                  commentMode={false}
-                  allowComments={clientEstimationData?.allowComments}
-                  data={data || []}
-                  type="ADMIN"
-                  columns={clientEstimationData?.columns}
-                  validTill={clientEstimationData?.estimateValidTill || 0}
-                  projectId={clientEstimationData?.projectId || ""}
-                  clientEstimateData={previewClientEstimateData}
-                  withAuth={false}
-                  organizationId={clientEstimationData?.organizationId || ""}
-                  grandTotal={clientEstimationData?.grandTotal || 0}
-                  trackAnalytics={false}
-                  pdf
-                  entityType={entityType}
-                />
+                <Box
+                  id={ESTIMATE_PDF_ELEMENT_ID}
+                  sx={{ padding: 2, bgcolor: "white" }}
+                >
+                  <BoqPreview
+                    commentMode={false}
+                    allowComments={clientEstimationData?.allowComments}
+                    data={data || []}
+                    type="ADMIN"
+                    columns={clientEstimationData?.columns}
+                    validTill={clientEstimationData?.estimateValidTill || 0}
+                    projectId={clientEstimationData?.projectId || ""}
+                    clientEstimateData={previewClientEstimateData}
+                    withAuth={false}
+                    organizationId={clientEstimationData?.organizationId || ""}
+                    grandTotal={clientEstimationData?.grandTotal || 0}
+                    trackAnalytics={false}
+                    pdf
+                    entityType={entityType}
+                  />
+                </Box>
               </Box>
-            </Box>
-          </>
-        )}
-      </Box>
-    </OrganizationLocalizationProvider>
+            </>
+          )}
+        </Box>
+      </OrganizationLocalizationProvider>
+    </DialogProvider>
   );
 };
 

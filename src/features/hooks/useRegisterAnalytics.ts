@@ -23,9 +23,14 @@ export const useRegisterAnalytics = () => {
   return (
     payload: { eventType: AnalyticsEventType } & Record<string, unknown>
   ) =>
-    axios.post(
-      `${VITE_PROPOSAL_ENDPOINT}/${ANALYTICS_ROUTES[payload.eventType]}`,
-      payload,
-      { headers: VITE_APIKEY ? { apiKey: VITE_APIKEY } : undefined }
-    );
+    axios
+      .post(
+        `${VITE_PROPOSAL_ENDPOINT}/${ANALYTICS_ROUTES[payload.eventType]}`,
+        payload,
+        { headers: VITE_APIKEY ? { apiKey: VITE_APIKEY } : undefined }
+      )
+      // Fire-and-forget: analytics must never surface as an uncaught error.
+      .catch((error) => {
+        console.warn(`Failed to register ${payload.eventType}:`, error);
+      });
 };
