@@ -16,7 +16,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import { OrganizationLocalizationProvider } from "@/features/components/providers/OrganizationLocalizationProvider";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { getReportCurrency } from "../utils";
 
 const ClientsHome = () => {
@@ -233,16 +232,6 @@ const ClientsHome = () => {
         position: "relative",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 10,
-        }}
-      >
-        <LanguageSwitcher />
-      </div>
       <Box
         sx={{
           flexGrow: 1,

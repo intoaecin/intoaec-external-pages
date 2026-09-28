@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 
 const QuestionnaireHome = () => {
   const { t } = useTranslation();
@@ -223,9 +222,6 @@ const QuestionnaireHome = () => {
         position: "relative",
       }}
     >
-       <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}>
-        <LanguageSwitcher />
-      </div>
       <Box
         sx={{
           flexGrow: 1,

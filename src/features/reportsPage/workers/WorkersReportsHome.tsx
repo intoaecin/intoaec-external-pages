@@ -13,7 +13,6 @@ import { useRouter } from "@/features/reportsPage/publicRuntime";
 import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { getReportCurrency } from "../utils";
 
 const WorkersReportsHome = () => {
@@ -387,16 +386,6 @@ const WorkersReportsHome = () => {
         position: "relative",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 10,
-        }}
-      >
-        <LanguageSwitcher />
-      </div>
       <Box
         sx={{
           flexGrow: 1,

@@ -25,7 +25,6 @@ type Schedule = {
 };
 import ReportsTable from "../ReportsTable";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import AssigneeAvatarGroup from "@/components_v2/AssigneeAvatarGroup";
 import { useUsersData } from "@/features/hooks/useUsersData";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
@@ -428,9 +427,6 @@ const ScheduleHome = () => {
         position: "relative",
       }}
     >
-      <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}>
-        <LanguageSwitcher />
-      </div>
       <Box
         sx={{
           flexGrow: 1,

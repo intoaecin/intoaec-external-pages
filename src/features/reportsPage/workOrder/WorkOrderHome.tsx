@@ -4,7 +4,6 @@ import { useRouter } from "@/features/reportsPage/publicRuntime";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import ReportsTable from "../ReportsTable";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { useWorkOrderReports } from "@/features/reports/workOrder/hooks/useWorkOrderReports";
 
 const WorkOrderHome = () => {
@@ -83,9 +82,6 @@ const WorkOrderHome = () => {
                 position: "relative",
             }}
         >
-            <div style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}>
-                <LanguageSwitcher />
-            </div>
 
             <Box
                 sx={{

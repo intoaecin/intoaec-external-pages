@@ -15,7 +15,6 @@ import { Box } from "@mui/material";
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useTranslation } from "react-i18next";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { getReportCurrency } from "../utils";
 
 const parseTimestampQuery = (value: unknown): number | undefined => {
@@ -237,11 +236,6 @@ const EstimateHome = () => {
         position: "relative",
       }}
     >
-      <div
-        style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}
-      >
-        <LanguageSwitcher />
-      </div>
       <Box
         sx={{
           flexGrow: 1,

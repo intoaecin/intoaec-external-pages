@@ -11,7 +11,6 @@ import ReportsTable from "../ReportsTable";
 
 import { useSession } from "@/features/reportsPage/publicRuntime";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
-import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 
 const ProposalHome = () => {
   const { t } = useTranslation();
@@ -221,11 +220,6 @@ const ProposalHome = () => {
         position: "relative",
       }}
     >
-      <div
-        style={{ position: "absolute", top: "10px", right: "10px", zIndex: 10 }}
-      >
-        <LanguageSwitcher />
-      </div>
 
       <Box
         sx={{
