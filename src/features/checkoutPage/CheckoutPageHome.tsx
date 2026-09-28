@@ -213,7 +213,7 @@ const CheckoutPageHome = ({
           minHeight: "100vh",
           bgcolor: "grey.50",
           pt: 1,
-          pb: isExternal ? 0 : 4,
+          pb: 4,
           px: isExternal ? 0 : 2,
         }}
       >
