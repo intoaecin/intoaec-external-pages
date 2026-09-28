@@ -5332,8 +5332,15 @@
       "Qty": "Qty",
       "Unit": "Unit",
       "Rate/Unit (Incl. Tax)": "Rate/Unit (Incl. Tax)",
+      "Rate/Unit": "Rate/Unit",
+      "Rate Excluding Tax": "Rate Excluding Tax",
+      "Tax": "Tax",
       "Profit (%)": "Profit (%)",
       "Rate Incl. Profit": "Rate Incl. Profit",
+      "Rate Inclusive Tax": "Rate Inclusive Tax",
+      "Start Date": "Start Date",
+      "Duration": "Duration",
+      "End Date": "End Date",
       "Total Cost": "Total Cost"
     },
     "item": {

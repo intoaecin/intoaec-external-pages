@@ -434,7 +434,7 @@ export function ChangeOrderPreviewContent({
                     ["changeOrder.type", "Type"],
                     ["boq.columns.Qty", "Qty"],
                     ["changeOrder.unit", "Unit"],
-                    ["boq.columns.Rate", "Rate"],
+                    ["common.rate", "Rate"],
                     ["boq.columns.Total Cost", "Total Cost"],
                   ] as const
                 ).map(([key, fallback]) => (

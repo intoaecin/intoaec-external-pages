@@ -4937,8 +4937,15 @@
       "Qty": "Cantidad",
       "Unit": "Unidad",
       "Rate/Unit (Incl. Tax)": "Tarifa/Unidad (Incl. Impuestos)",
+      "Rate/Unit": "Tarifa/Unidad",
+      "Rate Excluding Tax": "Tarifa sin impuestos",
+      "Tax": "Impuesto",
       "Profit (%)": "Ganancias (%)",
       "Rate Incl. Profit": "Tarifa Incl. Ganancias",
+      "Rate Inclusive Tax": "Tarifa con impuestos incluidos",
+      "Start Date": "Fecha de Inicio",
+      "Duration": "Duración",
+      "End Date": "Fecha de Fin",
       "Total Cost": "Costo Total"
     },
     "item": {
