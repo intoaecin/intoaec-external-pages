@@ -188,6 +188,7 @@ const ClientReportTaskProgress = ({
           </Box>
         ) : visibleTasks.length > 0 ? (
           <Box
+            className="report-task-grid"
             sx={{
               position: "relative",
               display: "grid",
@@ -231,6 +232,7 @@ const ClientReportTaskProgress = ({
                     spacing={{ xs: 1.25, md: 2 }}
                   >
                     <Stack
+                      className="report-task-title"
                       direction="row"
                       alignItems="center"
                       spacing={1}

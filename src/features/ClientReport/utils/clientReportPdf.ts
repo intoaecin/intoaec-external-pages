@@ -73,11 +73,24 @@ export const CLIENT_REPORT_PDF_PRINT_STYLES = `
       display: block !important;
     }
 
+    /* Keep the two-column grid, but let rows grow to the stacked PDF item height
+       instead of the fixed pixel rows captured from the on-screen layout. */
     .client-report-pdf .report-task-grid {
       height: auto !important;
       min-height: 132px !important;
       overflow: visible !important;
-      display: block !important;
+      grid-template-rows: none !important;
+      grid-auto-rows: auto !important;
+    }
+
+    /* Task title spans the full item width once the row stacks vertically; the
+       captured width is the narrow on-screen space beside the progress block. */
+    .client-report-pdf .report-task-title,
+    .client-report-pdf .report-task-title > div,
+    .client-report-pdf .report-task-title .report-list-title {
+      width: 100% !important;
+      max-width: 100% !important;
+      flex: 1 1 auto !important;
     }
 
     .client-report-pdf .report-task-item {
