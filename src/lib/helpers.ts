@@ -978,27 +978,22 @@ export const normalizeWhatsappContent = (
   return typeof normalized === "string" ? normalized.trim() : "";
 };
 
-export const fetchContentFromS3 = async (url: string) => {
-  const { data }: any = await axios.post("/api/aws", {
-    url,
-  });
-
-  return data?.data;
+// Fetch S3 objects directly: this app has no `/api/aws` S3 proxy (that's a
+// Next.js route in intoaec-UI), and the asset buckets allow cross-origin GETs.
+const fetchFromS3 = async (url: string) => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`S3 fetch failed (${response.status}): ${url}`);
+  }
+  return response;
 };
+
+export const fetchContentFromS3 = async (url: string) =>
+  (await fetchFromS3(url)).text();
 
 export const downloadFileFromS3 = async (url: string, fileName: string) => {
   try {
-    const awsResp = await axios.post("/api/aws", { url, blob: true });
-    const base64 = awsResp?.data?.data;
-    if (!base64) throw new Error("No data returned from S3 proxy");
-
-    const binary = atob(base64);
-    const bytes = new Uint8Array(binary.length);
-    for (let i = 0; i < binary.length; i++) {
-      bytes[i] = binary.charCodeAt(i);
-    }
-
-    const blob = new Blob([bytes], { type: "application/octet-stream" });
+    const blob = await (await fetchFromS3(url)).blob();
     const downloadUrl = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = downloadUrl;
@@ -1008,7 +1003,7 @@ export const downloadFileFromS3 = async (url: string, fileName: string) => {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(downloadUrl);
   } catch (error) {
-    console.error("Error downloading file via S3 proxy:", error);
+    console.error("Error downloading file from S3:", error);
     const link = document.createElement("a");
     link.href = url;
     link.download = fileName;
