@@ -1,6 +1,6 @@
 import { BoqCommentPopup } from "@/features/components/boq/BoqCommentPopup";
 import BusinessAndClientInfo from "@/features/components/boq/BuisinessAndClientInfo";
-import NextImage from "@/features/components/NextImage";
+import { CircleUserRound } from "lucide-react";
 import { useEstimateCommentsData } from "@/features/components/providers/BoqProvider/BoqSuggestionProvider";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
 import ProposalLeadCommentsIcon from "@/assets/icons/proposalLeadComments-icon";
@@ -380,12 +380,7 @@ const LeadCommentThreadComponent = ({
       {comment?.reply && (
         <Box className="py-2 px-1 mt-1" sx={{ background: "#f9f9f9" }}>
           <Box className="d-flex align-items-center mb-1">
-            <NextImage
-              src={"/images/userImage.png"}
-              width={"20px"}
-              height="20px"
-              alt={""}
-            />
+            <CircleUserRound size={20} color="#909090" />
             <span className="ml-1 fw-500">{t("reasons.architect")}</span>
           </Box>
           <Typography className="ml-2 pl-1" style={{ fontSize: "0.75rem" }}>
@@ -536,12 +531,7 @@ const ArchitectCommentThreadComponent = ({
           <Box>
             <Box className="py-2 px-1 mt-1" sx={{ background: "#f9f9f9" }}>
               <Box className="d-flex align-items-center mb-1">
-                <NextImage
-                  src={"/images/userImage.png"}
-                  width={"20px"}
-                  height="20px"
-                  alt={""}
-                />
+                <CircleUserRound size={20} color="#909090" />
                 <span className="ml-1 fw-500">{t("reasons.you")}</span>
               </Box>
               <Typography className="ml-2 pl-1" style={{ fontSize: "0.75rem" }}>

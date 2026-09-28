@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Options } from "./types";
 
 function getContentFromDataUrl(dataURL: string) {
@@ -65,8 +64,7 @@ function getCacheKey(
 export async function resourceToDataURL(
   resourceUrl: string,
   contentType: string | undefined,
-  options: Options,
-  aws?: boolean
+  options: Options
 ) {
   const cacheKey = getCacheKey(
     resourceUrl,
@@ -86,30 +84,20 @@ export async function resourceToDataURL(
 
   let dataURL: string;
   try {
-    if (aws) {
-      try {
-        const { data } = await axios.post("/api/aws", {
-          url: resourceUrl,
-          blob: true,
-        });
-        dataURL = makeDataUrl(data?.data, contentType!);
-      } catch (error) {
-        dataURL = "alt";
-      }
-    } else {
-      const content = await fetchAsDataURL(
-        resourceUrl,
-        options.fetchRequestInit,
-        ({ res, result }) => {
-          if (!contentType) {
-            // eslint-disable-next-line no-param-reassign
-            contentType = res.headers.get("Content-Type") || "";
-          }
-          return getContentFromDataUrl(result);
+    // Fetch directly: this app has no `/api/aws` S3 proxy (that's a Next.js
+    // route in intoaec-UI), and the asset buckets allow cross-origin GETs.
+    const content = await fetchAsDataURL(
+      resourceUrl,
+      options.fetchRequestInit,
+      ({ res, result }) => {
+        if (!contentType) {
+          // eslint-disable-next-line no-param-reassign
+          contentType = res.headers.get("Content-Type") || "";
         }
-      );
-      dataURL = makeDataUrl(content, contentType!);
-    }
+        return getContentFromDataUrl(result);
+      }
+    );
+    dataURL = makeDataUrl(content, contentType!);
   } catch (error: any) {
     dataURL = options.imagePlaceholder || "";
 

@@ -87,6 +87,7 @@
     "subscription": "اشتراك"
   },
   "common": {
+    "addSuggestions": "إضافة اقتراحات",
     "organization": "المؤسسة",
     "vendor": {
       "one": "المورد",

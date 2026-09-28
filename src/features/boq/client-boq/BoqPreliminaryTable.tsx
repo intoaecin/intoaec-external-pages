@@ -1253,7 +1253,7 @@ const Section: React.FC<{
               <ProposalLeadCommentsIcon
                 style={{ width: "20px", height: "20px" }}
               />
-              <span className="fw-500 ml-1">{"Add Suggestions"}</span>
+              <span className="fw-500 ml-1">{t("common.addSuggestions")}</span>
             </Button>
           </Typography>
         </Box>
@@ -1501,7 +1501,7 @@ const SectionTable = ({
               <ProposalLeadCommentsIcon
                 style={{ width: "20px", height: "20px" }}
               />
-              <span className="fw-500 ml-1">{"Add Suggestions"}</span>
+              <span className="fw-500 ml-1">{t("common.addSuggestions")}</span>
             </Button>
           </Typography>
         </Box>

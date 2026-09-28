@@ -23,7 +23,7 @@ import axios from "axios";
 import { useEnv } from "@/features/hooks/useEnv";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { InView, useInView } from "react-intersection-observer";
-import NextImage from "../NextImage";
+import { CircleUserRound } from "lucide-react";
 import RenderCheckbox from "../controller/Proposal/ControllerRenderers/RenderCheckbox";
 import RenderDivider from "../controller/Proposal/ControllerRenderers/RenderDivider";
 import RenderImage from "../controller/Proposal/ControllerRenderers/RenderImage";
@@ -122,12 +122,7 @@ const LeadCommentThreadComponent = ({
       {comment?.reasonThread?.reason && (
         <Box className="py-2 px-1 mt-1" sx={{ background: "#f9f9f9" }}>
           <Box className="d-flex align-items-center mb-1">
-            <NextImage
-              src={"/images/userImage.png"}
-              width={"20px"}
-              height="20px"
-              alt={""}
-            />
+            <CircleUserRound size={20} color="#909090" />
             <span className="ml-1 fw-500">{t("reasons.architect")}</span>
           </Box>
           <Typography className="ml-2 pl-1" style={{ fontSize: "0.75rem" }}>
@@ -299,12 +294,7 @@ const ArchitectCommentThreadComponent = ({
           <Box>
             <Box className="py-2 px-1 mt-1" sx={{ background: "#f9f9f9" }}>
               <Box className="d-flex align-items-center mb-1">
-                <NextImage
-                  src={"/images/userImage.png"}
-                  width={"20px"}
-                  height="20px"
-                  alt={""}
-                />
+                <CircleUserRound size={20} color="#909090" />
                 <span className="ml-1 fw-500">{t("reasons.you")}</span>
               </Box>
               <Typography className="ml-2 pl-1" style={{ fontSize: "0.75rem" }}>
@@ -746,7 +736,7 @@ const PageComponent = ({
                               style={{ width: "20px", height: "20px" }}
                             />
                             <span className="fw-500 ml-1">
-                              {"Add Suggestions"}
+                              {t("common.addSuggestions")}
                             </span>
                           </Button>
                           {/* <ProposalLeadClicks className="mr-2" style={{width:'30px',height:'30px'}}/>

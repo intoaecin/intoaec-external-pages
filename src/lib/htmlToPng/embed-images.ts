@@ -54,7 +54,7 @@ async function embedImageNode<T extends HTMLElement | SVGImageElement>(
 
   let dataURL: any;
   try {
-    dataURL = await resourceToDataURL(url, getMimeType(url), options, true);
+    dataURL = await resourceToDataURL(url, getMimeType(url), options);
   } catch (error) {
     console.log(error);
     dataURL = "";
