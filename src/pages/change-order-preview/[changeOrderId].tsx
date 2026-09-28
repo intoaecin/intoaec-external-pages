@@ -19,12 +19,11 @@ import { useEnv } from "@/features/hooks/useEnv";
 import {
   decryptAES,
   encryptAES,
-  fetchAndInlineResources,
   getLocalizationValue,
   hexToRgb,
 } from "@/lib/helpers";
 import { Box, createTheme, ThemeProvider } from "@mui/material";
-import axios from "axios";
+import { usePdfDownload } from "@/features/hooks/usePdfDownload";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -53,14 +52,12 @@ const OrganizationDetailsWrapper = ({
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
 
+const CHANGE_ORDER_PDF_ELEMENT_ID = "change-order-pdf";
+
 const ChangeOrderPageContent = () => {
   const { t } = useTranslation();
-  const {
-    VITE_AEC_CHATBOT_ENDPOINT,
-    VITE_AEC_PORTAL_URL,
-    VITE_USERHUB_ENDPOINT,
-    VITE_ACCESS_KEY,
-  } = useEnv();
+  const { VITE_AEC_PORTAL_URL, VITE_USERHUB_ENDPOINT, VITE_ACCESS_KEY } =
+    useEnv();
   const {
     changeOrder: fetchedChangeOrder,
     organizationName,
@@ -71,7 +68,7 @@ const ChangeOrderPageContent = () => {
   const [changeOrder, setChangeOrder] = useState<
     ChangeOrderPreviewData | undefined
   >(fetchedChangeOrder);
-  const [downloading, setDownloading] = useState(false);
+  const { downloading, downloadPdf } = usePdfDownload();
   const [paymentLink, setPaymentLink] = useState<string>();
   const [isStripeIntegrated, setIsStripeIntegrated] = useState(false);
   const [paymentLinkLoading, setPaymentLinkLoading] = useState(false);
@@ -236,66 +233,16 @@ const ChangeOrderPageContent = () => {
 
   const handleDownloadPdf = async () => {
     if (!changeOrder?.changeOrderId || downloading) return;
-    setDownloading(true);
-    try {
-      if (!VITE_AEC_CHATBOT_ENDPOINT) {
-        throw new Error("PDF download service is unavailable");
-      }
-
-      // This app has no server of its own — the printable HTML lives on the
-      // real intoaec-UI app's `/createChangeOrderPreview` App Router page,
-      // so forward there (same pattern as the already-wired estimate/RFQ PDF
-      // downloads). NOTE: unlike `/createEstimatePreview`,
-      // `/createChangeOrderPreview` does not yet have CORS headers added in
-      // intoaec-UI's `next.config.js` — this fetch will fail cross-origin
-      // in real testing until that is added there. Flagging for the user to
-      // decide, exactly like the RFQ `/client-rfqexport` situation — not
-      // fixing intoaec-UI's config from here.
-      const previewPath = `${VITE_AEC_PORTAL_URL}/createChangeOrderPreview?changeOrderId=${encodeURIComponent(
-        changeOrder.changeOrderId,
-      )}`;
-      const previewResponse = await fetch(previewPath);
-      if (!previewResponse.ok) {
-        throw new Error(
-          `Change order preview request failed with status ${previewResponse.status}`,
-        );
-      }
-      const previewHtml = await previewResponse.text();
-      if (!previewHtml.trim()) {
-        throw new Error("Change order preview returned empty HTML");
-      }
-
-      const htmlContent = (
-        await fetchAndInlineResources(previewHtml, VITE_AEC_PORTAL_URL)
-      ).replaceAll("h-100", "");
-
-      const response = await axios.post(
-        `${VITE_AEC_CHATBOT_ENDPOINT}/download-pdf`,
-        {
-          htmlContent,
-          fileName: `${changeOrder.changeOrderSerial || "change-order"}.pdf`,
-        },
-        { responseType: "arraybuffer" },
-      );
-
-      const blobUrl = window.URL.createObjectURL(
-        new Blob([response.data], { type: "application/pdf" }),
-      );
-      const link = document.createElement("a");
-      link.href = blobUrl;
-      link.download = `${changeOrder.changeOrderSerial || "change-order"}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.setTimeout(() => window.URL.revokeObjectURL(blobUrl), 1000);
-    } catch {
+    const downloaded = await downloadPdf(
+      `${changeOrder.changeOrderSerial || "change-order"}.pdf`,
+      CHANGE_ORDER_PDF_ELEMENT_ID,
+    );
+    if (!downloaded) {
       toast.error(
         t("toast.somethingWentWrong", {
           defaultValue: "Failed to download PDF.",
         }),
       );
-    } finally {
-      setDownloading(false);
     }
   };
 
@@ -380,6 +327,34 @@ const ChangeOrderPageContent = () => {
               paymentLink={paymentLink}
               paymentLinkLoading={paymentLinkLoading}
             />
+          </Box>
+          {/* Off-screen print layout (same as intoaec-UI's
+              /createChangeOrderPreview) that usePdfDownload clones for the PDF. */}
+          <Box
+            aria-hidden
+            sx={{
+              position: "fixed",
+              top: 0,
+              left: "-10000px",
+              width: "210mm",
+              pointerEvents: "none",
+            }}
+          >
+            <Box
+              id={CHANGE_ORDER_PDF_ELEMENT_ID}
+              sx={{ p: 1, bgcolor: "white", color: "black" }}
+            >
+              <ChangeOrderPreviewContent
+                changeOrder={changeOrder}
+                currency={changeOrder.currency ?? ""}
+                projectId={changeOrder.projectId}
+                organizationId={changeOrder.organizationId}
+                organizationName={organizationName}
+                withAuth={false}
+                reversePriceColors
+                printMode
+              />
+            </Box>
           </Box>
         </Box>
       </OrganizationDetailsWrapper>

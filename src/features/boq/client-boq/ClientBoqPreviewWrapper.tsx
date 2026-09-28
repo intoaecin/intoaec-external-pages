@@ -1,4 +1,6 @@
-import BoqAcceptAndSignInHeader from "@/features/components/boq/BoqPreviewHeader/BoqAcceptAndSignInHeader";
+import BoqAcceptAndSignInHeader, {
+  ESTIMATE_PDF_ELEMENT_ID,
+} from "@/features/components/boq/BoqPreviewHeader/BoqAcceptAndSignInHeader";
 import BoqCommentHeader from "@/features/components/boq/BoqPreviewHeader/BoqCommentModeHeader";
 import PageLoader from "@/features/components/Loader/PageLoader";
 import { useEstimationData } from "@/features/components/providers/BoqProvider/BoqClientEstimateDataProvider";
@@ -138,6 +140,40 @@ const ClientBoqPreviewWrapper = ({
               }
               entityType={entityType}
             />
+            {/* Off-screen print layout (same as intoaec-UI's
+                /createEstimatePreview) that usePdfDownload clones for the PDF. */}
+            <Box
+              aria-hidden
+              sx={{
+                position: "fixed",
+                top: 0,
+                left: "-10000px",
+                width: "210mm",
+                pointerEvents: "none",
+              }}
+            >
+              <Box
+                id={ESTIMATE_PDF_ELEMENT_ID}
+                sx={{ padding: 2, bgcolor: "white" }}
+              >
+                <BoqPreview
+                  commentMode={false}
+                  allowComments={clientEstimationData?.allowComments}
+                  data={data || []}
+                  type="ADMIN"
+                  columns={clientEstimationData?.columns}
+                  validTill={clientEstimationData?.estimateValidTill || 0}
+                  projectId={clientEstimationData?.projectId || ""}
+                  clientEstimateData={previewClientEstimateData}
+                  withAuth={false}
+                  organizationId={clientEstimationData?.organizationId || ""}
+                  grandTotal={clientEstimationData?.grandTotal || 0}
+                  trackAnalytics={false}
+                  pdf
+                  entityType={entityType}
+                />
+              </Box>
+            </Box>
           </>
         )}
       </Box>

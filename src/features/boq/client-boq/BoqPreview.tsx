@@ -4,7 +4,7 @@ import { CircleUserRound } from "lucide-react";
 import { useEstimateCommentsData } from "@/features/components/providers/BoqProvider/BoqSuggestionProvider";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
 import ProposalLeadCommentsIcon from "@/assets/icons/proposalLeadComments-icon";
-import axios from "axios";
+import { useRegisterAnalytics } from "@/features/hooks/useRegisterAnalytics";
 import {
   formatDateBasedOnOrganizationLocalization,
   formatNumberITL,
@@ -63,7 +63,6 @@ import { formatCurrencyAndConvertToWords } from "@/lib/helpers";
 import SectionTable from "./BoqPreliminaryTable";
 import PlateEditor from "@/components/plate-editor";
 import { PlateProvider } from "@/features/components/providers/PlateProvider";
-import { useEnv } from "@/features/hooks/useEnv";
 import { useEstimationData } from "@/features/components/providers/BoqProvider/BoqClientEstimateDataProvider";
 import { useTranslation } from "react-i18next";
 import { defaultBOQColumns } from "@/lib/constants";
@@ -669,7 +668,7 @@ const BoqPreview = ({
   showItemSelection?: boolean;
   entityType?: "ESTIMATE" | "SALES_ORDER";
 }) => {
-  const { VITE_AEC_PORTAL_URL } = useEnv();
+  const registerAnalytics = useRegisterAnalytics();
   const router = useRouter();
   const isSalesOrderPath =
     entityType === "SALES_ORDER" ||
@@ -868,7 +867,7 @@ const BoqPreview = ({
     startTimeRef.current = null;
 
     if (elapsed > 0) {
-      void axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
+      void registerAnalytics({
         eventType: isSalesOrderPath
           ? "REGISTER_SALES_ORDER_ANALYTICS"
           : "REGISTER_ESTIMATE_ANALYTICS",
@@ -889,7 +888,7 @@ const BoqPreview = ({
     }
 
     startTimeRef.current = Date.now();
-    void axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
+    void registerAnalytics({
       eventType: isSalesOrderPath
         ? "REGISTER_SALES_ORDER_ANALYTICS"
         : "REGISTER_ESTIMATE_ANALYTICS",

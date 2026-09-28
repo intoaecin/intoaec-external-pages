@@ -23,7 +23,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import axios from "axios";
+import { useRegisterAnalytics } from "@/features/hooks/useRegisterAnalytics";
 import { useRouter } from "next/router";
 import { useQueryParams } from "@/hooks/useQueryParams";
 import React, {
@@ -296,8 +296,8 @@ export const ProposalAcceptAndSignHeader = ({
     VITE_AECPOSTMAN_ENDPOINT,
     VITE_LEADMANAGER_ENDPOINT,
     VITE_USERHUB_ENDPOINT,
-    VITE_AEC_PORTAL_URL,
   } = useEnv();
+  const registerAnalytics = useRegisterAnalytics();
   const { post: update } = useAxios<any>(
     VITE_PROPOSAL_ENDPOINT + "/lead-proposals",
   );
@@ -566,7 +566,7 @@ export const ProposalAcceptAndSignHeader = ({
     const pages = proposalData?.pages;
     if (pages) {
       if (proposalData?.leadProposalId && trackAnalytics) {
-        axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
+        registerAnalytics({
           eventType: "REGISTER_PROPOSAL_ANALYTICS",
           leadProposalId: proposalData?.leadProposalId,
           proposalRevision: proposalData?.proposalRevision,

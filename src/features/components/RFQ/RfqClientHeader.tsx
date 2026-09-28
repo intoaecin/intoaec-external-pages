@@ -19,11 +19,7 @@ import DislikeIcon from "@/assets/icons/dislike-icon";
 import { CircularProgressWithLabel } from "../CircularProgressWIthLabel";
 import LanguageSwitcher from "../LanguageSwitcher";
 import { useTranslation } from "react-i18next";
-import axios from "axios";
-import {
-  encryptAES,
-  fetchAndInlineResources,
-} from "@/lib/helpers";
+import { usePdfDownload } from "@/features/hooks/usePdfDownload";
 
 interface RfqClientHeaderProps {
   rfqId: string;
@@ -54,7 +50,6 @@ const RfqClientHeader: React.FC<RfqClientHeaderProps> = ({
   onStatusUpdate,
   commentMode,
   setCommentMode,
-  vendorDetails,
   isEditingPrices,
   onToggleEditPrices,
   onUpdatePricesClick,
@@ -64,14 +59,9 @@ const RfqClientHeader: React.FC<RfqClientHeaderProps> = ({
   const [currentStatus, setCurrentStatus] = useState<string | null>(
     rfqData?.vendorStatus || null
   );
-  const [downloading, setDownloading] = useState<boolean>(false);
+  const { downloading, downloadPdf, progress } = usePdfDownload();
 
-  const {
-    VITE_PROCUREMENT_ENDPOINT,
-    VITE_AEC_CHATBOT_ENDPOINT,
-    VITE_ACCESS_KEY,
-    VITE_AEC_PORTAL_URL,
-  } = useEnv();
+  const { VITE_PROCUREMENT_ENDPOINT } = useEnv();
 
   const { post: updateRfq } = useAxios(
     `${VITE_PROCUREMENT_ENDPOINT}/session`,
@@ -132,55 +122,7 @@ const RfqClientHeader: React.FC<RfqClientHeaderProps> = ({
   };
 
   const handlePrintAsPDF = async () => {
-    const params = {
-      organizationId: rfqData?.senderId,
-      projectId: rfqData?.projectId,
-      rfqId: rfqData?.rfqId,
-      vendorDetails: vendorDetails,
-    };
-    const encryptedParams = await encryptAES(
-      JSON.stringify(params),
-      VITE_ACCESS_KEY
-    );
-
-    // This app has no server of its own — the export page lives on the real
-    // intoaec-UI app, so forward there for the SSR HTML used to build the PDF
-    // (same pattern as the estimate-view PDF forwarding in
-    // BoqAcceptAndSignInHeader.tsx). NOTE: unlike /createEstimatePreview,
-    // /client-rfqexport is not yet CORS-enabled in intoaec-UI's next.config.js
-    // — this call will fail cross-origin until that's added there.
-    const myItemPdfLink = `${VITE_AEC_PORTAL_URL}/client-rfqexport?params=${encodeURIComponent(
-      encryptedParams
-    )}`;
-
-    const htmlContent = (
-      await fetchAndInlineResources(
-        await fetch(myItemPdfLink).then((res) => res.text()),
-        VITE_AEC_PORTAL_URL
-      )
-    ).replaceAll("h-100", "");
-
-    try {
-      const response = await axios.post(
-        VITE_AEC_CHATBOT_ENDPOINT + "/download-pdf",
-        { htmlContent: htmlContent, fileName: "items.pdf" },
-        {
-          responseType: "arraybuffer",
-        }
-      );
-
-      const pdfBuffer = response.data;
-
-      const blob = new Blob([pdfBuffer], { type: "application/pdf" });
-
-      const link = document.createElement("a");
-      link.href = window.URL.createObjectURL(blob);
-      link.download = `RequestForQuotation.pdf`;
-      link.click();
-      window.URL.revokeObjectURL(link.href);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-    }
+    await downloadPdf("RequestForQuotation.pdf", "rfq-preview-pdf");
   };
 
   useEffect(() => {
@@ -230,16 +172,11 @@ const RfqClientHeader: React.FC<RfqClientHeaderProps> = ({
           <Box className="d-flex align-items-center">
             <Box className="mr-1 d-flex align-items-center">
               {downloading ? (
-                <CircularProgressWithLabel size={40} value={20} />
+                <CircularProgressWithLabel size={40} value={progress} />
               ) : (
                 <Tooltip title={t("tooltips.downloadAsPdf")} arrow>
                   <IconButton
-                    onClick={() => {
-                      setDownloading(true);
-                      handlePrintAsPDF().finally(() => {
-                        setDownloading(false);
-                      });
-                    }}
+                    onClick={handlePrintAsPDF}
                   >
                     <DownloadIcon
                       style={{ width: isMobile ? "20px" : "25px" }}

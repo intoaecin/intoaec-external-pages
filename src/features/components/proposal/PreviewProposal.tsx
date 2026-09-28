@@ -19,8 +19,7 @@ import {
   useTheme,
   useThemeProps,
 } from "@mui/material";
-import axios from "axios";
-import { useEnv } from "@/features/hooks/useEnv";
+import { useRegisterAnalytics } from "@/features/hooks/useRegisterAnalytics";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { InView, useInView } from "react-intersection-observer";
 import { CircleUserRound } from "lucide-react";
@@ -473,7 +472,7 @@ const PageComponent = ({
   const timer = useRef<any>();
   const startTimeRef = useRef<number | null>(null);
   const { t } = useTranslation();
-  const { VITE_AEC_PORTAL_URL } = useEnv();
+  const registerAnalytics = useRegisterAnalytics();
   const [refff, inView] = useInView({
     triggerOnce: false,
     threshold: 0.5,
@@ -489,7 +488,7 @@ const PageComponent = ({
       const endTime = Date.now();
       const elapsed = Math.floor((endTime - startTimeRef.current) / 1000);
       if (trackAnalytics) {
-        axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
+        registerAnalytics({
           eventType: "REGISTER_PROPOSAL_ANALYTICS",
           leadProposalId,
           proposalRevision: proposalRevision,
@@ -508,7 +507,7 @@ const PageComponent = ({
     if (inView) {
 
       if (trackAnalytics) {
-        axios.post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
+        registerAnalytics({
           eventType: "REGISTER_PROPOSAL_ANALYTICS",
           leadProposalId,
           proposalRevision: proposalRevision,

@@ -20,7 +20,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import axios from "axios";
+import { useRegisterAnalytics } from "@/features/hooks/useRegisterAnalytics";
+import { usePdfDownload } from "@/features/hooks/usePdfDownload";
 import { CircularProgressWithLabel } from "../../CircularProgressWIthLabel";
 import DownloadIcon from "@/assets/icons/download-icon";
 import DislikeIcon from "@/assets/icons/dislike-icon";
@@ -34,7 +35,6 @@ import { useAxios } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import { useRouter } from "next/router";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { fetchAndInlineResources } from "@/lib/helpers";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../../LanguageSwitcher";
 import EstimateLinkExpired from "../../EstimateLinkExpired";
@@ -225,6 +225,8 @@ const ReasonForDeclineDialogContent = ({
     </>
   );
 };
+export const ESTIMATE_PDF_ELEMENT_ID = "estimate-pdf";
+
 const BoqAcceptAndSignInHeader = ({
   setCommentMode,
   trackAnalytics,
@@ -239,7 +241,7 @@ const BoqAcceptAndSignInHeader = ({
   const { clientEstimationData, fetchEstimationData } = useEstimationData();
   const allowComments = clientEstimationData?.allowComments !== false;
   const requireCameraCapture = clientEstimationData?.captureImage === true;
-  const [downloading, setDownloading] = useState<boolean>(false);
+  const { downloading, downloadPdf, progress } = usePdfDownload();
   const [acceptingEstimate, setAcceptingEstimate] = useState(false);
   const [decliningEstimate, setDecliningEstimate] = useState(false);
   const signatureUploadRef = useRef<any>();
@@ -247,8 +249,8 @@ const BoqAcceptAndSignInHeader = ({
   const [cameraVerificationUrl, setCameraVerificationUrl] =
     useState<string>("");
   const [acceptedSignerName, setAcceptedSignerName] = useState<string>("");
-  const { VITE_PROPOSAL_ENDPOINT, VITE_AEC_CHATBOT_ENDPOINT, VITE_AEC_PORTAL_URL } =
-    useEnv();
+  const { VITE_PROPOSAL_ENDPOINT } = useEnv();
+  const registerAnalytics = useRegisterAnalytics();
   const router = useRouter();
   const { isLeadManagerProfile } = useQueryParams();
   const isSalesOrder =
@@ -367,79 +369,29 @@ const BoqAcceptAndSignInHeader = ({
     }
   };
 
-  const handlePrintAsPDF = async (showFullDetails: boolean = true) => {
-    try {
-      if (!clientEstimationData?.estimateId) {
-        throw new Error("Estimate ID is unavailable");
-      }
-
-      // This app has no server of its own — the preview page lives on the
-      // real intoaec-UI app, so forward there for the SSR HTML used to build
-      // the PDF (same pattern as the estimate-view analytics forwarding below).
-      const myItemPdfLink = `${VITE_AEC_PORTAL_URL}/createEstimatePreview?estimateId=${encodeURIComponent(
-        clientEstimationData.estimateId,
-      )}&estimateRevision=${encodeURIComponent(
-        clientEstimationData.estimateRevision ?? "LATEST",
-      )}&showFullDetails=${showFullDetails}${
-        isSalesOrder ? "&entityType=SALES_ORDER" : ""
-      }`;
-
-      const previewResponse = await fetch(myItemPdfLink);
-      if (!previewResponse.ok) {
-        throw new Error(
-          `Estimate preview request failed with status ${previewResponse.status}`,
-        );
-      }
-
-      const previewHtml = await previewResponse.text();
-      if (!previewHtml.trim()) {
-        throw new Error("Estimate preview returned empty HTML");
-      }
-
-      const htmlContent = (
-        await fetchAndInlineResources(previewHtml, VITE_AEC_PORTAL_URL)
-      ).replaceAll("h-100", "");
-
-      const response = await axios.post(
-        VITE_AEC_CHATBOT_ENDPOINT + "/download-pdf",
-        { htmlContent: htmlContent, fileName: "items.pdf" },
-        {
-          responseType: "arraybuffer",
-        },
-      );
-
-      const pdfBuffer = response.data;
-
-      const blob = new Blob([pdfBuffer], { type: "application/pdf" });
-
-      const link = document.createElement("a");
-      const objectUrl = window.URL.createObjectURL(blob);
-      link.href = objectUrl;
-      link.download = `${clientEstimationData?.estimateTitle}.pdf`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.setTimeout(() => window.URL.revokeObjectURL(objectUrl), 1000);
-      await axios
-        .post(`${VITE_AEC_PORTAL_URL}/api/add-to-queue`, {
-          eventType: isSalesOrder
-            ? "REGISTER_SALES_ORDER_ANALYTICS"
-            : "REGISTER_ESTIMATE_ANALYTICS",
-          ...(isSalesOrder
-            ? { salesOrderId: clientEstimationData?.estimateId }
-            : {
-                estimateId: clientEstimationData?.estimateId,
-                estimateRevision: clientEstimationData?.estimateRevision,
-              }),
-          downloaded: true,
-        })
-        .catch((error) => {
-          console.error("Failed to register estimate download:", error);
-        });
-    } catch (error) {
-      console.error("Error generating PDF:", error);
+  const handlePrintAsPDF = async () => {
+    const downloaded = await downloadPdf(
+      `${clientEstimationData?.estimateTitle || "estimate"}.pdf`,
+      ESTIMATE_PDF_ELEMENT_ID,
+    );
+    if (!downloaded) {
       toast.error(t("toast.pdfDownloadFailed"));
+      return;
     }
+    await registerAnalytics({
+      eventType: isSalesOrder
+        ? "REGISTER_SALES_ORDER_ANALYTICS"
+        : "REGISTER_ESTIMATE_ANALYTICS",
+      ...(isSalesOrder
+        ? { salesOrderId: clientEstimationData?.estimateId }
+        : {
+            estimateId: clientEstimationData?.estimateId,
+            estimateRevision: clientEstimationData?.estimateRevision,
+          }),
+      downloaded: true,
+    }).catch((error) => {
+      console.error("Failed to register estimate download:", error);
+    });
   };
 
   const handleAcceptEstimate = async () => {
@@ -640,18 +592,11 @@ const BoqAcceptAndSignInHeader = ({
         >
           <Box className="mr-2 d-flex align-items-center">
             {downloading ? (
-              <CircularProgressWithLabel size={40} value={20} />
+              <CircularProgressWithLabel size={40} value={progress} />
             ) : (
               <>
                 <Tooltip title={t("tooltips.downloadAsPdf")} arrow>
-                  <IconButton
-                    onClick={async () => {
-                      setDownloading(true);
-                      await handlePrintAsPDF(true).finally(() => {
-                        setDownloading(false);
-                      });
-                    }}
-                  >
+                  <IconButton onClick={handlePrintAsPDF}>
                     <DownloadIcon style={{ width: "25px" }} />
                   </IconButton>
                 </Tooltip>
