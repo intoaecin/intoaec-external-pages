@@ -1,20 +1,29 @@
+import DownloadIcon from "@/assets/icons/download-icon";
+import { CircularProgressWithLabel } from "@/features/components/CircularProgressWIthLabel";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
-import { Box, Button, Chip, Stack, Typography } from "@mui/material";
-import { Printer } from "lucide-react";
+import { usePdfDownload } from "@/features/hooks/usePdfDownload";
+import { Box, Button, Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import type { PublicInvoice } from "./types";
+
+export const INVOICE_PDF_ELEMENT_ID = "client-invoice-pdf";
 
 export const InvoiceHeader = ({
   invoice,
   paymentLink,
+  isStripeIntegrated,
+  paymentLinkLoading,
 }: {
   invoice: PublicInvoice;
   paymentLink?: string;
+  isStripeIntegrated?: boolean;
+  paymentLinkLoading?: boolean;
 }) => {
   const { t } = useTranslation();
+  const { downloading, downloadPdf, progress } = usePdfDownload();
   const isPaid = invoice.invoiceStatus === "PAID" ||
     (invoice.balanceAmount !== undefined && Number(invoice.balanceAmount) <= 0);
-  const canPay = Boolean(paymentLink) && invoice.invoiceMode !== "CASH" && !isPaid;
+  const showPayNow = Boolean(paymentLink || isStripeIntegrated) && invoice.invoiceMode !== "CASH" && !isPaid;
 
   return (
     <Stack
@@ -32,8 +41,24 @@ export const InvoiceHeader = ({
         </Stack>
       </Box>
       <Stack direction="row" alignItems="center" spacing={1} className="invoice-screen-actions">
-        {canPay && <Button variant="contained" href={paymentLink} target="_blank" rel="noopener noreferrer">{t("common.payNow")}</Button>}
-        <Button variant="outlined" startIcon={<Printer size={16} />} onClick={() => window.print()}>{t("clientInvoice.printOrSavePdf")}</Button>
+        {showPayNow && (
+          <Button
+            variant="contained"
+            disabled={!paymentLink || paymentLinkLoading}
+            onClick={() => paymentLink && window.open(paymentLink, "_blank", "noopener,noreferrer")}
+          >
+            {t("common.payNow")}
+          </Button>
+        )}
+        {downloading ? (
+          <CircularProgressWithLabel size={40} value={progress} />
+        ) : (
+          <Tooltip title={t("tooltips.downloadAsPdf")} arrow>
+            <IconButton onClick={() => downloadPdf(`${invoice.invoiceSerial ?? "Invoice"}.pdf`, INVOICE_PDF_ELEMENT_ID)}>
+              <DownloadIcon style={{ width: "25px" }} />
+            </IconButton>
+          </Tooltip>
+        )}
         <LanguageSwitcher />
       </Stack>
     </Stack>

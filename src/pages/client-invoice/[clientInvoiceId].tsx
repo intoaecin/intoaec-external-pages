@@ -6,7 +6,7 @@ import { useClientInvoice } from "@/features/clientInvoice/api/useClientInvoice"
 import { useInvoicePaymentLinks } from "@/features/clientInvoice/api/useInvoicePaymentLinks";
 import { invoiceDate } from "@/features/clientInvoice/formatInvoice";
 import { InvoiceExtras } from "@/features/clientInvoice/InvoiceExtras";
-import { InvoiceHeader } from "@/features/clientInvoice/InvoiceHeader";
+import { INVOICE_PDF_ELEMENT_ID, InvoiceHeader } from "@/features/clientInvoice/InvoiceHeader";
 import { InvoiceLineItems } from "@/features/clientInvoice/InvoiceLineItems";
 import { InvoicePaymentHistory } from "@/features/clientInvoice/InvoicePaymentHistory";
 import { InvoicePaymentTerms } from "@/features/clientInvoice/InvoicePaymentTerms";
@@ -21,13 +21,18 @@ const InvoiceDocument = ({ result }: { result: InvoiceResult }) => {
   const { t } = useTranslation();
   const { localizationValue } = useOrganizationLocalization();
   const { invoice, payments, credits } = result;
-  const { data: paymentLinks } = useInvoicePaymentLinks(invoice);
+  const { data: paymentLinks, isLoading: paymentLinkLoading } = useInvoicePaymentLinks(invoice);
 
   return (
     <Box sx={{ minHeight: "100vh", bgcolor: "background.default" }}>
       <GlobalStyles styles={{ "@media print": { ".invoice-screen-actions": { display: "none !important" }, ".invoice-sheet": { boxShadow: "none !important", margin: "0 !important", maxWidth: "none !important" } } }} />
-      <InvoiceHeader invoice={invoice} paymentLink={paymentLinks?.overall} />
-      <Box className="invoice-sheet" sx={{ maxWidth: 1100, mx: "auto", my: { xs: 0, sm: 3 }, bgcolor: "background.paper", boxShadow: { sm: 1 }, p: { xs: 2, sm: 4 } }}>
+      <InvoiceHeader
+        invoice={invoice}
+        paymentLink={paymentLinks?.overall}
+        isStripeIntegrated={paymentLinks?.isStripeIntegrated}
+        paymentLinkLoading={paymentLinkLoading}
+      />
+      <Box id={INVOICE_PDF_ELEMENT_ID} className="invoice-sheet" sx={{ maxWidth: 1100, mx: "auto", my: { xs: 0, sm: 3 }, bgcolor: "background.paper", boxShadow: { sm: 1 }, p: { xs: 2, sm: 4 } }}>
         <Stack spacing={3}>
           <BusinessAndClientInfo
             type="CLIENT"

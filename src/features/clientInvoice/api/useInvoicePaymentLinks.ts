@@ -6,7 +6,11 @@ import type { PublicInvoice } from "../types";
 
 interface PaymentLinks {
   overall?: string;
+  isStripeIntegrated?: boolean;
 }
+
+// One failed lookup (e.g. no lead for this project) must not cost the client the Pay Now link.
+const orNull = <T,>(request: Promise<T>) => request.catch(() => null);
 
 export const useInvoicePaymentLinks = (invoice?: PublicInvoice) => {
   const {
@@ -37,19 +41,20 @@ export const useInvoicePaymentLinks = (invoice?: PublicInvoice) => {
       if (!invoice) return {};
       const [userResponse, addressResponse, organizationResponse, integrationResponse, localizationResponse, leadResponse] =
         await Promise.all([
-          getSuperUser({ eventType: "GET_ORGANIZATION_SUPER_USER", organizationId: invoice.senderId }),
-          getOrganization({ eventType: "GET_ORGANIZATION_ADDRESS_INFO", organizationId: invoice.senderId }),
-          getOrganization({ eventType: "GET_ORGANIZATION_DETAILS", organizationId: invoice.senderId }),
-          getIntegration({ eventType: "GET_INTEGRATION_DETAILS", organizationId: invoice.senderId, organizationType: invoice.senderType, name: "STRIPE" }),
-          getLocalization({ eventType: "FETCH_ORGANIZATION_LOCALIZATION", organizationId: invoice.senderId, organizationType: invoice.senderType }),
-          getLead({ eventType: "GET_LEAD_BY_ID", projectId: invoice.receiverId, organizationId: invoice.senderId, organizationType: invoice.senderType }),
+          orNull(getSuperUser({ eventType: "GET_ORGANIZATION_SUPER_USER", organizationId: invoice.senderId })),
+          orNull(getOrganization({ eventType: "GET_ORGANIZATION_ADDRESS_INFO", organizationId: invoice.senderId })),
+          orNull(getOrganization({ eventType: "GET_ORGANIZATION_DETAILS", organizationId: invoice.senderId })),
+          orNull(getIntegration({ eventType: "GET_INTEGRATION_DETAILS", organizationId: invoice.senderId, organizationType: invoice.senderType, name: "STRIPE" })),
+          orNull(getLocalization({ eventType: "FETCH_ORGANIZATION_LOCALIZATION", organizationId: invoice.senderId, organizationType: invoice.senderType })),
+          orNull(getLead({ eventType: "GET_LEAD_BY_ID", projectId: invoice.receiverId, organizationId: invoice.senderId, organizationType: invoice.senderType })),
         ]);
 
       const encryptedPublishKey = Array.isArray(integrationResponse?.body)
         ? integrationResponse.body.find((item: { keyName?: string; valueofKey?: string }) => item.keyName === "publishKey")?.valueofKey
         : undefined;
+      const isStripeIntegrated = Boolean(encryptedPublishKey);
       const publishKey = decryptAES(encryptedPublishKey, VITE_ACCESS_KEY);
-      if (!publishKey) return {};
+      if (!publishKey) return { isStripeIntegrated };
 
       const user = userResponse?.body?.[0];
       const organization = organizationResponse?.body;
@@ -90,7 +95,7 @@ export const useInvoicePaymentLinks = (invoice?: PublicInvoice) => {
         totalAmount: invoice.totalAmount,
         amount: invoice.totalAmount,
       });
-      return { overall };
+      return { overall, isStripeIntegrated };
     },
   });
 };
