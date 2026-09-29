@@ -5,8 +5,10 @@ import { Buffer } from "buffer";
 import ReactDOM from "react-dom/client";
 import App from "@/App";
 import { initializeI18n } from "@/lib/i18n";
+import { setDocumentTitle } from "@/utils/documentTitle";
 
 (globalThis as typeof globalThis & { Buffer: typeof Buffer }).Buffer = Buffer;
+setDocumentTitle();
 
 const rootElement = document.getElementById("root");
 
