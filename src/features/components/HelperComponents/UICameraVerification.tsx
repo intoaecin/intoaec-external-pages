@@ -40,7 +40,7 @@ const UICameraVerification = forwardRef<
   const [isCameraLoading, setIsCameraLoading] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const [cameraError, setCameraError] = useState("");
-  const { VITE_MEETANDNOTE_ENDPOINT } = useEnv();
+  const { VITE_MEETANDNOTE_ENDPOINT, VITE_APIKEY } = useEnv();
   const { t } = useTranslation();
 
   const stopCamera = useCallback(() => {
@@ -133,6 +133,7 @@ const UICameraVerification = forwardRef<
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            ...(VITE_APIKEY ? { apikey: VITE_APIKEY } : {}),
           },
         },
       );
