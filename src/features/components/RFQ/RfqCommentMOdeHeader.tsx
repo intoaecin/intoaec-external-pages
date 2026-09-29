@@ -1,5 +1,7 @@
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { useState } from "react";
 import { useRfqCommentsData } from "../providers/RfqProvider/RfqSuggestionProvider";
 import { useTranslation } from "react-i18next";
 
@@ -17,13 +19,21 @@ const RfqCommentHeader = ({
 }) => {
   const { saveComments } = useRfqCommentsData();
   const { t } = useTranslation();
+  const [savingComments, setSavingComments] = useState(false);
 
   const handleSaveComments = async () => {
-    if (saveComments) {
-      await saveComments();
-    }
-    if (onCommentsSaved) {
-      await onCommentsSaved();
+    if (savingComments) return;
+
+    setSavingComments(true);
+    try {
+      if (saveComments) {
+        await saveComments();
+      }
+      if (onCommentsSaved) {
+        await onCommentsSaved();
+      }
+    } finally {
+      setSavingComments(false);
     }
   };
 
@@ -39,16 +49,15 @@ const RfqCommentHeader = ({
         <Typography className="fs-5 fw-600">{t('procurement.rfqTitle')}</Typography>
         <Box className="d-flex">
           <Box className="mr-3 d-flex align-items-center tw-gap-5">
-            <Button
+            <LoadingButton
               variant="contained"
-              //   disabled={
-              //     JSON.stringify(initialEstimateComment) ==
-              //     JSON.stringify(estimateComments)
-              //   }
+              disabled={savingComments}
+              loading={savingComments}
               onClick={handleSaveComments}
+              sx={{ minWidth: 140 }}
             >
               {t('procurement.saveComments')}
-            </Button>
+            </LoadingButton>
             <Tooltip arrow placement="bottom" title={t('procurement.exitCommentMode')}>
               <IconButton
                 onClick={() => {

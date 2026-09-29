@@ -91,7 +91,7 @@ export const EstimateSuggestionProvider: React.FC<
         : data.code === "BOQ_ESTIMATION_COMMENTS_CREATED_SUCCESSFULLY";
 
     if (commentsCreatedSuccessfully) {
-      fetchEstimateComments(estimateId, estimateRevision);
+      await fetchEstimateComments(estimateId, estimateRevision);
       return data;
     } else {
       throw new Error(data?.error ?? data?.code ?? "Unable to save comments");

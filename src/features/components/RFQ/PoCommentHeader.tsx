@@ -1,5 +1,7 @@
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { useState } from "react";
 import { usePoCommentsData } from "../providers/RfqProvider/PoSuggestionProvider";
 import { useTranslation } from "react-i18next";
 
@@ -14,8 +16,20 @@ const PoCommentHeader = ({
   rfqTitle: string;
 }) => {
   const { saveComments } = usePoCommentsData();
+  const [savingComments, setSavingComments] = useState(false);
 
   const { t } = useTranslation();
+
+  const handleSaveComments = async () => {
+    if (!saveComments || savingComments) return;
+
+    setSavingComments(true);
+    try {
+      await saveComments();
+    } finally {
+      setSavingComments(false);
+    }
+  };
   return (
     <Box
       className="bg-white py-sm-1 py-md-2 py-3 px-sm-2 px-md-3 px-4 position-sticky t-0 l-0 r-0"
@@ -28,16 +42,15 @@ const PoCommentHeader = ({
         <Typography className="fs-5 fw-600">{rfqTitle}</Typography>
         <Box className="d-flex">
           <Box className="mr-3 d-flex align-items-center tw-gap-5">
-            <Button
+            <LoadingButton
               variant="contained"
-              //   disabled={
-              //     JSON.stringify(initialEstimateComment) ==
-              //     JSON.stringify(estimateComments)
-              //   }
-              onClick={saveComments}
+              disabled={savingComments}
+              loading={savingComments}
+              onClick={handleSaveComments}
+              sx={{ minWidth: 140 }}
             >
               {t("tooltips.saveComment")}
-            </Button>
+            </LoadingButton>
             <Tooltip
               arrow
               placement="bottom"

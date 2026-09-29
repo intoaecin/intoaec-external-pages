@@ -1,6 +1,7 @@
 import ExitToAppRoundedIcon from "@mui/icons-material/ExitToAppRounded";
-import { Box, Button, IconButton, Tooltip, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
+import { LoadingButton } from "@mui/lab";
+import { Box, IconButton, Tooltip, Typography } from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useProposalComments } from "../../providers/ProposalProviders/ProposalSuggestionProvider";
 import { useTranslation } from "react-i18next";
 
@@ -14,6 +15,21 @@ export const ProposalCommentModeHeader = ({
   const { saveComments, controllerComments, intialComments } =
     useProposalComments();
   const { t } = useTranslation();
+  const [savingComments, setSavingComments] = useState(false);
+  const hasCommentChanges =
+    JSON.stringify(intialComments) !== JSON.stringify(controllerComments);
+
+  const handleSaveComments = async () => {
+    if (!hasCommentChanges || savingComments) return;
+
+    setSavingComments(true);
+    try {
+      await saveComments(controllerComments);
+    } finally {
+      setSavingComments(false);
+    }
+  };
+
   return (
     <Box
     className="d-flex justify-content-between align-items-center row py-2 pl-1"
@@ -24,18 +40,15 @@ export const ProposalCommentModeHeader = ({
       <Typography variant="h6">{proposalData?.proposalTitle}</Typography>
       <div className="d-flex">
         <div className="mr-3 d-flex align-items-center tw-gap-5">
-          <Button
+          <LoadingButton
             variant="contained"
-            disabled={
-              JSON.stringify(intialComments) ==
-              JSON.stringify(controllerComments)
-            }
-            onClick={() => {
-              saveComments(controllerComments);
-            }}
+            disabled={!hasCommentChanges || savingComments}
+            loading={savingComments}
+            onClick={handleSaveComments}
+            sx={{ minWidth: 140 }}
           >
-            Save Comments
-          </Button>
+            {t("tooltips.saveComment")}
+          </LoadingButton>
           <Tooltip arrow placement="bottom" title={t("tooltips.exitCommentMode")}>
 
           <IconButton

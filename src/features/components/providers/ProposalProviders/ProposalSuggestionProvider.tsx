@@ -63,7 +63,7 @@ export const ProposalSuggestionProvider: React.FC<
     };
     const data: any = await fetch(requestData);
     if (data.code === "COMMENT_ADDED_TO_PROPOSAL") {
-      fetchProposalComments(leadProposalId);
+      await fetchProposalComments(leadProposalId);
       return data;
     } else {
       throw new Error(data?.error);
