@@ -4721,6 +4721,42 @@
     "inactivated": "Inactivated"
   },
   "schedule": {
+    "usedQty": "Used Qty",
+    "unusedQty": "Unused Qty",
+    "requested": "Requested",
+    "receivedQty": "Received Qty",
+    "received": "Received",
+    "quantityPlanDayInputAriaLabel": "Planned quantity for the day",
+    "projectLevel": "Project Level",
+    "plannerWorkerShiftCount": "{{count}} shifts",
+    "plannerTotalsTooltip": "Planned: {{planned}} · Actual: {{actual}}",
+    "plannerTotalsRow": "Total (Planned / Actual)",
+    "plannerShiftCount": "{{count}} shifts",
+    "plannerNoSchedules": "No resources linked to any schedule yet",
+    "plannerMaterialsTab": "Materials",
+    "plannerLoading": "Loading planner",
+    "plannerGroupBySchedule": "Schedule",
+    "plannerGroupByResource": "Resource",
+    "plannerGroupBy": "Group by",
+    "plannerAssetsTab": "Assets",
+    "plannedQuantity": "Planned Quantity",
+    "planned": "Planned",
+    "planEntries": "{{count}} planned entries",
+    "noMaterialsPlannedYet": "No materials planned yet",
+    "noAssetsPlannedYet": "No assets planned for this project yet",
+    "materialPlanDetails": "{{materialName}} - Plan Details",
+    "materialOverReceivedTooltip": "Received quantity is over the planned quantity by {{excess}} {{unit}}.",
+    "materialName": "Material Name",
+    "materialConvertedToIndentTooltip": "Already converted to indent {{indentSerial}}.",
+    "materialConvertedToIndentCaption": "Indent {{indentSerial}}",
+    "clickToRequestAsset": "Click to request asset",
+    "clickToReceiveAsset": "Click to receive asset",
+    "assetRequestedCellTooltip": "{{name}}: Requested (Awaiting receive). Click to edit or receive.",
+    "assetReceivedCellTooltip": "{{name}}: Received ({{received}}/{{planned}} planned). Click to edit.",
+    "assetReceived": "Asset received",
+    "assetPlannerTimelineAriaLabel": "Asset planner timeline",
+    "assetPlannedCellTooltip": "{{name}}: Planned ({{qty}} units). Click to edit or request.",
+    "assetCellOverriddenTooltip": "{{name}}: Custom for this date ({{display}}). Click to edit.",
     "pageTitle": "Project Schedule",
     "scheduleTemplate": "Schedule Template",
     "editScheduleTemplate": "Edit Schedule Template",
@@ -8349,6 +8385,7 @@
     "shippingDetailsRequiredToSendPO": "Please fill in shipping details before sending the purchase order"
   },
   "tooltips": {
+    "downloadAsExcel": "Download as Excel",
     "users/vendor": "Invite Users/Vendor",
     "settings": "Settings",
     "notification": "Notification",
@@ -9548,6 +9585,10 @@
     "previewLoadError": "Failed to load change order preview."
   },
   "externalFallback": {
+    "progressClaim": {
+      "description": "We couldn't load this progress claim. It may have been removed or the link is invalid.",
+      "title": "Progress claim unavailable"
+    },
     "badge": "RESOURCE UNAVAILABLE",
     "title": "Project No Longer Exists",
     "description": "The project you are trying to access has been removed or is no longer available.",
@@ -9663,5 +9704,61 @@
     "sendSuccess": "Form shared successfully!",
     "sendError": "Failed to send form.",
     "system": "System"
+  },
+  "progressClaim": {
+    "resourcesTab": "Resources",
+    "attachments": {
+      "excelTab": "Attachments",
+      "excelUrl": "Download link"
+    },
+    "changeOrderTab": "Change Order",
+    "downloadFailed": "Couldn't download the claim. Please try again.",
+    "previousAcceptedTotal": "Previous Accepted",
+    "selectLineAria": "Include {{name}} in this claim",
+    "statement": {
+      "claimPeriod": "Claim Period",
+      "less": "Less",
+      "netOfRetention": "Final Work Done Amount excluding Retention (C - D)",
+      "retentionAt": "Retention @ {{rate}}%",
+      "totalAB": "Total (A + B)",
+      "totalVariationOrders": "Total of Variation Orders",
+      "totalWorkDone": "Total Value of Work Done",
+      "variationOrder": "Variation Order",
+      "workDone": "Work Done"
+    },
+    "summaryTab": "Summary",
+    "table": {
+      "workerNames": "Worker Names",
+      "accepted": "Accepted",
+      "acceptedQtyAria": "Accepted quantity for {{name}}",
+      "current": "Current",
+      "currentQtyAria": "Current quantity for {{name}}",
+      "lumpSumUnit": "LS",
+      "totalToDate": "Total up to Date",
+      "totalValue": "Total Value"
+    },
+    "tabsAriaLabel": "Progress claim sections",
+    "totalThisPeriod": "This Period Total"
+  },
+  "progressClaimExternal": {
+    "acceptClaim": "Accept",
+    "acceptFailed": "Failed to accept the claim. Please try again.",
+    "alreadyAcceptedDescription": "Thank you — this claim has already been accepted.",
+    "alreadyRejectedDescription": "You have rejected this claim.",
+    "clientSignature": "Client Signature",
+    "pageSubtitle": "Review the claimed amounts below and accept this claim.",
+    "pageTitle": "Progress Claim / {{claimNumber}}",
+    "rejectClaim": "Reject",
+    "rejectFailed": "Failed to reject the claim. Please try again.",
+    "rejectionReason": "Reason",
+    "rejectionReasonLabel": "Reason: {{reason}}",
+    "rejectionReasonPlaceholder": "Let us know why you're rejecting this claim.",
+    "signAndAccept": "Sign & Accept",
+    "statusAccepted": "Accepted",
+    "statusPendingAcceptance": "Pending Acceptance",
+    "statusRejected": "Rejected",
+    "varianceReason": "Reason",
+    "varianceReasonPlaceholder": "Why is this lower than claimed?",
+    "varianceReasonRequired": "Enter a reason for every line accepted below the claimed amount."
   }
 }

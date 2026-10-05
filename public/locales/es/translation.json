@@ -3677,6 +3677,42 @@
     "inactivated": "Inactivo"
   },
   "schedule": {
+    "usedQty": "Cantidad usada",
+    "unusedQty": "Cantidad sin usar",
+    "requested": "Solicitado",
+    "receivedQty": "Cantidad recibida",
+    "received": "Recibido",
+    "quantityPlanDayInputAriaLabel": "Cantidad planificada para el día",
+    "projectLevel": "Nivel de Proyecto",
+    "plannerWorkerShiftCount": "{{count}} turnos",
+    "plannerTotalsTooltip": "Planificado: {{planned}} · Real: {{actual}}",
+    "plannerTotalsRow": "Total (Planificado / Real)",
+    "plannerShiftCount": "{{count}} turnos",
+    "plannerNoSchedules": "Aún no hay recursos vinculados a ningún cronograma",
+    "plannerMaterialsTab": "Materiales",
+    "plannerLoading": "Cargando planificador",
+    "plannerGroupBySchedule": "Cronograma",
+    "plannerGroupByResource": "Recurso",
+    "plannerGroupBy": "Agrupar por",
+    "plannerAssetsTab": "Activos",
+    "plannedQuantity": "Cantidad planificada",
+    "planned": "Planificado",
+    "planEntries": "{{count}} entradas planificadas",
+    "noMaterialsPlannedYet": "Aún no hay materiales planificados",
+    "noAssetsPlannedYet": "Aún no hay activos planificados para este proyecto",
+    "materialPlanDetails": "{{materialName}} - Detalles del plan",
+    "materialOverReceivedTooltip": "La cantidad recibida supera la cantidad planificada en {{excess}} {{unit}}.",
+    "materialName": "Nombre del Material",
+    "materialConvertedToIndentTooltip": "Ya convertido en la requisición {{indentSerial}}.",
+    "materialConvertedToIndentCaption": "Requisición {{indentSerial}}",
+    "clickToRequestAsset": "Haga clic para solicitar activo",
+    "clickToReceiveAsset": "Haga clic para recibir activo",
+    "assetRequestedCellTooltip": "{{name}}: Solicitado (Pendiente de recibir). Haga clic para editar o recibir.",
+    "assetReceivedCellTooltip": "{{name}}: Recibido ({{received}}/{{planned}} planificado). Haga clic para editar.",
+    "assetReceived": "Activo recibido",
+    "assetPlannerTimelineAriaLabel": "Línea de tiempo del planificador de activos",
+    "assetPlannedCellTooltip": "{{name}}: Planificado ({{qty}} unidades). Haga clic para editar o solicitar.",
+    "assetCellOverriddenTooltip": "{{name}}: Personalizado para esta fecha ({{display}}). Haga clic para editar.",
     "pageTitle": "Cronograma del proyecto",
     "scheduleTemplate": "Plantilla de Cronograma",
     "editScheduleTemplate": "Editar Plantilla de Cronograma",
@@ -8322,6 +8358,7 @@
     "shippingDetailsRequiredToSendPO": "Por favor complete los detalles de envío antes de enviar la orden de compra"
   },
   "tooltips": {
+    "downloadAsExcel": "Descargar como Excel",
     "users/vendor": "Invitar usuarios/proveedores",
     "settings": "Ajustes",
     "notification": "Notificación",
@@ -9503,6 +9540,10 @@
     "previewLoadError": "No se pudo cargar la vista previa de la orden de cambio."
   },
   "externalFallback": {
+    "progressClaim": {
+      "description": "No pudimos cargar este reclamo de avance. Es posible que haya sido eliminado o que el enlace no sea válido.",
+      "title": "Reclamo de avance no disponible"
+    },
     "badge": "RECURSO NO DISPONIBLE",
     "title": "Proyecto ya no existe",
     "description": "El proyecto al que intentas acceder se eliminó o ya no está disponible.",
@@ -9618,5 +9659,61 @@
     "sendSuccess": "¡Formulario compartido correctamente!",
     "sendError": "No se pudo enviar el formulario.",
     "system": "Sistema"
+  },
+  "progressClaim": {
+    "resourcesTab": "Recursos",
+    "attachments": {
+      "excelTab": "Adjuntos",
+      "excelUrl": "Enlace de descarga"
+    },
+    "changeOrderTab": "Orden de cambio",
+    "downloadFailed": "No se pudo descargar el reclamo. Inténtalo de nuevo.",
+    "previousAcceptedTotal": "Aceptado Anterior",
+    "selectLineAria": "Incluir {{name}} en este reclamo",
+    "statement": {
+      "claimPeriod": "Período del reclamo",
+      "less": "Menos",
+      "netOfRetention": "Monto final del trabajo realizado sin retención (C - D)",
+      "retentionAt": "Retención @ {{rate}}%",
+      "totalAB": "Total (A + B)",
+      "totalVariationOrders": "Total de órdenes de variación",
+      "totalWorkDone": "Valor total del trabajo realizado",
+      "variationOrder": "Orden de variación",
+      "workDone": "Trabajo realizado"
+    },
+    "summaryTab": "Resumen",
+    "table": {
+      "workerNames": "Nombres de trabajadores",
+      "accepted": "Aceptado",
+      "acceptedQtyAria": "Cantidad aceptada para {{name}}",
+      "current": "Actual",
+      "currentQtyAria": "Cantidad actual para {{name}}",
+      "lumpSumUnit": "GL",
+      "totalToDate": "Total a la fecha",
+      "totalValue": "Valor total"
+    },
+    "tabsAriaLabel": "Secciones del reclamo de avance",
+    "totalThisPeriod": "Total de Este Período"
+  },
+  "progressClaimExternal": {
+    "acceptClaim": "Aceptar",
+    "acceptFailed": "No se pudo aceptar el reclamo. Inténtelo de nuevo.",
+    "alreadyAcceptedDescription": "Gracias — este reclamo ya ha sido aceptado.",
+    "alreadyRejectedDescription": "Usted ha rechazado este reclamo.",
+    "clientSignature": "Firma del Cliente",
+    "pageSubtitle": "Revise los montos reclamados a continuación y acepte este reclamo.",
+    "pageTitle": "Reclamo de Avance / {{claimNumber}}",
+    "rejectClaim": "Rechazar",
+    "rejectFailed": "No se pudo rechazar el reclamo. Inténtelo de nuevo.",
+    "rejectionReason": "Motivo",
+    "rejectionReasonLabel": "Motivo: {{reason}}",
+    "rejectionReasonPlaceholder": "Cuéntenos por qué está rechazando este reclamo.",
+    "signAndAccept": "Firmar y Aceptar",
+    "statusAccepted": "Aceptado",
+    "statusPendingAcceptance": "Pendiente de Aceptación",
+    "statusRejected": "Rechazado",
+    "varianceReason": "Motivo",
+    "varianceReasonPlaceholder": "¿Por qué es menor a lo reclamado?",
+    "varianceReasonRequired": "Ingrese un motivo para cada línea aceptada por debajo del monto reclamado."
   }
 }

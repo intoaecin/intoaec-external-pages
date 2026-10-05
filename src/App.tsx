@@ -55,6 +55,9 @@ const PoPreviewPage = lazy(() => import("@/pages/po-preview/[poid]"));
 const ChangeOrderPreviewPage = lazy(
   () => import("@/pages/change-order-preview/[changeOrderId]"),
 );
+const ProgressClaimPreviewPage = lazy(
+  () => import("@/pages/progress-claim-preview/[progressClaimId]"),
+);
 const ClientReportPage = lazy(() => import("@/pages/client-report"));
 const SubscriptionCheckoutPage = lazy(
   () => import("@/pages/subscription/checkout-payment"),
@@ -179,6 +182,10 @@ export default function App() {
                 <Route
                   path="/change-order-preview/:changeOrderId"
                   element={<ChangeOrderPreviewPage />}
+                />
+                <Route
+                  path="/progress-claim-preview/:progressClaimId"
+                  element={<ProgressClaimPreviewPage />}
                 />
                 <Route path="/client-report" element={<ClientReportPage />} />
                 <Route
