@@ -1,4 +1,4 @@
-import type { FC, ReactNode } from "react";
+import { useState, type FC, type ReactNode } from "react";
 import type { TextFieldProps } from "@mui/material";
 import { TextField } from "@mui/material";
 import { preventNegativeKeyDown } from "@/utils/numbers";
@@ -43,7 +43,9 @@ const buildPartialDecimalPattern = (
   maxFractionDigits: number
 ): RegExp =>
   new RegExp(
-    `^\\d{0,${maxIntegerDigits}}(\\.\\d{0,${maxFractionDigits}})?$`
+    maxFractionDigits > 0
+      ? `^\\d{0,${maxIntegerDigits}}(\\.\\d{0,${maxFractionDigits}})?$`
+      : `^\\d{0,${maxIntegerDigits}}$`
   );
 
 const valueToDisplayString = (
@@ -97,12 +99,24 @@ export const NumberInputBox: FC<NumberInputBoxProps> = ({
   "aria-label": ariaLabel,
 }) => {
   const pattern = buildPartialDecimalPattern(maxIntegerDigits, maxFractionDigits);
+  // The text being typed. `onChange` only carries a number, so without this a
+  // half-typed decimal ("2.") would be redrawn as "2" and the next digit would
+  // make "25". It's shown only while it still stands for the current value —
+  // a value the parent clamped or changed takes over.
+  const [draft, setDraft] = useState<string | null>(null);
+  const valueText = valueToDisplayString(value);
+  const isDraftCurrent =
+    draft !== null &&
+    (draft === ""
+      ? valueText === ""
+      : Number.parseFloat(draft) === Number.parseFloat(valueText));
 
   const handleChange: TextFieldProps["onChange"] = (e) => {
     const input = e.target.value.trim();
 
     if (input === "") {
       if (allowEmpty) {
+        setDraft("");
         onChange("");
       }
       return;
@@ -117,6 +131,7 @@ export const NumberInputBox: FC<NumberInputBoxProps> = ({
       return;
     }
 
+    setDraft(input);
     onChange(clampToBounds(numeric, min, max));
   };
 
@@ -127,7 +142,7 @@ export const NumberInputBox: FC<NumberInputBoxProps> = ({
       id={id}
       name={name}
       aria-label={ariaLabel}
-      value={valueToDisplayString(value)}
+      value={isDraftCurrent ? draft : valueText}
       onChange={handleChange}
       onKeyDown={(e) => {
         preventNegativeKeyDown(e);
@@ -141,7 +156,10 @@ export const NumberInputBox: FC<NumberInputBoxProps> = ({
           onEnter?.();
         }
       }}
-      onBlur={onBlur}
+      onBlur={(e) => {
+        setDraft(null);
+        onBlur?.(e);
+      }}
       placeholder={placeholder}
       error={error}
       helperText={helperText}
