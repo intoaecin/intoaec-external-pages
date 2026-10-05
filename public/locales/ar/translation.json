@@ -535,6 +535,11 @@
     "plannerGroupByResource": "Resource",
     "plannerGroupBy": "Group by",
     "plannerAssetsTab": "Assets",
+    "plannerQuantityTab": "Quantity",
+    "plannerQuantityNoSchedules": "No schedules with a planned quantity yet",
+    "plannerScheduleColumn": "Schedule",
+    "quantityPlanAllocated": "{{allocated}} / {{planned}} {{unit}}",
+    "quantityPlanMismatchTooltip": "Daily quantities add up to {{allocated}}, but the planned quantity is {{planned}} {{unit}}",
     "plannedQuantity": "Planned Quantity",
     "planned": "Planned",
     "planEntries": "{{count}} planned entries",
@@ -683,6 +688,7 @@
       "workDone": "Work Done"
     },
     "summaryTab": "Summary",
+    "standaloneSchedulesTab": "Standalone Schedules",
     "table": {
       "workerNames": "Worker Names",
       "accepted": "Accepted",

@@ -1,22 +1,23 @@
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { Boxes, FileText, GitMerge, Layers, Package, Paperclip, Users } from "lucide-react";
+import { Boxes, FileText, GitMerge, Layers, Package, Paperclip, Ruler, Users } from "lucide-react";
 import type { CustomTabItem } from "@/components/layout/PageLayout";
 import type { ProgressClaimSettings } from "../types";
 import type { ProgressClaimPhase } from "../utils/progressClaimPhases";
 import {
   DEFAULT_PROGRESS_CLAIM_SETTINGS,
-  PLANNER_TAB_SETTING_KEY,
+  isPlannerTabEnabled,
 } from "../utils/progressClaimSettings";
 
-export type ProgressClaimPlannerTab = "MATERIALS" | "RESOURCES" | "ASSETS";
-const PLANNER_TABS: ProgressClaimPlannerTab[] = ["MATERIALS", "RESOURCES", "ASSETS"];
+export type ProgressClaimPlannerTab = "MATERIALS" | "RESOURCES" | "ASSETS" | "QUANTITY";
+const PLANNER_TABS: ProgressClaimPlannerTab[] = ["MATERIALS", "RESOURCES", "ASSETS", "QUANTITY"];
 
 const PLANNER_TAB_ITEMS: Record<ProgressClaimPlannerTab, { labelKey: string; icon: JSX.Element }> = {
   MATERIALS: { labelKey: "schedule.plannerMaterialsTab", icon: <Package size={16} /> },
   RESOURCES: { labelKey: "progressClaim.resourcesTab", icon: <Users size={16} /> },
   ASSETS: { labelKey: "schedule.plannerAssetsTab", icon: <Boxes size={16} /> },
+  QUANTITY: { labelKey: "schedule.plannerQuantityTab", icon: <Ruler size={16} /> },
 };
 const SUMMARY_TAB = "SUMMARY";
 const ATTACHMENTS_TAB = "ATTACHMENTS";
@@ -31,8 +32,9 @@ export type ProgressClaimTab =
 const CHANGE_ORDER_TAB = "CHANGE_ORDER";
 
 /**
- * Summary, one tab per phase, then whichever of Materials / Resources /
- * Assets the project's claim settings enable, then Attachments when shown —
+ * Summary, one tab per phase (childless schedules share one), then whichever
+ * of Materials / Resources / Assets the project's claim settings enable,
+ * Quantity, then Attachments when shown —
  * kept in the `subTab` query param (a phase tab stores its schedule id there).
  */
 export function useProgressClaimTabs(
@@ -45,7 +47,7 @@ export function useProgressClaimTabs(
   const { t } = useTranslation();
 
   const plannerTabs = useMemo(
-    () => PLANNER_TABS.filter((tab) => settings[PLANNER_TAB_SETTING_KEY[tab]]),
+    () => PLANNER_TABS.filter((tab) => isPlannerTabEnabled(tab, settings)),
     [settings],
   );
 

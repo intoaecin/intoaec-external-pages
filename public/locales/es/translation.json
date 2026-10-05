@@ -3695,6 +3695,11 @@
     "plannerGroupByResource": "Recurso",
     "plannerGroupBy": "Agrupar por",
     "plannerAssetsTab": "Activos",
+    "plannerQuantityTab": "Cantidad",
+    "plannerQuantityNoSchedules": "Aún no hay cronogramas con una cantidad planificada",
+    "plannerScheduleColumn": "Cronograma",
+    "quantityPlanAllocated": "{{allocated}} / {{planned}} {{unit}}",
+    "quantityPlanMismatchTooltip": "Las cantidades diarias suman {{allocated}}, pero la cantidad planificada es {{planned}} {{unit}}",
     "plannedQuantity": "Cantidad planificada",
     "planned": "Planificado",
     "planEntries": "{{count}} entradas planificadas",
@@ -9682,6 +9687,7 @@
       "workDone": "Trabajo realizado"
     },
     "summaryTab": "Resumen",
+    "standaloneSchedulesTab": "Programaciones independientes",
     "table": {
       "workerNames": "Nombres de trabajadores",
       "accepted": "Aceptado",

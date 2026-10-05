@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import type { ProgressClaim, ProgressClaimDetailsInput } from "../hooks/api/create-progress-claim";
+import type { Schedule } from "../../types/schedule";
 import type { ProgressClaimPeriod } from "../types";
 
 /** The claim period when both ends are set; otherwise null (no filtering). */
@@ -8,6 +9,21 @@ export const toClaimPeriod = (
   periodTo?: number | string | null,
 ): ProgressClaimPeriod | null =>
   periodFrom && periodTo ? { from: Number(periodFrom), to: Number(periodTo) } : null;
+
+/** Whether a schedule runs on any day of the claim period; no period means no filtering. */
+export const isScheduleInClaimPeriod = (
+  schedule: Pick<Schedule, "scheduleStartDate" | "scheduleEndDate">,
+  period?: ProgressClaimPeriod | null,
+): boolean => {
+  if (!period) return true;
+  const periodStart = dayjs(period.from).startOf("day");
+  const periodEnd = dayjs(period.to).endOf("day");
+
+  return (
+    !dayjs(schedule.scheduleStartDate).isAfter(periodEnd) &&
+    !dayjs(schedule.scheduleEndDate).isBefore(periodStart)
+  );
+};
 
 type ClaimForPeriod = Pick<ProgressClaim, "status" | "submittedAt" | "periodTo">;
 
