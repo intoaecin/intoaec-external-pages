@@ -19,12 +19,15 @@ const saveBlob = (blob: Blob, fileName: string) => {
  * file downloads. Pass the content as an `ExcelWorkbookSpec`; botsync styles it.
  */
 export const useExcelExport = () => {
-  const { VITE_BOTSYNC_AI } = useEnv();
+  const { VITE_BOTSYNC_AI, VITE_AEC_CHATBOT_ENDPOINT } = useEnv();
+  // Both point at aec-botsync; this app's env normally only sets the chatbot
+  // one (also used for /download-pdf), so fall back to it.
+  const botsyncEndpoint = VITE_BOTSYNC_AI || VITE_AEC_CHATBOT_ENDPOINT;
 
   const mutation = useMutation({
     mutationFn: async (spec: ExcelWorkbookSpec) => {
       const response = await axios.post<Blob>(
-        `${VITE_BOTSYNC_AI}/api/exports/excel`,
+        `${botsyncEndpoint}/api/exports/excel`,
         spec,
         { responseType: "blob" },
       );
