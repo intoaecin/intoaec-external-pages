@@ -35,8 +35,8 @@ interface ProgressClaimAcceptSheetProps {
   onReasonChange: (scheduleId: string, reason: string) => void;
 }
 
-/** Column widths in render order: item, name, unit, the QTY/Rate/Amount groups, reason, attachments. */
-const COLUMN_WIDTHS = [56, 220, 70, 80, 110, 120, 80, 120, 80, 120, 130, 120, 220, 110];
+/** Column widths in render order: item, name, the QTY/Rate/Amount groups, reason, attachments. */
+const COLUMN_WIDTHS = [56, 220, 110, 110, 120, 110, 120, 110, 120, 150, 120, 220, 110];
 const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 
 /** Client's phase tab: the claim sheet with an Accepted column the client can lower per line. */
@@ -87,7 +87,6 @@ const ProgressClaimAcceptSheet = ({
           <TableRow sx={LINE_TABLE_GROUP_HEADER_SX}>
             <TableCell rowSpan={2}>{t("common.item")}</TableCell>
             <TableCell rowSpan={2}>{t("schedule.scheduleName")}</TableCell>
-            <TableCell rowSpan={2}>{t("common.unit")}</TableCell>
             <TableCell colSpan={3} align="center">{t("progressClaim.table.totalValue")}</TableCell>
             <TableCell colSpan={2} align="center">{t("common.previous")}</TableCell>
             <TableCell colSpan={2} align="center">{t("progressClaim.table.current")}</TableCell>
@@ -127,7 +126,7 @@ const ProgressClaimAcceptSheet = ({
         </TableBody>
         <TableFooter>
           <TableRow sx={[LINE_TABLE_CELL_SX, { bgcolor: "primary.light" }]}>
-            <TableCell colSpan={3} align="right">
+            <TableCell colSpan={2} align="right">
               <Typography variant="body2" fontWeight={500} color="text.primary">
                 {t("common.total")}
               </Typography>

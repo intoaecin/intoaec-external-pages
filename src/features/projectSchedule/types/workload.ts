@@ -46,6 +46,8 @@ export interface DailyQuantityRowData {
   scheduleId: string;
   /** The schedule's total planned quantity; entered days may not add up to more. */
   plannedQuantity: number;
+  /** Unit shown after each quantity (e.g. "m²"), when the schedule has one. */
+  unit?: string | null;
   /** Planned quantity per calendar-day key (see `buildDateKey`); only working days inside the schedule have an entry. */
   values: Map<string, number>;
   /** Day keys whose value the user entered (the rest are an even split). */

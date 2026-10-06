@@ -123,10 +123,12 @@ export function buildQuantityPlanDays({
 export function toDailyQuantityRowData(
   scheduleId: string,
   plan: QuantityPlanDays,
+  unit?: string | null,
 ): DailyQuantityRowData {
   return {
     scheduleId,
     plannedQuantity: plan.planned,
+    unit,
     values: plan.values,
     overriddenKeys: plan.overriddenKeys,
   };

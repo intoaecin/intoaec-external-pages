@@ -21,6 +21,7 @@ interface QuantityCellProps {
   left: number;
   width: number;
   quantity: number;
+  unit?: string | null;
   isOverridden: boolean;
   /** Most this day can take without the plan exceeding the planned quantity. */
   max: number;
@@ -32,6 +33,7 @@ function QuantityCell({
   left,
   width,
   quantity,
+  unit,
   isOverridden,
   max,
   editable,
@@ -153,6 +155,8 @@ function QuantityCell({
         >
           {isSaving ? (
             <CircularProgress size={12} color="inherit" />
+          ) : unit ? (
+            `${displayQuantity} ${unit}`
           ) : (
             displayQuantity
           )}
@@ -189,7 +193,7 @@ export const QuantityDayCells = memo(function QuantityDayCells({
   readOnly = false,
   onUpdateDailyQuantity,
 }: QuantityDayCellsProps) {
-  const { scheduleId, plannedQuantity, values, overriddenKeys } = dailyQuantity;
+  const { scheduleId, plannedQuantity, unit, values, overriddenKeys } = dailyQuantity;
   const enteredTotal = useMemo(() => {
     let total = 0;
     overriddenKeys.forEach((key) => {
@@ -238,6 +242,7 @@ export const QuantityDayCells = memo(function QuantityDayCells({
             left={cell.left}
             width={cell.width}
             quantity={cell.hours}
+            unit={unit}
             isOverridden={isOverridden}
             max={Math.max(0, roundNumber(plannedQuantity - enteredElsewhere, 2))}
             editable={editable}

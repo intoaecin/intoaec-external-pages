@@ -27,6 +27,12 @@ export const isLumpSum = (line: ProgressClaimLine) => !line.isGroup && line.plan
 export const getLineQuantity = (line: ProgressClaimLine): number | null =>
   line.isGroup ? null : (line.plannedQuantity ?? LUMP_SUM_QUANTITY);
 
+/** A quantity with its unit ("120 m²"); blank for group rows, which have no quantity. */
+export const formatLineQuantity = (qty: number | null, unit?: string | null): string =>
+  qty === null
+    ? ""
+    : [qty.toLocaleString(undefined, { maximumFractionDigits: 3 }), unit].filter(Boolean).join(" ");
+
 const toQty = (pct: number, quantity: number | null) =>
   quantity ? roundNumber(pctOf(pct, quantity), QTY_PRECISION) : null;
 

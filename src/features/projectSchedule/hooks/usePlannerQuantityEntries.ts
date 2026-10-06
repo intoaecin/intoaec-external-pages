@@ -31,7 +31,7 @@ export const buildPlannerQuantityRows = (
     rowKey: `quantity-${schedule.scheduleId}`,
     schedule: null,
     barColor: schedule.scheduleColor,
-    dailyQuantity: toDailyQuantityRowData(schedule.scheduleId, plan),
+    dailyQuantity: toDailyQuantityRowData(schedule.scheduleId, plan, schedule.quantityUnit),
     isResourceGroupEnd: true,
   }));
 

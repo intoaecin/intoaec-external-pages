@@ -8,6 +8,7 @@ import {
   currentInputToClaimPct,
   getCurrentInputValue,
   getLineFigures,
+  formatLineQuantity,
   getLineQuantity,
   isLumpSum,
 } from "../utils/progressClaimLineFigures";
@@ -32,9 +33,6 @@ interface ProgressClaimAcceptSheetRowProps {
 
 const INDENT_PER_DEPTH_PX = 16;
 
-const formatQty = (qty: number | null) =>
-  qty === null ? "" : qty.toLocaleString(undefined, { maximumFractionDigits: 3 });
-
 const ProgressClaimAcceptSheetRow = ({
   claimedRow,
   acceptedRow,
@@ -54,6 +52,7 @@ const ProgressClaimAcceptSheetRow = ({
   const isGroup = claimedRow.isGroup;
   const fontWeight = isGroup ? 500 : undefined;
   const unit = claimedRow.unit ?? (isLumpSum(claimedRow) ? t("progressClaim.table.lumpSumUnit") : "");
+  const formatQty = (qty: number | null) => formatLineQuantity(qty, unit);
   // Compare the cumulative % (same as the accept check), not amounts — a zero-value
   // line would otherwise never ask for the reason the accept check requires.
   const isBelowClaimed =
@@ -93,7 +92,6 @@ const ProgressClaimAcceptSheetRow = ({
           <TruncatedText text={claimedRow.name} limit={40} />
         </Box>
       </TableCell>
-      {text(unit, "left")}
 
       {text(formatQty(getLineQuantity(claimedRow)))}
       {text(claimed.rate === null ? "" : formatMoney(claimed.rate))}
@@ -118,6 +116,7 @@ const ProgressClaimAcceptSheetRow = ({
             maxFractionDigits={3}
             allowEmpty
             fullWidth
+            endAdornment={unit ? <Typography variant="caption">{unit}</Typography> : undefined}
             aria-label={t("progressClaim.table.acceptedQtyAria", { name: claimedRow.name })}
           />
         </TableCell>
