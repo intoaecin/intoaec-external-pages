@@ -31,6 +31,7 @@ import type { ProgressClaimStatement } from "./progressClaimStatement";
 import {
   buildAssetsSheet,
   buildMaterialsSheet,
+  buildQuantitySheet,
   buildResourcesSheet,
   type ProgressClaimPlannerData,
 } from "./progressClaimPlannerExcel";
@@ -49,6 +50,8 @@ interface ProgressClaimWorkbookInput {
   parties: { business?: BusinessDetails; client?: ClientDetails };
   formatDate: (value: number) => string;
   formatTime: (value: number) => string;
+  /** The organization's timezone, which decides the day a timestamp falls on. */
+  timeZone: string;
   t: TFunction;
 }
 
@@ -246,8 +249,8 @@ const buildAttachmentsSheet = (
 
 /**
  * The claim as a workbook description for botsync's export endpoint: Summary
- * (details + statement), one sheet per phase, Materials / Resources / Assets
- * for whichever tabs are enabled, then Attachments when the claim has any.
+ * (details + statement), one sheet per phase, Quantity, Materials / Resources /
+ * Assets for whichever tabs are enabled, then Attachments when the claim has any.
  */
 export const buildProgressClaimWorkbook = (input: ProgressClaimWorkbookInput): ExcelWorkbookSpec => {
   const { claim, planner, t } = input;
@@ -263,8 +266,11 @@ export const buildProgressClaimWorkbook = (input: ProgressClaimWorkbookInput): E
         t,
       ),
     ),
+    planner.quantity?.length
+      ? buildQuantitySheet(t("schedule.plannerQuantityTab"), planner.quantity, input)
+      : null,
     planner.materials ? buildMaterialsSheet(t("schedule.plannerMaterialsTab"), planner.materials, input) : null,
-    planner.shifts ? buildResourcesSheet(t("progressClaim.resourcesTab"), planner.shifts, input) : null,
+    planner.shifts ? buildResourcesSheet(t("progressClaim.resourcesTab"), planner.shifts, input, planner.shiftWages) : null,
     planner.assets ? buildAssetsSheet(t("schedule.plannerAssetsTab"), planner.assets, input) : null,
     buildAttachmentsSheet(claim.attachments, t),
   ];

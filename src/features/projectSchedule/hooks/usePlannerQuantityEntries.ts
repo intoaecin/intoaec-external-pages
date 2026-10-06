@@ -35,6 +35,16 @@ export const buildPlannerQuantityRows = (
     isResourceGroupEnd: true,
   }));
 
+export const buildPlannerQuantityEntries = (
+  schedules: Schedule[],
+  isDateOffDay: (date: Date) => boolean,
+  organizationTimezone: string,
+): PlannerQuantityEntry[] =>
+  schedules.filter(isQuantityPlannable).map((schedule) => ({
+    schedule,
+    plan: buildQuantityPlanDays({ schedule, isDateOffDay, organizationTimezone }),
+  }));
+
 /** Schedules with a planned quantity and their per-day plan. */
 export function usePlannerQuantityEntries(projectId?: string | null) {
   const { data: schedules, loading } = useProjectSchedule();
@@ -49,15 +59,7 @@ export function usePlannerQuantityEntries(projectId?: string | null) {
   const isDateOffDay = useIsDateOffDay(workingCalendarData, organizationTimezone);
 
   const entries = useMemo<PlannerQuantityEntry[]>(
-    () =>
-      schedules.filter(isQuantityPlannable).map((schedule) => ({
-        schedule,
-        plan: buildQuantityPlanDays({
-          schedule,
-          isDateOffDay,
-          organizationTimezone,
-        }),
-      })),
+    () => buildPlannerQuantityEntries(schedules, isDateOffDay, organizationTimezone),
     [schedules, isDateOffDay, organizationTimezone],
   );
 

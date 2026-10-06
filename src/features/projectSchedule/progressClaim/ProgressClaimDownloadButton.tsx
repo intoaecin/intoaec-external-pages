@@ -8,6 +8,7 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import {
   formatDateBasedOnOrganizationLocalization,
   formatTimeBasedOnOrganizationLocalization,
+  getLocalizationValue,
 } from "@/lib/helpers";
 import type { ProgressClaim } from "./hooks/api/create-progress-claim";
 import { useProgressClaimPlannerData } from "./hooks/useProgressClaimPlannerData";
@@ -25,8 +26,8 @@ interface ProgressClaimDownloadButtonProps {
 
 /**
  * Downloads the claim as an Excel workbook rendered by aec-botsync: Summary,
- * one sheet per phase, Materials / Resources / Assets when the claim settings
- * enable those tabs, and Attachments when there are any.
+ * one sheet per phase, Quantity, Materials / Resources / Assets when the claim
+ * settings enable those tabs, and Attachments when there are any.
  */
 const ProgressClaimDownloadButton = ({
   claim,
@@ -60,6 +61,8 @@ const ProgressClaimDownloadButton = ({
           formatDateBasedOnOrganizationLocalization(localizationValue, value, true),
         formatTime: (value) =>
           formatTimeBasedOnOrganizationLocalization(localizationValue, value, false),
+        timeZone:
+          (localizationValue && getLocalizationValue(localizationValue, "TIMEZONE", "ID")) || "UTC",
         t,
       });
       await exportExcel(workbook);
