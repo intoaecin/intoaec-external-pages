@@ -1,4 +1,8 @@
 {
+  "timeTracking": {
+    "wage": "Wage",
+    "totalWage": "Total Wage"
+  },
   "clientReport": {
     "scheduleProgress": "تقدم الجدول الزمني",
     "foundation": "الأساسات",

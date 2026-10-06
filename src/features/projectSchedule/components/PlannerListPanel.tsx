@@ -8,6 +8,13 @@ import {
   PlannerParentRow,
   PlannerTotalsLabelRow,
 } from "./PlannerListRows";
+import { PlannerWageAmount } from "./PlannerWageAmount";
+import {
+  getScheduleWage,
+  getShiftGroupWage,
+  getTotalWage,
+  type ShiftWages,
+} from "../utils/plannerWages";
 
 interface PlannerListPanelProps extends PlannerGroupByProps {
   entries: PlannerScheduleEntry[];
@@ -18,6 +25,8 @@ interface PlannerListPanelProps extends PlannerGroupByProps {
   scrollRef: RefObject<HTMLDivElement>;
   onToggleSchedule: (scheduleId: string) => void;
   onWheelScroll: (deltaY: number) => void;
+  /** When given, each row ends with its wage. */
+  wageByShiftId?: ShiftWages;
 }
 
 export function PlannerListPanel({
@@ -31,6 +40,7 @@ export function PlannerListPanel({
   onWheelScroll,
   groupBy,
   onGroupByChange,
+  wageByShiftId,
 }: PlannerListPanelProps) {
   const { t } = useTranslation();
 
@@ -43,8 +53,15 @@ export function PlannerListPanel({
       scrollRef={scrollRef}
       onWheelScroll={onWheelScroll}
     >
-      <PlannerTotalsLabelRow />
-      {entries.map(({ schedule, groups, shiftCount }) => {
+      <PlannerTotalsLabelRow
+        aside={
+          wageByShiftId ? (
+            <PlannerWageAmount amount={getTotalWage(entries, wageByShiftId)} isTotal />
+          ) : null
+        }
+      />
+      {entries.map((entry) => {
+        const { schedule, groups, shiftCount } = entry;
         const isExpanded = expandedScheduleIds.has(schedule.scheduleId);
 
         return (
@@ -58,6 +75,11 @@ export function PlannerListPanel({
               })}
               isExpanded={isExpanded}
               onToggle={() => onToggleSchedule(schedule.scheduleId)}
+              aside={
+                wageByShiftId ? (
+                  <PlannerWageAmount amount={getScheduleWage(entry, wageByShiftId)} />
+                ) : null
+              }
             />
             {isExpanded &&
               groups.map((group, index) => (
@@ -66,6 +88,11 @@ export function PlannerListPanel({
                   label={group.shiftName}
                   color={group.days[0].shift.generatedShiftColor}
                   isLast={index === groups.length - 1}
+                  aside={
+                    wageByShiftId ? (
+                      <PlannerWageAmount amount={getShiftGroupWage(group, wageByShiftId)} />
+                    ) : null
+                  }
                 />
               ))}
           </Fragment>

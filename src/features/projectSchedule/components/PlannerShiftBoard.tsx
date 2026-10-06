@@ -15,6 +15,9 @@ import {
   usePlannerWorkerRows,
 } from "../hooks/usePlannerWorkerRows";
 import { buildPlannerTotalsRow } from "../utils/plannerDayTotals";
+import { getEntryShiftIds, getTotalWage, type ShiftWages } from "../utils/plannerWages";
+import type { WageOrganization, WagePeriod } from "../hooks/api/fetch-project-shift-wages";
+import { useFetchShiftWorkerWages } from "../hooks/api/fetch-shift-worker-wages";
 import { buildPlannerWorkerEntries } from "../utils/plannerWorkerEntries";
 import {
   buildGanttPanelBodyHeight,
@@ -32,10 +35,23 @@ interface PlannerShiftBoardProps {
   loading: boolean;
   /** Disables the attendance editor on shift cells. */
   readOnly?: boolean;
+  /** When given, the schedule list shows each schedule's and shift's wage. */
+  wageByShiftId?: ShiftWages;
+  /** The days `wageByShiftId` covers, so the per-worker wages cover the same ones. */
+  wagePeriod?: WagePeriod | null;
+  /** Whose wages those are, for loading the per-worker ones. */
+  wageOrganization?: WageOrganization;
 }
 
 /** Schedule/resource list + shift gantt, fed with already-loaded planner entries. */
-export function PlannerShiftBoard({ entries, loading, readOnly = false }: PlannerShiftBoardProps) {
+export function PlannerShiftBoard({
+  entries,
+  loading,
+  readOnly = false,
+  wageByShiftId,
+  wagePeriod,
+  wageOrganization,
+}: PlannerShiftBoardProps) {
   const { t } = useTranslation();
   const { viewMode, setViewMode, updateScheduleLoading } = useProjectSchedule();
   const { localizationValue } = useOrganizationLocalization();
@@ -60,6 +76,15 @@ export function PlannerShiftBoard({ entries, loading, readOnly = false }: Planne
   const workerEntries = useMemo(
     () => buildPlannerWorkerEntries(entries),
     [entries],
+  );
+  // Per-worker wages are one request per shift, so only the Resource view loads them.
+  const showWorkerWages = Boolean(wageByShiftId) && groupBy === "resource";
+  const shiftIds = useMemo(() => getEntryShiftIds(entries), [entries]);
+  const { wageByShiftWorker } = useFetchShiftWorkerWages(
+    shiftIds,
+    showWorkerWages,
+    wagePeriod,
+    wageOrganization,
   );
   const scheduleRows = usePlannerRows({
     entries,
@@ -173,6 +198,8 @@ export function PlannerShiftBoard({ entries, loading, readOnly = false }: Planne
             groupBy={groupBy}
             onGroupByChange={handleGroupByChange}
             onWheelScroll={handleResourceWheelScroll}
+            wageByShiftWorker={showWorkerWages ? wageByShiftWorker : undefined}
+            totalWage={wageByShiftId ? getTotalWage(entries, wageByShiftId) : undefined}
           />
         ) : (
           <PlannerListPanel
@@ -186,6 +213,7 @@ export function PlannerShiftBoard({ entries, loading, readOnly = false }: Planne
             groupBy={groupBy}
             onGroupByChange={handleGroupByChange}
             onWheelScroll={handleResourceWheelScroll}
+            wageByShiftId={wageByShiftId}
           />
         )}
         <Box

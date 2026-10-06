@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import { Box, Chip, IconButton, Tooltip, Typography } from "@mui/material";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
@@ -9,6 +10,8 @@ interface PlannerParentRowProps {
   countTooltip: string;
   isExpanded: boolean;
   onToggle: () => void;
+  /** Shown at the end of the row, before the count. */
+  aside?: ReactNode;
 }
 
 export function PlannerParentRow({
@@ -17,6 +20,7 @@ export function PlannerParentRow({
   countTooltip,
   isExpanded,
   onToggle,
+  aside,
 }: PlannerParentRowProps) {
   return (
     <Box
@@ -58,6 +62,7 @@ export function PlannerParentRow({
           {label}
         </Typography>
       </Tooltip>
+      {aside}
       <Tooltip title={countTooltip} placement="top" disableInteractive>
         <Chip
           size="small"
@@ -75,7 +80,7 @@ export function PlannerParentRow({
   );
 }
 
-export function PlannerTotalsLabelRow() {
+export function PlannerTotalsLabelRow({ aside }: { aside?: ReactNode }) {
   const { t } = useTranslation();
 
   return (
@@ -84,15 +89,17 @@ export function PlannerTotalsLabelRow() {
         height: GANTT_SCHEDULE_ROW_HEIGHT_PX,
         display: "flex",
         alignItems: "center",
+        gap: 0.75,
         px: 1,
         borderBottom: "1px solid",
         borderColor: "divider",
       }}
       role="row"
     >
-      <Typography variant="body2" sx={{ color: "text.primary", fontWeight: 500 }}>
+      <Typography variant="body2" sx={{ color: "text.primary", fontWeight: 500, flex: 1 }}>
         {t("schedule.plannerTotalsRow")}
       </Typography>
+      {aside}
     </Box>
   );
 }
@@ -101,9 +108,11 @@ interface PlannerChildRowProps {
   label: string;
   color?: string;
   isLast: boolean;
+  /** Shown at the end of the row. */
+  aside?: ReactNode;
 }
 
-export function PlannerChildRow({ label, color, isLast }: PlannerChildRowProps) {
+export function PlannerChildRow({ label, color, isLast, aside }: PlannerChildRowProps) {
   return (
     <Box
       sx={{
@@ -136,11 +145,13 @@ export function PlannerChildRow({ label, color, isLast }: PlannerChildRowProps) 
             overflow: "hidden",
             textOverflow: "ellipsis",
             whiteSpace: "nowrap",
+            flex: 1,
           }}
         >
           {label}
         </Typography>
       </Tooltip>
+      {aside}
     </Box>
   );
 }
