@@ -11,7 +11,7 @@ import {
 } from "../utils/progressClaimSettings";
 
 export type ProgressClaimPlannerTab = "MATERIALS" | "RESOURCES" | "ASSETS" | "QUANTITY";
-const PLANNER_TABS: ProgressClaimPlannerTab[] = ["MATERIALS", "RESOURCES", "ASSETS", "QUANTITY"];
+const PLANNER_TABS: ProgressClaimPlannerTab[] = ["QUANTITY", "MATERIALS", "RESOURCES", "ASSETS"];
 
 const PLANNER_TAB_ITEMS: Record<ProgressClaimPlannerTab, { labelKey: string; icon: JSX.Element }> = {
   MATERIALS: { labelKey: "schedule.plannerMaterialsTab", icon: <Package size={16} /> },
@@ -30,9 +30,8 @@ export type ProgressClaimTab =
 const CHANGE_ORDER_TAB = "CHANGE_ORDER";
 
 /**
- * Summary, one tab per phase, then whichever
- * of Materials / Resources / Assets the project's claim settings enable,
- * then Quantity —
+ * Summary, one tab per phase, Quantity, then whichever of Materials /
+ * Resources / Assets the project's claim settings enable —
  * kept in the `subTab` query param (a phase tab stores its schedule id there).
  */
 export function useProgressClaimTabs(
