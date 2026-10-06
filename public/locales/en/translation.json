@@ -9713,6 +9713,8 @@
   "progressClaim": {
     "resourcesTab": "Resources",
     "attachments": {
+      "lineDialogTitle": "Attachments — {{name}}",
+      "lineButtonAria": "Attachments for {{name}}",
       "excelTab": "Attachments",
       "excelUrl": "Download link"
     },

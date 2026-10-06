@@ -9668,6 +9668,8 @@
   "progressClaim": {
     "resourcesTab": "Recursos",
     "attachments": {
+      "lineDialogTitle": "Adjuntos — {{name}}",
+      "lineButtonAria": "Adjuntos de {{name}}",
       "excelTab": "Adjuntos",
       "excelUrl": "Enlace de descarga"
     },

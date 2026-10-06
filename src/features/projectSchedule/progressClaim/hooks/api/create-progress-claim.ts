@@ -8,6 +8,8 @@ export interface CreateProgressClaimLineInput {
   scheduleSuggestedPct: number;
   claimedCumulativePct: number;
   claimedPeriodAmount: number;
+  /** File URLs supporting this line: its own uploads plus its schedule's files picked into it. */
+  attachments?: string[] | null;
 }
 
 /** Header details the user picks on the claim form. */

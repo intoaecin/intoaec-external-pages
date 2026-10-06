@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   Paper,
   Table,
@@ -19,12 +19,15 @@ import {
   LINE_TABLE_GROUP_HEADER_SX,
   LINE_TABLE_SUB_HEADER_SX,
 } from "../components/progressClaimLineTableStyles";
+import ProgressClaimLineAttachmentsViewDialog from "../components/ProgressClaimLineAttachmentsViewDialog";
+import type { LineAttachments } from "../utils/scheduleAttachments";
 import ProgressClaimAcceptSheetRow from "./ProgressClaimAcceptSheetRow";
 
 interface ProgressClaimAcceptSheetProps {
   claimedRows: ProgressClaimLine[];
   acceptedRows: ProgressClaimLine[];
   reasonByScheduleId: Record<string, string>;
+  attachmentsByScheduleId: LineAttachments;
   readOnly: boolean;
   submitAttempted: boolean;
   formatMoney: (amount: number) => string;
@@ -32,8 +35,8 @@ interface ProgressClaimAcceptSheetProps {
   onReasonChange: (scheduleId: string, reason: string) => void;
 }
 
-/** Column widths in render order: item, name, unit, then the QTY/Rate/Amount groups, reason. */
-const COLUMN_WIDTHS = [56, 220, 70, 80, 110, 120, 80, 120, 80, 120, 130, 120, 220];
+/** Column widths in render order: item, name, unit, the QTY/Rate/Amount groups, reason, attachments. */
+const COLUMN_WIDTHS = [56, 220, 70, 80, 110, 120, 80, 120, 80, 120, 130, 120, 220, 110];
 const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 
 /** Client's phase tab: the claim sheet with an Accepted column the client can lower per line. */
@@ -41,6 +44,7 @@ const ProgressClaimAcceptSheet = ({
   claimedRows,
   acceptedRows,
   reasonByScheduleId,
+  attachmentsByScheduleId,
   readOnly,
   submitAttempted,
   formatMoney,
@@ -48,6 +52,7 @@ const ProgressClaimAcceptSheet = ({
   onReasonChange,
 }: ProgressClaimAcceptSheetProps) => {
   const { t } = useTranslation();
+  const [attachmentsRow, setAttachmentsRow] = useState<ProgressClaimLine | null>(null);
   const itemLabels = useMemo(() => buildItemLabels(claimedRows), [claimedRows]);
   const acceptedById = useMemo(
     () => new Map(acceptedRows.map((row) => [row.id, row])),
@@ -90,6 +95,9 @@ const ProgressClaimAcceptSheet = ({
             <TableCell rowSpan={2} className="hide-in-pdf">
               {t("progressClaimExternal.varianceReason")}
             </TableCell>
+            <TableCell rowSpan={2} align="center" className="hide-in-pdf">
+              {t("common.attachments")}
+            </TableCell>
           </TableRow>
           <TableRow sx={LINE_TABLE_SUB_HEADER_SX}>
             {subHeaders.map((label, index) => (
@@ -108,6 +116,8 @@ const ProgressClaimAcceptSheet = ({
               itemLabel={itemLabels.get(row.id)}
               readOnly={readOnly}
               reason={reasonByScheduleId[row.scheduleId] ?? ""}
+              attachmentCount={attachmentsByScheduleId[row.scheduleId]?.length ?? 0}
+              onViewAttachments={setAttachmentsRow}
               showReasonError={submitAttempted}
               formatMoney={formatMoney}
               onAcceptedPctChange={onAcceptedPctChange}
@@ -131,9 +141,16 @@ const ProgressClaimAcceptSheet = ({
             <TableCell />
             {totalCell(acceptedTotals.currentAmount)}
             <TableCell className="hide-in-pdf" />
+            <TableCell className="hide-in-pdf" />
           </TableRow>
         </TableFooter>
       </Table>
+      <ProgressClaimLineAttachmentsViewDialog
+        open={Boolean(attachmentsRow)}
+        scheduleName={attachmentsRow?.name ?? ""}
+        attachments={attachmentsRow ? (attachmentsByScheduleId[attachmentsRow.scheduleId] ?? []) : []}
+        onClose={() => setAttachmentsRow(null)}
+      />
     </TableContainer>
   );
 };

@@ -9,7 +9,7 @@ import ProgressClaimAcceptSheet from "../external/ProgressClaimAcceptSheet";
 import type { useProgressClaimAcceptance } from "../external/useProgressClaimAcceptance";
 import { toClaimPeriod } from "../utils/progressClaimPeriod";
 import { getPhaseRows } from "../utils/progressClaimPhases";
-import ProgressClaimAttachmentsView from "./ProgressClaimAttachmentsView";
+import { getLineAttachments } from "../utils/scheduleAttachments";
 import ProgressClaimChangeOrderTable from "./ProgressClaimChangeOrderTable";
 import ProgressClaimDetailsFields from "./ProgressClaimDetailsFields";
 import ProgressClaimPlannerTabContent from "./ProgressClaimPlannerTabContent";
@@ -44,10 +44,6 @@ const ProgressClaimDocumentContent = ({
   summaryNotice,
 }: ProgressClaimDocumentContentProps) => {
   const { t } = useTranslation();
-
-  if (activeTab.kind === "ATTACHMENTS") {
-    return <ProgressClaimAttachmentsView attachments={claim.attachments ?? []} />;
-  }
 
   if (activeTab.kind === "PLANNER") {
     return (
@@ -88,6 +84,7 @@ const ProgressClaimDocumentContent = ({
         claimedRows={getPhaseRows(acceptance.claimedRows, activeTab.phaseId)}
         acceptedRows={getPhaseRows(acceptance.acceptedRows, activeTab.phaseId)}
         reasonByScheduleId={acceptance.reasonByScheduleId}
+        attachmentsByScheduleId={getLineAttachments(claim.lines)}
         readOnly={readOnly}
         submitAttempted={submitAttempted}
         formatMoney={formatMoney}

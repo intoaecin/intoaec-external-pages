@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { Boxes, FileText, GitMerge, Layers, Package, Paperclip, Ruler, Users } from "lucide-react";
+import { Boxes, FileText, GitMerge, Layers, Package, Ruler, Users } from "lucide-react";
 import type { CustomTabItem } from "@/components/layout/PageLayout";
 import type { ProgressClaimSettings } from "../types";
 import type { ProgressClaimPhase } from "../utils/progressClaimPhases";
@@ -20,27 +20,24 @@ const PLANNER_TAB_ITEMS: Record<ProgressClaimPlannerTab, { labelKey: string; ico
   QUANTITY: { labelKey: "schedule.plannerQuantityTab", icon: <Ruler size={16} /> },
 };
 const SUMMARY_TAB = "SUMMARY";
-const ATTACHMENTS_TAB = "ATTACHMENTS";
 
 export type ProgressClaimTab =
   | { kind: "SUMMARY" }
   | { kind: "CHANGE_ORDER" }
   | { kind: "PHASE"; phaseId: string }
-  | { kind: "PLANNER"; tab: ProgressClaimPlannerTab }
-  | { kind: "ATTACHMENTS" };
+  | { kind: "PLANNER"; tab: ProgressClaimPlannerTab };
 
 const CHANGE_ORDER_TAB = "CHANGE_ORDER";
 
 /**
  * Summary, one tab per phase (childless schedules share one), then whichever
  * of Materials / Resources / Assets the project's claim settings enable,
- * Quantity, then Attachments when shown —
+ * then Quantity —
  * kept in the `subTab` query param (a phase tab stores its schedule id there).
  */
 export function useProgressClaimTabs(
   phases: ProgressClaimPhase[] = [],
   settings: ProgressClaimSettings = DEFAULT_PROGRESS_CLAIM_SETTINGS,
-  showAttachments: boolean = false,
   hasChangeOrders: boolean = false,
 ) {
   const router = useRouter();
@@ -58,18 +55,14 @@ export function useProgressClaimTabs(
       ...(hasChangeOrders ? [CHANGE_ORDER_TAB] : []),
       ...phases.slice(1).map((phase) => phase.id),
       ...plannerTabs,
-      ...(showAttachments ? [ATTACHMENTS_TAB] : []),
     ],
-    [phases, plannerTabs, showAttachments, hasChangeOrders],
+    [phases, plannerTabs, hasChangeOrders],
   );
 
   const querySubTab = String(router.query.subTab ?? SUMMARY_TAB);
   const activeTab = useMemo((): ProgressClaimTab => {
     const plannerTab = plannerTabs.find((tab) => tab === querySubTab.toUpperCase());
     if (plannerTab) return { kind: "PLANNER", tab: plannerTab };
-    if (showAttachments && querySubTab.toUpperCase() === ATTACHMENTS_TAB) {
-      return { kind: "ATTACHMENTS" };
-    }
     if (hasChangeOrders && querySubTab.toUpperCase() === CHANGE_ORDER_TAB) {
       return { kind: "CHANGE_ORDER" };
     }
@@ -77,18 +70,16 @@ export function useProgressClaimTabs(
       return { kind: "PHASE", phaseId: querySubTab };
     }
     return { kind: "SUMMARY" };
-  }, [phases, plannerTabs, querySubTab, showAttachments, hasChangeOrders]);
+  }, [phases, plannerTabs, querySubTab, hasChangeOrders]);
 
   const activeKey =
     activeTab.kind === "PLANNER"
       ? activeTab.tab
       : activeTab.kind === "PHASE"
         ? activeTab.phaseId
-        : activeTab.kind === "ATTACHMENTS"
-          ? ATTACHMENTS_TAB
-          : activeTab.kind === "CHANGE_ORDER"
-            ? CHANGE_ORDER_TAB
-            : SUMMARY_TAB;
+        : activeTab.kind === "CHANGE_ORDER"
+          ? CHANGE_ORDER_TAB
+          : SUMMARY_TAB;
 
   const handleTabChange = useCallback(
     (index: number) => {
@@ -116,11 +107,8 @@ export function useProgressClaimTabs(
         label: t(PLANNER_TAB_ITEMS[tab].labelKey),
         icon: PLANNER_TAB_ITEMS[tab].icon,
       })),
-      ...(showAttachments
-        ? [{ label: t("common.attachments"), icon: <Paperclip size={16} /> }]
-        : []),
     ],
-    [phases, plannerTabs, showAttachments, hasChangeOrders, t],
+    [phases, plannerTabs, hasChangeOrders, t],
   );
 
   return {

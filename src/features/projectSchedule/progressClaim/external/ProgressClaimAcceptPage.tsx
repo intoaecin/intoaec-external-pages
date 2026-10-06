@@ -51,7 +51,6 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
   const { activeTab, tabItems, tabValue, handleTabChange } = useProgressClaimTabs(
     acceptance.phases,
     claimSettings,
-    (claim.attachments?.length ?? 0) > 0,
     hasChangeOrders,
   );
 

@@ -11,6 +11,7 @@ import {
   getLineQuantity,
   isLumpSum,
 } from "../utils/progressClaimLineFigures";
+import LineAttachmentsButton from "../components/LineAttachmentsButton";
 import { LINE_TABLE_CELL_SX } from "../components/progressClaimLineTableStyles";
 
 interface ProgressClaimAcceptSheetRowProps {
@@ -22,6 +23,8 @@ interface ProgressClaimAcceptSheetRowProps {
   readOnly: boolean;
   reason: string;
   showReasonError: boolean;
+  attachmentCount: number;
+  onViewAttachments: (row: ProgressClaimLine) => void;
   formatMoney: (amount: number) => string;
   onAcceptedPctChange: (scheduleId: string, pct: NumberInputBoxValue) => void;
   onReasonChange: (scheduleId: string, reason: string) => void;
@@ -39,6 +42,8 @@ const ProgressClaimAcceptSheetRow = ({
   readOnly,
   reason,
   showReasonError,
+  attachmentCount,
+  onViewAttachments,
   formatMoney,
   onAcceptedPctChange,
   onReasonChange,
@@ -120,6 +125,15 @@ const ProgressClaimAcceptSheetRow = ({
       {text(formatMoney(accepted.currentAmount))}
 
       <TableCell className="hide-in-pdf">{renderReason()}</TableCell>
+      <TableCell padding="none" align="center" className="hide-in-pdf">
+        {isGroup || attachmentCount === 0 ? null : (
+          <LineAttachmentsButton
+            count={attachmentCount}
+            label={t("progressClaim.attachments.lineButtonAria", { name: claimedRow.name })}
+            onClick={() => onViewAttachments(claimedRow)}
+          />
+        )}
+      </TableCell>
     </TableRow>
   );
 };
