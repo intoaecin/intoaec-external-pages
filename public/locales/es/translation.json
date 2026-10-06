@@ -104,6 +104,7 @@
     "highlightColor": "Color de resaltado"
   },
   "common": {
+    "logo": "Logotipo",
     "subject": "Asunto",
     "organization": "Organización",
     "answered": "Respondido",

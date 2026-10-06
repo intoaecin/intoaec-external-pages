@@ -104,6 +104,7 @@
     "highlightColor": "Highlight color"
   },
   "common": {
+    "logo": "Logo",
     "subject": "Subject",
     "answered": "Answered",
     "organization": "Organization",

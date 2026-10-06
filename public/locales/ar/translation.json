@@ -91,6 +91,7 @@
     "subscription": "اشتراك"
   },
   "common": {
+    "logo": "Logo",
     "close": "Close",
     "workers": "Workers",
     "totalCost": "Total Cost",

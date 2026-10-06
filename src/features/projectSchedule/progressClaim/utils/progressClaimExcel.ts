@@ -87,6 +87,10 @@ const buildSummarySheet = ({
   add([]);
 
   add([t("common.businessInfo"), null, null], "section");
+  // The logo sits in its own row, like the thumbnails on the Attachments sheet.
+  const logoUrl = business?.logoUrl?.trim();
+  const logoRow = rows.length;
+  if (logoUrl) add([t("common.logo"), null]);
   add([t("common.name"), orDash(business?.name)]);
   add([t("common.email"), orDash(business?.email)]);
   add([t("common.phone"), orDash(business?.phone)]);
@@ -127,6 +131,7 @@ const buildSummarySheet = ({
     // Column A also holds the detail labels (S.No, Business/Client Info) above the statement.
     columnWidths: [16, 60, 18],
     columnFormats: [{ column: 2, numberFormat: EXCEL_MONEY_FORMAT }],
+    images: logoUrl ? [{ row: logoRow, column: 1, url: logoUrl }] : undefined,
   };
 };
 

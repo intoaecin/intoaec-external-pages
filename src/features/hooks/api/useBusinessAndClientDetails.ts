@@ -10,6 +10,7 @@ export interface BusinessDetails {
   location?: string;
   taxName?: string;
   taxId?: string;
+  logoUrl?: string;
 }
 
 export interface ClientDetails {
@@ -66,6 +67,7 @@ export const useBusinessAndClientDetails = ({
         website: profileBody?.websiteOrBlog,
         taxName: profileBody?.taxName,
         taxId: profileBody?.taxId,
+        logoUrl: profileBody?.Organizations_logoUrl ?? profileBody?.org_logoUrl,
         location: addressBody?.city,
         email: admin?.emailId,
         phone: admin?.mobileNumber,
