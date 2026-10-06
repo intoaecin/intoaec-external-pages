@@ -1,6 +1,7 @@
 import type { RefObject } from "react";
 import { Box, Tooltip, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { roundNumber } from "@/utils/numbers";
 import { GANTT_SCHEDULE_ROW_HEIGHT_PX } from "../../helpers/constants";
 import type { PlannerQuantityEntry } from "../../hooks/usePlannerQuantityEntries";
 import { PlannerListPanelShell } from "../PlannerListPanelShell";
@@ -81,6 +82,14 @@ export function PlannerQuantityListPanel({
             </Typography>
           </Tooltip>
           <QuantityPlanSummary plan={plan} unit={schedule.quantityUnit} />
+          <Tooltip title={t("schedule.completion")} placement="top" disableInteractive>
+            <Typography
+              variant="caption"
+              sx={{ color: "text.primary", fontWeight: 500, flexShrink: 0, whiteSpace: "nowrap" }}
+            >
+              {roundNumber(Number(schedule.scheduleCompletionPercentage) || 0, 2)}%
+            </Typography>
+          </Tooltip>
         </Box>
       ))}
     </PlannerListPanelShell>

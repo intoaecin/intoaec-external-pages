@@ -9692,6 +9692,8 @@
     "table": {
       "workerNames": "Nombres de trabajadores",
       "accepted": "Aceptado",
+      "currentPctAria": "% actual de {{name}}",
+      "acceptedPctAria": "% aceptado de {{name}}",
       "acceptedQtyAria": "Cantidad aceptada para {{name}}",
       "current": "Actual",
       "currentQtyAria": "Cantidad actual para {{name}}",

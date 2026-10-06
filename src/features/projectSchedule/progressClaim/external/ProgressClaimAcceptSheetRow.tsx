@@ -6,8 +6,12 @@ import { TruncatedText } from "@/components_v2/TruncatedText";
 import type { ProgressClaimLine } from "../types";
 import {
   currentInputToClaimPct,
+  currentPctInputToClaimPct,
   getCurrentInputValue,
+  getCurrentPctInputMax,
+  getCurrentPctInputValue,
   getLineFigures,
+  formatLinePct,
   formatLineQuantity,
   getLineQuantity,
   isLumpSum,
@@ -98,9 +102,11 @@ const ProgressClaimAcceptSheetRow = ({
       {text(formatMoney(claimedRow.claimValue))}
 
       {text(formatQty(claimed.previousQty))}
+      {text(formatLinePct(claimed.previousPct))}
       {text(formatMoney(claimed.previousAmount))}
 
       {text(formatQty(claimed.currentQty))}
+      {text(formatLinePct(claimed.currentPct))}
       {text(formatMoney(claimed.currentAmount))}
 
       {isGroup || readOnly ? (
@@ -118,6 +124,28 @@ const ProgressClaimAcceptSheetRow = ({
             fullWidth
             endAdornment={unit ? <Typography variant="caption">{unit}</Typography> : undefined}
             aria-label={t("progressClaim.table.acceptedQtyAria", { name: claimedRow.name })}
+          />
+        </TableCell>
+      )}
+      {isGroup || readOnly ? (
+        text(formatLinePct(accepted.currentPct))
+      ) : (
+        <TableCell>
+          <NumberInputBox
+            value={getCurrentPctInputValue(acceptedRow)}
+            onChange={(value) =>
+              onAcceptedPctChange(
+                claimedRow.scheduleId,
+                currentPctInputToClaimPct(acceptedRow, value, claimed.currentPct),
+              )
+            }
+            max={getCurrentPctInputMax(acceptedRow, claimed.currentPct)}
+            maxIntegerDigits={3}
+            maxFractionDigits={2}
+            allowEmpty
+            fullWidth
+            endAdornment={<Typography variant="caption">%</Typography>}
+            aria-label={t("progressClaim.table.acceptedPctAria", { name: claimedRow.name })}
           />
         </TableCell>
       )}

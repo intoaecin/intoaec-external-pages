@@ -9,10 +9,13 @@ const PCT_PRECISION = 6;
 export interface ProgressClaimLineFigures {
   rate: number | null;
   previousQty: number | null;
+  previousPct: number;
   previousAmount: number;
   currentQty: number | null;
+  currentPct: number;
   currentAmount: number;
   toDateQty: number | null;
+  toDatePct: number;
   toDateAmount: number;
 }
 
@@ -33,6 +36,9 @@ export const formatLineQuantity = (qty: number | null, unit?: string | null): st
     ? ""
     : [qty.toLocaleString(undefined, { maximumFractionDigits: 3 }), unit].filter(Boolean).join(" ");
 
+/** A progress percentage as shown beside a quantity ("12.5%"). */
+export const formatLinePct = (pct: number): string => `${roundNumber(pct, 2)}%`;
+
 const toQty = (pct: number, quantity: number | null) =>
   quantity ? roundNumber(pctOf(pct, quantity), QTY_PRECISION) : null;
 
@@ -48,10 +54,13 @@ export const getLineFigures = (line: ProgressClaimLine): ProgressClaimLineFigure
   return {
     rate: quantity ? roundNumber(line.claimValue / quantity) : null,
     previousQty: toQty(line.previousAcceptedPct, quantity),
+    previousPct: line.previousAcceptedPct,
     previousAmount: roundNumber(pctOf(line.previousAcceptedPct, line.claimValue)),
     currentQty: toQty(currentPct, quantity),
+    currentPct,
     currentAmount: line.periodAmount,
     toDateQty: toQty(claimPct, quantity),
+    toDatePct: claimPct,
     toDateAmount: roundNumber(pctOf(claimPct, line.claimValue)),
   };
 };
@@ -74,6 +83,35 @@ export const currentInputToClaimPct = (
   const quantity = getLineQuantity(line);
   if (value === "" || !quantity) return "";
   const currentPct = (value / quantity) * 100;
+  return Math.min(100, roundNumber(line.previousAcceptedPct + currentPct, PCT_PRECISION));
+};
+
+const PCT_INPUT_PRECISION = 2;
+
+/** What the "Current" % input shows: this period's share of the line. */
+export const getCurrentPctInputValue = (line: ProgressClaimLine): NumberInputBoxValue =>
+  line.claimPct === ""
+    ? ""
+    : roundNumber(line.claimPct - line.previousAcceptedPct, PCT_INPUT_PRECISION);
+
+/** The most the "Current" % input can take, as it is displayed. */
+export const getCurrentPctInputMax = (
+  line: ProgressClaimLine,
+  maxCurrentPct: number = 100 - line.previousAcceptedPct,
+): number => roundNumber(maxCurrentPct, PCT_INPUT_PRECISION);
+
+/**
+ * Converts a "Current" % back into the cumulative claim % the draft stores.
+ * Typing the displayed maximum means all of `maxCurrentPct`, which may carry
+ * more decimals than the input shows.
+ */
+export const currentPctInputToClaimPct = (
+  line: ProgressClaimLine,
+  value: NumberInputBoxValue,
+  maxCurrentPct: number = 100 - line.previousAcceptedPct,
+): NumberInputBoxValue => {
+  if (value === "") return "";
+  const currentPct = value >= getCurrentPctInputMax(line, maxCurrentPct) ? maxCurrentPct : value;
   return Math.min(100, roundNumber(line.previousAcceptedPct + currentPct, PCT_PRECISION));
 };
 

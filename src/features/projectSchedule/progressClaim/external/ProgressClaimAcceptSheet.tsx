@@ -35,8 +35,10 @@ interface ProgressClaimAcceptSheetProps {
   onReasonChange: (scheduleId: string, reason: string) => void;
 }
 
-/** Column widths in render order: item, name, the QTY/Rate/Amount groups, reason, attachments. */
-const COLUMN_WIDTHS = [56, 220, 110, 110, 120, 110, 120, 110, 120, 150, 120, 220, 110];
+/** Column widths in render order: item, name, total Qty/Rate/Amount, then Qty/%/Amount per group, reason, attachments. */
+const COLUMN_WIDTHS = [
+  56, 220, 110, 110, 120, 110, 70, 120, 110, 70, 120, 150, 110, 120, 220, 110,
+];
 const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 
 /** Client's phase tab: the claim sheet with an Accepted column the client can lower per line. */
@@ -62,7 +64,7 @@ const ProgressClaimAcceptSheet = ({
   const acceptedTotals = useMemo(() => getLineTotals(acceptedRows), [acceptedRows]);
   const qty = t("common.qty");
   const amount = t("common.amount");
-  const subHeaders = [qty, t("common.rate"), amount, qty, amount, qty, amount, qty, amount];
+  const subHeaders = [qty, t("common.rate"), amount, qty, "%", amount, qty, "%", amount, qty, "%", amount];
 
   const totalCell = (value: number) => (
     <TableCell align="right">
@@ -88,9 +90,9 @@ const ProgressClaimAcceptSheet = ({
             <TableCell rowSpan={2}>{t("common.item")}</TableCell>
             <TableCell rowSpan={2}>{t("schedule.scheduleName")}</TableCell>
             <TableCell colSpan={3} align="center">{t("progressClaim.table.totalValue")}</TableCell>
-            <TableCell colSpan={2} align="center">{t("common.previous")}</TableCell>
-            <TableCell colSpan={2} align="center">{t("progressClaim.table.current")}</TableCell>
-            <TableCell colSpan={2} align="center">{t("progressClaim.table.accepted")}</TableCell>
+            <TableCell colSpan={3} align="center">{t("common.previous")}</TableCell>
+            <TableCell colSpan={3} align="center">{t("progressClaim.table.current")}</TableCell>
+            <TableCell colSpan={3} align="center">{t("progressClaim.table.accepted")}</TableCell>
             <TableCell rowSpan={2} className="hide-in-pdf">
               {t("progressClaimExternal.varianceReason")}
             </TableCell>
@@ -133,11 +135,11 @@ const ProgressClaimAcceptSheet = ({
             </TableCell>
             <TableCell colSpan={2} />
             {totalCell(claimedTotals.totalAmount)}
-            <TableCell />
+            <TableCell colSpan={2} />
             {totalCell(claimedTotals.previousAmount)}
-            <TableCell />
+            <TableCell colSpan={2} />
             {totalCell(claimedTotals.currentAmount)}
-            <TableCell />
+            <TableCell colSpan={2} />
             {totalCell(acceptedTotals.currentAmount)}
             <TableCell className="hide-in-pdf" />
             <TableCell className="hide-in-pdf" />

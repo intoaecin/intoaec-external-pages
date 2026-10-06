@@ -9737,6 +9737,8 @@
     "table": {
       "workerNames": "Worker Names",
       "accepted": "Accepted",
+      "currentPctAria": "Current % for {{name}}",
+      "acceptedPctAria": "Accepted % for {{name}}",
       "acceptedQtyAria": "Accepted quantity for {{name}}",
       "current": "Current",
       "currentQtyAria": "Current quantity for {{name}}",
