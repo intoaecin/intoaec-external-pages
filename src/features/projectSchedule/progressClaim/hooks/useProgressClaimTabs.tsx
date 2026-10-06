@@ -30,7 +30,7 @@ export type ProgressClaimTab =
 const CHANGE_ORDER_TAB = "CHANGE_ORDER";
 
 /**
- * Summary, one tab per phase (childless schedules share one), then whichever
+ * Summary, one tab per phase, then whichever
  * of Materials / Resources / Assets the project's claim settings enable,
  * then Quantity —
  * kept in the `subTab` query param (a phase tab stores its schedule id there).

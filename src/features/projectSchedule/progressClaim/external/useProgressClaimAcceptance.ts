@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import type { NumberInputBoxValue } from "@/components_v2/NumberInputBox";
 import type { ProgressClaim } from "../hooks/api/create-progress-claim";
 import { useFetchClaimSchedules } from "../hooks/api/fetch-claim-schedules";
@@ -19,7 +18,6 @@ type ClaimLine = ProgressClaim["lines"][number];
  * `withAuth` is false on the client's page, which has no session.
  */
 export const useProgressClaimAcceptance = (claim: ProgressClaim, withAuth: boolean = false) => {
-  const { t } = useTranslation();
   const { schedules, loading } = useFetchClaimSchedules({
     organizationId: claim.organizationId,
     organizationType: claim.organizationType,
@@ -58,10 +56,7 @@ export const useProgressClaimAcceptance = (claim: ProgressClaim, withAuth: boole
     () => buildClaimRows(schedules, claim.lines, acceptedPctByScheduleId),
     [schedules, claim.lines, acceptedPctByScheduleId],
   );
-  const phases = useMemo(
-    () => getProgressClaimPhases(claimedRows, t("progressClaim.standaloneSchedulesTab")),
-    [claimedRows, t],
-  );
+  const phases = useMemo(() => getProgressClaimPhases(claimedRows), [claimedRows]);
 
   const retentionPct = resolveRetentionPct(claim.retentionPct);
   // The client sees what they'd actually pay: the statement follows the accepted amounts.
