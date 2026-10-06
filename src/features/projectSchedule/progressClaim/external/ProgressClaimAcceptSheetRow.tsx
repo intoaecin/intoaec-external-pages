@@ -24,7 +24,6 @@ interface ProgressClaimAcceptSheetRowProps {
   claimedRow: ProgressClaimLine;
   /** The same line at the % the client is accepting. */
   acceptedRow: ProgressClaimLine;
-  itemLabel?: string;
   readOnly: boolean;
   reason: string;
   showReasonError: boolean;
@@ -40,7 +39,6 @@ const INDENT_PER_DEPTH_PX = 16;
 const ProgressClaimAcceptSheetRow = ({
   claimedRow,
   acceptedRow,
-  itemLabel,
   readOnly,
   reason,
   showReasonError,
@@ -90,7 +88,6 @@ const ProgressClaimAcceptSheetRow = ({
 
   return (
     <TableRow sx={[LINE_TABLE_CELL_SX, isGroup ? { bgcolor: "grey.50" } : {}]}>
-      {text(itemLabel ?? "", "left")}
       <TableCell>
         <Box sx={{ pl: `${claimedRow.depth * INDENT_PER_DEPTH_PX}px`, fontWeight }}>
           <TruncatedText text={claimedRow.name} limit={40} />

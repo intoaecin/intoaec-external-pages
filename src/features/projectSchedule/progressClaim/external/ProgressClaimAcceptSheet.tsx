@@ -13,7 +13,7 @@ import {
 import { useTranslation } from "react-i18next";
 import type { NumberInputBoxValue } from "@/components_v2/NumberInputBox";
 import type { ProgressClaimLine } from "../types";
-import { buildItemLabels, getLineTotals } from "../utils/progressClaimLineFigures";
+import { getLineTotals } from "../utils/progressClaimLineFigures";
 import {
   LINE_TABLE_CELL_SX,
   LINE_TABLE_GROUP_HEADER_SX,
@@ -35,9 +35,9 @@ interface ProgressClaimAcceptSheetProps {
   onReasonChange: (scheduleId: string, reason: string) => void;
 }
 
-/** Column widths in render order: item, name, total Qty/Rate/Amount, then Qty/%/Amount per group, reason, attachments. */
+/** Column widths in render order: name, total Qty/Rate/Amount, then Qty/%/Amount per group, reason, attachments. */
 const COLUMN_WIDTHS = [
-  56, 220, 110, 110, 120, 110, 70, 120, 110, 70, 120, 150, 110, 120, 220, 110,
+  220, 110, 110, 120, 110, 70, 120, 110, 70, 120, 150, 110, 120, 220, 140,
 ];
 const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 
@@ -55,7 +55,6 @@ const ProgressClaimAcceptSheet = ({
 }: ProgressClaimAcceptSheetProps) => {
   const { t } = useTranslation();
   const [attachmentsRow, setAttachmentsRow] = useState<ProgressClaimLine | null>(null);
-  const itemLabels = useMemo(() => buildItemLabels(claimedRows), [claimedRows]);
   const acceptedById = useMemo(
     () => new Map(acceptedRows.map((row) => [row.id, row])),
     [acceptedRows],
@@ -87,7 +86,6 @@ const ProgressClaimAcceptSheet = ({
         </colgroup>
         <TableHead>
           <TableRow sx={LINE_TABLE_GROUP_HEADER_SX}>
-            <TableCell rowSpan={2}>{t("common.item")}</TableCell>
             <TableCell rowSpan={2}>{t("schedule.scheduleName")}</TableCell>
             <TableCell colSpan={3} align="center">{t("progressClaim.table.totalValue")}</TableCell>
             <TableCell colSpan={3} align="center">{t("common.previous")}</TableCell>
@@ -114,7 +112,6 @@ const ProgressClaimAcceptSheet = ({
               key={row.id}
               claimedRow={row}
               acceptedRow={acceptedById.get(row.id) ?? row}
-              itemLabel={itemLabels.get(row.id)}
               readOnly={readOnly}
               reason={reasonByScheduleId[row.scheduleId] ?? ""}
               attachmentCount={attachmentsByScheduleId[row.scheduleId]?.length ?? 0}
@@ -128,7 +125,7 @@ const ProgressClaimAcceptSheet = ({
         </TableBody>
         <TableFooter>
           <TableRow sx={[LINE_TABLE_CELL_SX, { bgcolor: "primary.light" }]}>
-            <TableCell colSpan={2} align="right">
+            <TableCell align="right">
               <Typography variant="body2" fontWeight={500} color="text.primary">
                 {t("common.total")}
               </Typography>
