@@ -54,7 +54,7 @@ const ProgressClaimStatement = ({
           <TableRow sx={HEADER_ROW_SX}>
             <TableCell align="center">{t("common.no")}</TableCell>
             <TableCell>{t("common.description")}</TableCell>
-            <TableCell align="right">{t("common.amount")}</TableCell>
+            <TableCell>{t("common.amount")}</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
