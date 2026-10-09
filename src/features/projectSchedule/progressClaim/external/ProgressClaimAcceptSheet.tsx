@@ -26,6 +26,8 @@ import ProgressClaimAcceptSheetRow from "./ProgressClaimAcceptSheetRow";
 interface ProgressClaimAcceptSheetProps {
   claimedRows: ProgressClaimLine[];
   acceptedRows: ProgressClaimLine[];
+  /** Lines whose accepted input the client has emptied. */
+  clearedAcceptedIds: Set<string>;
   reasonByScheduleId: Record<string, string>;
   attachmentsByScheduleId: LineAttachments;
   readOnly: boolean;
@@ -45,6 +47,7 @@ const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 const ProgressClaimAcceptSheet = ({
   claimedRows,
   acceptedRows,
+  clearedAcceptedIds,
   reasonByScheduleId,
   attachmentsByScheduleId,
   readOnly,
@@ -112,6 +115,7 @@ const ProgressClaimAcceptSheet = ({
               key={row.id}
               claimedRow={row}
               acceptedRow={acceptedById.get(row.id) ?? row}
+              acceptedCleared={clearedAcceptedIds.has(row.scheduleId)}
               readOnly={readOnly}
               reason={reasonByScheduleId[row.scheduleId] ?? ""}
               attachmentCount={attachmentsByScheduleId[row.scheduleId]?.length ?? 0}

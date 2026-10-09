@@ -43,6 +43,18 @@ export const useProgressClaimAcceptance = (claim: ProgressClaim, withAuth: boole
     return new Map(claim.lines.map((line) => [line.scheduleId, acceptedPct(line)]));
   }, [acceptedPctInputs, claim.lines, isAccepted]);
 
+  // Lines whose accepted input the client has emptied: the figures fall back to
+  // nothing accepted this period, but the inputs themselves must stay blank.
+  const clearedAcceptedIds = useMemo(
+    () =>
+      new Set(
+        isAccepted
+          ? []
+          : Object.keys(acceptedPctInputs).filter((id) => acceptedPctInputs[id] === ""),
+      ),
+    [acceptedPctInputs, isAccepted],
+  );
+
   const reasonByScheduleId = useMemo(
     () =>
       isDecided
@@ -102,6 +114,7 @@ export const useProgressClaimAcceptance = (claim: ProgressClaim, withAuth: boole
     isDecided,
     claimedRows,
     acceptedRows,
+    clearedAcceptedIds,
     phases,
     retentionPct,
     statement,

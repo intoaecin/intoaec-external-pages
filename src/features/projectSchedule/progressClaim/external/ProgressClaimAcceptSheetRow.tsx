@@ -24,6 +24,8 @@ interface ProgressClaimAcceptSheetRowProps {
   claimedRow: ProgressClaimLine;
   /** The same line at the % the client is accepting. */
   acceptedRow: ProgressClaimLine;
+  /** The client emptied this line's accepted input: show it blank, not as 0. */
+  acceptedCleared: boolean;
   readOnly: boolean;
   reason: string;
   showReasonError: boolean;
@@ -39,6 +41,7 @@ const INDENT_PER_DEPTH_PX = 16;
 const ProgressClaimAcceptSheetRow = ({
   claimedRow,
   acceptedRow,
+  acceptedCleared,
   readOnly,
   reason,
   showReasonError,
@@ -51,6 +54,9 @@ const ProgressClaimAcceptSheetRow = ({
   const { t } = useTranslation();
   const claimed = getLineFigures(claimedRow);
   const accepted = getLineFigures(acceptedRow);
+  const acceptedInputRow: ProgressClaimLine = acceptedCleared
+    ? { ...acceptedRow, claimPct: "" }
+    : acceptedRow;
   const isGroup = claimedRow.isGroup;
   const fontWeight = isGroup ? 500 : undefined;
   const unit = claimedRow.unit ?? (isLumpSum(claimedRow) ? t("progressClaim.table.lumpSumUnit") : "");
@@ -111,7 +117,7 @@ const ProgressClaimAcceptSheetRow = ({
       ) : (
         <TableCell>
           <NumberInputBox
-            value={getCurrentInputValue(acceptedRow)}
+            value={getCurrentInputValue(acceptedInputRow)}
             onChange={(value) =>
               onAcceptedPctChange(claimedRow.scheduleId, currentInputToClaimPct(acceptedRow, value))
             }
@@ -129,7 +135,7 @@ const ProgressClaimAcceptSheetRow = ({
       ) : (
         <TableCell>
           <NumberInputBox
-            value={getCurrentPctInputValue(acceptedRow)}
+            value={getCurrentPctInputValue(acceptedInputRow)}
             onChange={(value) =>
               onAcceptedPctChange(
                 claimedRow.scheduleId,

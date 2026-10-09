@@ -88,6 +88,7 @@ const ProgressClaimDocumentContent = ({
         readOnly={readOnly}
         submitAttempted={submitAttempted}
         formatMoney={formatMoney}
+        clearedAcceptedIds={acceptance.clearedAcceptedIds}
         onAcceptedPctChange={acceptance.updateAcceptedPct}
         onReasonChange={acceptance.updateReason}
       />
