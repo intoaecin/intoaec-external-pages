@@ -45,13 +45,13 @@ const RejectClaimDialog = ({ open, loading, onClose, onConfirm }: RejectClaimDia
       secondaryAction={{
         label: t("common.cancel", { defaultValue: "Cancel" }),
         onClick: handleClose,
-        variant: "contained",
+        variant: "outlined",
         disabled: loading,
       }}
       primaryAction={{
         label: t("progressClaimExternal.rejectClaim", { defaultValue: "Reject" }),
         onClick: handleConfirm,
-        variant: "outlined",
+        variant: "contained",
         color: "error",
         loading,
       }}
@@ -59,12 +59,14 @@ const RejectClaimDialog = ({ open, loading, onClose, onConfirm }: RejectClaimDia
       <TextField
         autoFocus
         fullWidth
+        required
         multiline
-        minRows={3}
+        rows={4}
         label={t("progressClaimExternal.rejectionReason", { defaultValue: "Reason" })}
         placeholder={t("progressClaimExternal.rejectionReasonPlaceholder", {
           defaultValue: "Let us know why you're rejecting this claim.",
         })}
+        InputLabelProps={{ shrink: true }}
         value={reason}
         onChange={(event) => setReason(event.target.value)}
         error={hasError}

@@ -213,14 +213,6 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
               })}
       </Typography>
 
-      {isRejected && claim.rejectionReason ? (
-        <Typography variant="body2" color="error.main">
-          {t("progressClaimExternal.rejectionReasonLabel", {
-            defaultValue: "Reason: {{reason}}",
-            reason: claim.rejectionReason,
-          })}
-        </Typography>
-      ) : null}
     </>
   );
 
