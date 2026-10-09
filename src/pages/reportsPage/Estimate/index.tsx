@@ -31,8 +31,6 @@ import {
 import ClientsHome from "@/features/reportsPage/clients/ClientsHome";
 import EmailsHome from "@/features/reportsPage/emails/EmailsHome";
 import EstimateHome from "@/features/reportsPage/estimate/EstimateHome";
-import { createOrganizationTheme } from "@/utils/createOrganizationTheme";
-import { ThemeProvider } from "@mui/material";
 
 const OrganizationDetailsWrapper = () => {
   // const [organizationId, setOrganizationId] = useState<string>();
@@ -43,26 +41,20 @@ const OrganizationDetailsWrapper = () => {
     organizationId,
     organizationName,
     organizationType,
-    mainColor,
-    textColor,
   } = useOrganization();
 
   if (loading) {
     return <p>Loading....</p>;
   }
 
-  const theme = createOrganizationTheme(mainColor, textColor);
-
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <OrganizationLocalizationProvider
-          organizationId={organizationId}
-          organizationType={organizationType}
-        >
-          <EstimateHome />
-        </OrganizationLocalizationProvider>
-      </ThemeProvider>
+      <OrganizationLocalizationProvider
+        organizationId={organizationId}
+        organizationType={organizationType}
+      >
+        <EstimateHome />
+      </OrganizationLocalizationProvider>
     </>
   );
 };

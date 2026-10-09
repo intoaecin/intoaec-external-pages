@@ -20,21 +20,17 @@ import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLoc
 import { downloadClientReportPdf } from "@/features/ClientReport/utils/clientReportPdf";
 import {
   formatDateBasedOnOrganizationLocalization,
-  hexToRgb,
 } from "@/lib/helpers";
 import {
   Box,
   CircularProgress,
   IconButton,
-  ThemeProvider,
   Tooltip,
   Typography,
-  createTheme,
 } from "@mui/material";
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 /**
  * Ported from intoaec-UI `src/pages/client-report/index.tsx`.
@@ -315,8 +311,6 @@ const ClientReportPreview = () => {
     loading,
     organizationId,
     organizationType,
-    mainColor,
-    textColor,
   } = useOrganization();
   const clientReportId = Array.isArray(router.query.clientReportId)
     ? router.query.clientReportId[0]
@@ -344,33 +338,19 @@ const ClientReportPreview = () => {
     return <PageLoader />;
   }
 
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`,
-        contrastText: textColor ?? "#FFFFFF",
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`,
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`,
-      },
-    },
-  });
-
   return (
-    <ThemeProvider theme={theme}>
-      <OrganizationLocalizationProvider
+    <OrganizationLocalizationProvider
+      organizationId={organizationId}
+      organizationType={organizationType}
+    >
+      <ClientReportPreviewContent
+        report={report}
+        dailyLog={dailyLog}
+        isReportUnavailable={isReportUnavailable}
+        isDailyLogPreview={isDailyLogPreview}
         organizationId={organizationId}
-        organizationType={organizationType}
-      >
-        <ClientReportPreviewContent
-          report={report}
-          dailyLog={dailyLog}
-          isReportUnavailable={isReportUnavailable}
-          isDailyLogPreview={isDailyLogPreview}
-          organizationId={organizationId}
-        />
-      </OrganizationLocalizationProvider>
-    </ThemeProvider>
+      />
+    </OrganizationLocalizationProvider>
   );
 };
 

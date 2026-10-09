@@ -20,38 +20,24 @@ import {
   decryptAES,
   encryptAES,
   getLocalizationValue,
-  hexToRgb,
 } from "@/lib/helpers";
-import { Box, createTheme, ThemeProvider } from "@mui/material";
+import { Box } from "@mui/material";
 import { usePdfDownload } from "@/features/hooks/usePdfDownload";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const { loading, mainColor, textColor } = useOrganization();
+  const { loading } = useOrganization();
 
   if (loading) return <PageLoader />;
 
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`,
-        contrastText: textColor ?? "#FFFFFF",
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`,
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`,
-      },
-    },
-  });
-
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <>{children}</>;
 };
 
 const CHANGE_ORDER_PDF_ELEMENT_ID = "change-order-pdf";

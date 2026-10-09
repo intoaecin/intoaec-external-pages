@@ -138,7 +138,7 @@ const Home = () => {
     );
 
   return (
-    <OrganizationDetailsProvider>
+    <OrganizationDetailsProvider applyTheme={false}>
       <ClientPoDataProvider poId={poId}>
         <ClientPoPreviewWrapper poId={poId} />
       </ClientPoDataProvider>

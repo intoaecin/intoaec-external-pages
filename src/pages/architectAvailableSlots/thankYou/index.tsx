@@ -25,7 +25,7 @@ const ThankYouWrapper = () => {
 
 export default function Home() {
   return (
-    <OrganizationDetailsProvider blockTheme={false}>
+    <OrganizationDetailsProvider blockTheme={false} applyTheme={false}>
       <ThankYouWrapper />
     </OrganizationDetailsProvider>
   );

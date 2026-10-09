@@ -162,7 +162,7 @@ const Home = () => {
     );
 
   return (
-    <OrganizationDetailsProvider>
+    <OrganizationDetailsProvider applyTheme={false}>
       <ClientRfqDataProvider rfqId={rfqId}>
         <ClientRfqPreviewWrapper rfqId={rfqId} />
       </ClientRfqDataProvider>

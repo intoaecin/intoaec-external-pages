@@ -3,7 +3,7 @@ import LeadCaptureThankYouPage from "@/features/leadCapture/LeadCaptureThankYouP
 
 export default function Home() {
   return (
-    <OrganizationDetailsProvider>
+    <OrganizationDetailsProvider applyTheme={false}>
 
       <LeadCaptureThankYouPage />
     </OrganizationDetailsProvider>

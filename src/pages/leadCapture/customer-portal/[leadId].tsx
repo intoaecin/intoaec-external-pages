@@ -8,14 +8,11 @@ import { useAxios, useAxiosWithAuth } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import LeadCaptureForm from "@/features/leadCapture/leadCaptureForm";
 import { setCreateLeadFormData } from "@/features/leadCapture/setCreateFormData";
-import { hexToRgb } from "@/lib/helpers";
-import { ThemeProvider, createTheme } from "@mui/material";
 import FallbackExternalPage from "@/components/FallbackExternalPage";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ToastContainer } from "react-toastify";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   // const [organizationId, setOrganizationId] = useState<string>();
@@ -26,8 +23,6 @@ const OrganizationDetailsWrapper = () => {
     organizationId,
     organizationName,
     organizationType,
-    mainColor,
-    textColor,
   } = useOrganization();
   const { VITE_LEADMANAGER_ENDPOINT } = useEnv();
   const { post } = useAxios(VITE_LEADMANAGER_ENDPOINT + "/fetch");
@@ -91,28 +86,14 @@ const OrganizationDetailsWrapper = () => {
       />
     );
 
-
  
  
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`, // Red
-        contrastText: textColor ?? "#FFFFFF", // White,
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`,
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`,
-      },
-    },
-  });
 
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <ToastContainer />
-        {/* {organizationId && organizationName ? <LeadCaptureForm isCustomerPortal={true}/> : <></>} */}
-        <LeadCaptureForm isCustomerPortal={true} />
-      </ThemeProvider>
+      <ToastContainer />
+      {/* {organizationId && organizationName ? <LeadCaptureForm isCustomerPortal={true}/> : <></>} */}
+      <LeadCaptureForm isCustomerPortal={true} />
     </>
   );
 };

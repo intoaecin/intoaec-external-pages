@@ -8,11 +8,8 @@ import FallbackExternalPage from "@/components/FallbackExternalPage";
 import ProgressClaimAcceptPage from "@/features/projectSchedule/progressClaim/external/ProgressClaimAcceptPage";
 import type { ProgressClaim } from "@/features/projectSchedule/progressClaim/hooks/api/create-progress-claim";
 import { useFetchProgressClaimById } from "@/features/projectSchedule/progressClaim/hooks/api/fetch-progress-claim";
-import { hexToRgb } from "@/lib/helpers";
-import { createTheme, ThemeProvider } from "@mui/material";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 // The accept flow only makes sense once the claim has actually been sent to
 // the client (or already decided) — a claim still pending internal approval
@@ -24,23 +21,11 @@ const OrganizationDetailsWrapper = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const { loading, mainColor, textColor } = useOrganization();
+  const { loading } = useOrganization();
 
   if (loading) return <PageLoader />;
 
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`,
-        contrastText: textColor ?? "#FFFFFF",
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`,
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`,
-      },
-    },
-  });
-
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <>{children}</>;
 };
 
 const ProgressClaimUnavailable = () => {

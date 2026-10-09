@@ -9,37 +9,22 @@ import {
 import ClientBoqPreviewWrapper from "@/features/boq/client-boq/ClientBoqPreviewWrapper";
 import PageLoader from "@/features/components/Loader/PageLoader";
 import { useRouter } from "next/router";
-import { createTheme, ThemeProvider } from "@mui/material";
-import { hexToRgb } from "@/lib/helpers";
 import FallbackExternalPage from "@/components/FallbackExternalPage";
 import { useTranslation } from "react-i18next";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = ({
   children,
 }: {
   children: React.ReactNode;
 }) => {
-  const { loading, mainColor, textColor } = useOrganization();
+  const { loading } = useOrganization();
 
   // If loading, return loading state
   if (loading) {
     return <PageLoader />;
   }
 
-  // Create theme using organization colors
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`, // Set primary color with transparency
-        contrastText: textColor ?? "#FFFFFF", // Text color, default to white if not provided
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`, // Lighter shade
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`, // Darker shade
-      },
-    },
-  });
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <>{children}</>;
 };
 
 const ClientBoqExternalGuard = () => {

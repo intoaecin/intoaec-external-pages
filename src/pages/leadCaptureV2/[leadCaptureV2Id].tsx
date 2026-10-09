@@ -5,30 +5,24 @@ import {
   useOrganization,
 } from "@/features/components/providers/OrganizationThemeProvider";
 import LeadCaptureV2ExternalCapture from "@/features/leadCaptureV2/LeadCaptureV2ExternalCapture";
-import { createOrganizationTheme } from "@/utils/createOrganizationTheme";
-import { ThemeProvider } from "@mui/material";
 import { ToastContainer } from "react-toastify";
 
 const LeadCaptureV2ExternalWrapper = () => {
-  const { loading, mainColor, textColor, organizationId, organizationType } =
+  const { loading, organizationId, organizationType } =
     useOrganization();
 
   if (loading || !organizationId) {
     return <PageLoader />;
   }
 
-  const theme = createOrganizationTheme(mainColor, textColor);
-
   return (
-    <ThemeProvider theme={theme}>
-      <OrganizationLocalizationProvider
-        organizationId={organizationId}
-        organizationType={organizationType}
-      >
-        <ToastContainer />
-        <LeadCaptureV2ExternalCapture />
-      </OrganizationLocalizationProvider>
-    </ThemeProvider>
+    <OrganizationLocalizationProvider
+      organizationId={organizationId}
+      organizationType={organizationType}
+    >
+      <ToastContainer />
+      <LeadCaptureV2ExternalCapture />
+    </OrganizationLocalizationProvider>
   );
 };
 

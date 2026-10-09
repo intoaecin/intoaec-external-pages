@@ -34,9 +34,6 @@ import {
   useOrganization,
 } from "@/features/components/providers/OrganizationThemeProvider";
 import RfqHome from "@/features/reportsPage/rfq/RfqHome";
-import { hexToRgb } from "@/lib/helpers";
-import { ThemeProvider, createTheme } from "@mui/material";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   // const [organizationId, setOrganizationId] = useState<string>();
@@ -47,36 +44,20 @@ const OrganizationDetailsWrapper = () => {
     organizationId,
     organizationName,
     organizationType,
-    mainColor,
-    textColor,
   } = useOrganization();
 
   if (loading) {
     return <p>Loading....</p>;
   }
 
-  const theme = createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
-    palette: {
-      primary: {
-        main: `rgba(${hexToRgb(mainColor)}, 0.8)`, // Red
-        contrastText: textColor ?? "#FFFFFF", // White,
-        light: `rgba(${hexToRgb(mainColor)}, 0.1)`,
-        dark: `rgba(${hexToRgb(mainColor)}, 1)`,
-      },
-    },
-  });
-
   return (
     <>
-      <ThemeProvider theme={theme}>
-        <OrganizationLocalizationProvider
-          organizationId={organizationId}
-          organizationType={organizationType}
-        >
-          <RfqHome />
-        </OrganizationLocalizationProvider>
-      </ThemeProvider>
+      <OrganizationLocalizationProvider
+        organizationId={organizationId}
+        organizationType={organizationType}
+      >
+        <RfqHome />
+      </OrganizationLocalizationProvider>
     </>
   );
 };
