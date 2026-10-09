@@ -8,6 +8,7 @@ import { OrganizationLocalizationProvider } from "@/features/components/provider
 import { hexToRgb } from "@/lib/helpers";
 import { createAppTheme } from "@/styles/theme";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   const {
@@ -26,6 +27,7 @@ const OrganizationDetailsWrapper = () => {
   const organizationMainColor = mainColor || fallbackMainColor;
 
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(organizationMainColor)}, 0.8)`,

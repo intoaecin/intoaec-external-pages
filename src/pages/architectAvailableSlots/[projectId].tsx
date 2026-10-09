@@ -13,6 +13,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   const {
@@ -99,6 +100,7 @@ const OrganizationDetailsWrapper = () => {
   }
 
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`,

@@ -34,6 +34,7 @@ import {
 import { useRouter } from "next/router";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 /**
  * Ported from intoaec-UI `src/pages/client-report/index.tsx`.
@@ -344,6 +345,7 @@ const ClientReportPreview = () => {
   }
 
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`,

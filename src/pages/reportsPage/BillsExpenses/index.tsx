@@ -6,6 +6,7 @@ import {
 import BillsExpensesPublicHome from "@/features/billsExpensesReport/BillsExpensesPublicHome";
 import { hexToRgb } from "@/lib/helpers";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   const {
@@ -21,6 +22,7 @@ const OrganizationDetailsWrapper = () => {
   }
 
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`,

@@ -4,7 +4,7 @@ import { CssBaseline, ThemeProvider } from "@mui/material";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ToastContainer } from "react-toastify";
 import { EnvProvider } from "@/features/components/providers/EnvProvider";
-import { createAppTheme } from "@/styles/theme";
+import { createAppTheme, DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 import HomeRedirect from "@/routes/HomeRedirect";
 
 const LeadCapturePage = lazy(() => import("@/pages/leadCapture"));
@@ -113,7 +113,7 @@ const WorkOrderReportPage = lazy(
 );
 const WorkersReportPage = lazy(() => import("@/pages/reportsPage/Workers"));
 
-const APP_FONT_FAMILY = "'Poppins', system-ui, -apple-system, sans-serif";
+const APP_FONT_FAMILY = DEFAULT_APP_FONT_FAMILY;
 
 const queryClient = new QueryClient({
   defaultOptions: {

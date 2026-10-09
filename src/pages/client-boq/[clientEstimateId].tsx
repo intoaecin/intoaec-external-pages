@@ -13,6 +13,7 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import { hexToRgb } from "@/lib/helpers";
 import FallbackExternalPage from "@/components/FallbackExternalPage";
 import { useTranslation } from "react-i18next";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = ({
   children,
@@ -28,6 +29,7 @@ const OrganizationDetailsWrapper = ({
 
   // Create theme using organization colors
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`, // Set primary color with transparency

@@ -35,6 +35,7 @@ import PurchaseOrderHome from "@/features/reportsPage/purchaseOrder/PurchaseOrde
 import QuestionnaireHome from "@/features/reportsPage/questionnaire/QuestionnaireHome";
 import { hexToRgb } from "@/lib/helpers";
 import { ThemeProvider, createTheme } from "@mui/material";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const OrganizationDetailsWrapper = () => {
   // const [organizationId, setOrganizationId] = useState<string>();
@@ -54,6 +55,7 @@ const OrganizationDetailsWrapper = () => {
   }
 
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`, // Red

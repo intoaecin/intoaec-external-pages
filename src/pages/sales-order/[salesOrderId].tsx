@@ -10,11 +10,13 @@ import { createTheme, ThemeProvider } from "@mui/material";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
 
 const SalesOrderTheme = ({ children }: { children: ReactNode }) => {
   const { loading, mainColor, textColor } = useOrganization();
   if (loading) return <PageLoader />;
   const theme = createTheme({
+    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
     palette: {
       primary: {
         main: `rgba(${hexToRgb(mainColor)}, 0.8)`,
