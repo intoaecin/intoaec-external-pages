@@ -9751,6 +9751,7 @@
     "totalThisPeriod": "This Period Total"
   },
   "progressClaimExternal": {
+    "acceptSuccess": "Claim accepted successfully.",
     "acceptClaim": "Accept",
     "acceptFailed": "Failed to accept the claim. Please try again.",
     "alreadyAcceptedDescription": "Thank you — this claim has already been accepted.",

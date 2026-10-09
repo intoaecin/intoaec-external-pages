@@ -92,6 +92,7 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
         lines: acceptance.buildLinesPayload(),
       });
       setClaim(accepted);
+      toast.success(t("progressClaimExternal.acceptSuccess"));
     } catch {
       toast.error(
         t("progressClaimExternal.acceptFailed", {
@@ -248,6 +249,8 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
         submitButtonLabel={t("progressClaimExternal.signAndAccept", {
           defaultValue: "Sign & Accept",
         })}
+        // The claim's own "accepted" toast follows once the accept call succeeds.
+        suppressUploadSuccessToast
         onChange={handleSignatureChangeAndAccept}
       />
 

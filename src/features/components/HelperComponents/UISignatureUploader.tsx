@@ -46,6 +46,7 @@ const UISignatureUploader = forwardRef(
       requireCameraCaptureBeforeOpen?: boolean;
       onCameraVerificationChange?: (s3Url: string) => void;
       eventSource?: string;
+      suppressUploadSuccessToast?: boolean;
     },
     ref,
   ) => {
@@ -135,9 +136,11 @@ const UISignatureUploader = forwardRef(
         );
 
         if (data) {
-          toast.success(
-            `${props.displayButtonName} ${t("toast.signeSuccessfully")}`,
-          );
+          if (!props.suppressUploadSuccessToast) {
+            toast.success(
+              `${props.displayButtonName} ${t("toast.signeSuccessfully")}`,
+            );
+          }
           setImage(null);
           signatureCanvasRef.current?.clear();
           setIsSigning(false);

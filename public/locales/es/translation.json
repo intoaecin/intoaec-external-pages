@@ -9706,6 +9706,7 @@
     "totalThisPeriod": "Total de Este Período"
   },
   "progressClaimExternal": {
+    "acceptSuccess": "Reclamo aceptado correctamente.",
     "acceptClaim": "Aceptar",
     "acceptFailed": "No se pudo aceptar el reclamo. Inténtelo de nuevo.",
     "alreadyAcceptedDescription": "Gracias — este reclamo ya ha sido aceptado.",
