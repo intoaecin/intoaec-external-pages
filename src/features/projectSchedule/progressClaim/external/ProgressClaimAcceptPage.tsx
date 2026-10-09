@@ -127,13 +127,7 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
           label: t("progressClaimExternal.statusRejected", { defaultValue: "Rejected" }),
           color: theme.palette.error.main,
         }
-      : {
-          status: "SENT",
-          label: t("progressClaimExternal.statusPendingAcceptance", {
-            defaultValue: "Pending Acceptance",
-          }),
-          color: theme.palette.warning.main,
-        };
+      : null;
 
   const pageTitle = (
     <Stack direction="row" alignItems="center" spacing={1.5}>
@@ -146,12 +140,14 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
           claimNumber: claim.claimNumber,
         })}
       </Typography>
-      <StatusLabel
-        status={statusLabelProps.status}
-        labelOverride={statusLabelProps.label}
-        customBackground={statusLabelProps.color}
-        customColor="#FFFFFF"
-      />
+      {statusLabelProps && (
+        <StatusLabel
+          status={statusLabelProps.status}
+          labelOverride={statusLabelProps.label}
+          customBackground={statusLabelProps.color}
+          customColor="#FFFFFF"
+        />
+      )}
     </Stack>
   );
 
