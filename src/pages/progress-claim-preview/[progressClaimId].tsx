@@ -4,6 +4,7 @@ import {
   useOrganization,
 } from "@/features/components/providers/OrganizationThemeProvider";
 import PageLoader from "@/features/components/Loader/PageLoader";
+import { DialogProvider } from "@/features/components/providers/DialogProvider";
 import FallbackExternalPage from "@/components/FallbackExternalPage";
 import ProgressClaimAcceptPage from "@/features/projectSchedule/progressClaim/external/ProgressClaimAcceptPage";
 import type { ProgressClaim } from "@/features/projectSchedule/progressClaim/hooks/api/create-progress-claim";
@@ -60,7 +61,9 @@ const ProgressClaimPageContent = ({ progressClaimId }: { progressClaimId: string
       organizationType={claim.organizationType}
     >
       <OrganizationDetailsWrapper>
-        <ProgressClaimAcceptPage claim={claim} />
+        <DialogProvider>
+          <ProgressClaimAcceptPage claim={claim} />
+        </DialogProvider>
       </OrganizationDetailsWrapper>
     </OrganizationLocalizationProvider>
   );
