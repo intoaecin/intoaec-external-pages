@@ -1,6 +1,14 @@
 import { useAxios } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
-import React, { createContext, useContext, useState, useEffect } from "react";
+import { createOrganizationTheme } from "@/utils/createOrganizationTheme";
+import { ThemeProvider } from "@mui/material";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import PageLoader from "../Loader/PageLoader";
 
 // Define a type for your context value
@@ -33,9 +41,12 @@ const OrganizationDetailsContext = createContext<
 export const OrganizationDetailsProvider = ({
   children,
   blockTheme = true,
+  applyTheme = true,
 }: {
   children: any;
   blockTheme?: boolean;
+  /** Wrap children in the organization-colored MUI theme. */
+  applyTheme?: boolean;
 }) => {
   const [loading, setLoading] = useState(false);
   const [organization, setOrganization] = useState<{
@@ -130,7 +141,7 @@ export const OrganizationDetailsProvider = ({
         return window.location.replace(VITE_WEBSITE_URL);
       }
       const domainName = window.location.hostname.split(".")[0]
-      // const domainName = "shabab"
+      // const domainName = "aadhi"
 
       const res = await fetch(VITE_USERHUB_ENDPOINT + "/session", {
         method: "POST",
@@ -177,9 +188,19 @@ export const OrganizationDetailsProvider = ({
     })();
   }, []);
 
+  const theme = useMemo(
+    () => createOrganizationTheme(organization?.mainColor, organization?.textColor),
+    [organization?.mainColor, organization?.textColor],
+  );
   return (
     <OrganizationDetailsContext.Provider value={{ ...organization, loading }}>
-      {loading || !organization ? <PageLoader /> : children}
+      {loading || !organization ? (
+        <PageLoader />
+      ) : applyTheme ? (
+        <ThemeProvider theme={theme}>{children}</ThemeProvider>
+      ) : (
+        children
+      )}
     </OrganizationDetailsContext.Provider>
   );
 };
