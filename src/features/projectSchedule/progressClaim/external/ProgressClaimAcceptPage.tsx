@@ -158,16 +158,18 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
 
   const headerActions = (
     <Stack direction="row" spacing={1.5} alignItems="center">
-      {/* Centred in the header and filled, as on the estimate and change order pages. */}
+      {/* Centred in the header and filled, as on the estimate and change order pages.
+          Below `lg` it stays in the actions row so it cannot cover the title or actions. */}
       {redirectQuery ? (
         <Button
           variant="contained"
           onClick={() => void router.push(redirectQuery)}
           sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            whiteSpace: "nowrap",
+            position: { xs: "static", lg: "absolute" },
+            top: { lg: "50%" },
+            left: { lg: "50%" },
+            transform: { lg: "translate(-50%, -50%)" },
           }}
         >
           {t("common.backToPortal", { defaultValue: "Back to Portal" })}
