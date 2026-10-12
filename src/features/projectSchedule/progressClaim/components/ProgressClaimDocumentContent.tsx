@@ -48,6 +48,7 @@ const ProgressClaimDocumentContent = ({
   if (activeTab.kind === "PLANNER") {
     return (
       <ProgressClaimPlannerTabContent
+        standalone
         tab={activeTab.tab}
         organizationId={claim.organizationId}
         organizationType={claim.organizationType}

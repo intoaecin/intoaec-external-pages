@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { PAGE_HEIGHT_WITH_TAB } from "@/components/layout/PageLayout";
+import { viewportConstrainedMaxHeightCss } from "@/components/layout/viewportChrome";
 import type { ProgressClaimPlannerTab } from "../hooks/useProgressClaimTabs";
 import type { ProgressClaimPlannerScope } from "../types";
 import ProgressClaimAssetsTab from "./ProgressClaimAssetsTab";
@@ -10,11 +11,20 @@ import ProgressClaimScheduleProvider from "./ProgressClaimScheduleProvider";
 
 interface ProgressClaimPlannerTabContentProps extends ProgressClaimPlannerScope {
   tab: ProgressClaimPlannerTab;
+  /** The page has no app header above it (claim preview, client page), so the tab fills that space too. */
+  standalone?: boolean;
 }
+
+// PAGE_HEIGHT_WITH_TAB reserves room for the app header; a standalone page has none.
+const STANDALONE_PAGE_HEIGHT_WITH_TAB = viewportConstrainedMaxHeightCss({
+  outsideShellPx: 0,
+  pageLayoutTabs: true,
+});
 
 /** Read-only Planner views for the Materials / Resources / Assets / Quantity tabs, shared by the internal and client claim pages. */
 export default function ProgressClaimPlannerTabContent({
   tab,
+  standalone = false,
   ...scope
 }: ProgressClaimPlannerTabContentProps) {
   return (
@@ -23,10 +33,11 @@ export default function ProgressClaimPlannerTabContent({
         sx={{
           display: "flex",
           flexDirection: "column",
-          height: PAGE_HEIGHT_WITH_TAB,
+          height: standalone ? STANDALONE_PAGE_HEIGHT_WITH_TAB : PAGE_HEIGHT_WITH_TAB,
           minHeight: 0,
           overflow: "hidden",
-          bgcolor: "background.paper",
+          // The Resources and Assets boards fill the tab; the table tabs sit on the page background.
+          bgcolor: tab === "RESOURCES" || tab === "ASSETS" ? "background.paper" : undefined,
         }}
       >
         {tab === "MATERIALS" ? (
