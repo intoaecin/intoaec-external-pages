@@ -1,19 +1,20 @@
 import { createTheme } from "@mui/material";
 import { hexToRgb } from "@/lib/helpers";
-import { DEFAULT_APP_FONT_FAMILY } from "@/styles/theme";
+import { createAppTheme } from "@/styles/theme";
 
+/**
+ * The app theme with the organization's brand color as primary. It builds on
+ * the app theme, not a bare one, so the warning / success / error shades,
+ * typography and component overrides match the rest of the app.
+ */
 export const createOrganizationTheme = (
   mainColor?: string,
   textColor?: string,
 ) => {
   const colorToUse = mainColor || "#1976d2";
 
-  return createTheme({
-    typography: { fontFamily: DEFAULT_APP_FONT_FAMILY },
+  return createTheme(createAppTheme(), {
     palette: {
-      background: {
-        subtle: "#fbfdff",
-      },
       primary: {
         main: `rgba(${hexToRgb(colorToUse)}, 0.8)`,
         contrastText: textColor ?? "#FFFFFF",
