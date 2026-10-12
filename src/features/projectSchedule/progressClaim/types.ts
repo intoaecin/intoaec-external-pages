@@ -1,4 +1,7 @@
 import type { NumberInputBoxValue } from "@/components_v2/NumberInputBox";
+import type { GeneratedShift } from "@/features/worker-management/hooks/useGetShifts";
+import type { Schedule } from "../types/schedule";
+import type { StoredAssetPlan } from "../utils/plannerPlanMappers";
 
 export interface ProgressClaimLine {
   id: string;
@@ -35,6 +38,8 @@ export interface ProgressClaimPlannerScope {
   /** Sent with schedule fetches: without a session the backend can't take it from the token. */
   organizationType?: string;
   projectId?: string;
+  /** A saved claim's id: its tabs read the planner data saved with the claim. */
+  progressClaimId?: string;
   /** False on the external client page, which authenticates with the apiKey instead. */
   withAuth: boolean;
   /** When set, only planner data inside the claim period is shown. */
@@ -52,4 +57,26 @@ export interface ProgressClaimSettings {
   showMaterials: boolean;
   showResources: boolean;
   showAssets: boolean;
+}
+
+/**
+ * The planner data saved with a claim, as it stood when the claim was last
+ * saved. Each section holds the rows as their own fetch endpoint returns them.
+ */
+export interface ProgressClaimPlannerSnapshot {
+  progressClaimId: string;
+  capturedAt: number | string;
+  /** The organization's timezone and the project's working calendar: what the per-day quantity plan is built from. */
+  timezone: string;
+  workingCalendar: {
+    workingDays?: unknown;
+    workingHoursByDay?: unknown;
+    publicHolidays?: Array<{ name: string; date: string }>;
+  } | null;
+  schedules: Schedule[];
+  materials: unknown[];
+  shifts: GeneratedShift[];
+  /** Wage per shift id for the claim period (overtime included). */
+  shiftWages?: Record<string, number>;
+  assets: StoredAssetPlan[];
 }

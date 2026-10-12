@@ -3,18 +3,20 @@ import { useAxios } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import type { GeneratedShift } from "@/features/worker-management/hooks/useGetShifts";
 import type { ProgressClaimPlannerScope } from "../../types";
+import { useFetchClaimPlannerSnapshot } from "./fetch-claim-planner-snapshot";
 
 /** Same page size the Planner uses when loading a project's linked shifts. */
 const SHIFTS_PAGE_SIZE = 200;
 
-export const useFetchClaimShifts = ({
-  organizationId,
-  projectId,
-  withAuth,
-  period,
-}: ProgressClaimPlannerScope, enabled: boolean = true) => {
+/** The claim's shifts: the ones saved with it, else the project's live shifts for the period. */
+export const useFetchClaimShifts = (
+  scope: ProgressClaimPlannerScope,
+  enabled: boolean = true,
+) => {
+  const { organizationId, projectId, withAuth, period } = scope;
   const { NEXT_PUBLIC_PROCUREMENT_ENDPOINT } = useEnv();
   const { post } = useAxios(NEXT_PUBLIC_PROCUREMENT_ENDPOINT + "/worker-management", withAuth);
+  const { snapshot, pending } = useFetchClaimPlannerSnapshot(scope);
 
   const query = useQuery({
     queryKey: ["progress-claim-shifts", organizationId, projectId, withAuth, period?.from, period?.to],
@@ -31,8 +33,8 @@ export const useFetchClaimShifts = ({
 
       return (response.body?.result ?? []) as GeneratedShift[];
     },
-    enabled: enabled && Boolean(organizationId && projectId),
+    enabled: enabled && !pending && !snapshot && Boolean(organizationId && projectId),
   });
 
-  return { shifts: query.data ?? [], loading: query.isLoading };
+  return { shifts: snapshot?.shifts ?? query.data ?? [], loading: pending || query.isLoading };
 };

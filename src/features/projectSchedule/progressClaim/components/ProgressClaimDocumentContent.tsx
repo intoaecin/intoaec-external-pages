@@ -53,6 +53,7 @@ const ProgressClaimDocumentContent = ({
         organizationId={claim.organizationId}
         organizationType={claim.organizationType}
         projectId={claim.projectId}
+        progressClaimId={claim.id}
         withAuth={withAuth}
         period={toClaimPeriod(claim.periodFrom, claim.periodTo)}
       />

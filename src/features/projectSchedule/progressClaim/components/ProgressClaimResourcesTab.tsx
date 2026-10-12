@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import { PlannerShiftBoard } from "../../components/PlannerShiftBoard";
 import { useProjectSchedule } from "../../context/ScheduleProvider";
 import { buildPlannerScheduleEntries } from "../../utils/plannerScheduleEntries";
-import { useFetchProjectShiftWages } from "../../hooks/api/fetch-project-shift-wages";
+import { useFetchClaimShiftWages } from "../hooks/api/fetch-claim-shift-wages";
 import { useFetchClaimShifts } from "../hooks/api/fetch-claim-shifts";
 import type { ProgressClaimPlannerScope } from "../types";
 
@@ -16,12 +16,7 @@ export default function ProgressClaimResourcesTab(scope: ProgressClaimPlannerSco
     [scope.organizationId, scope.organizationType],
   );
   // Like the shifts, wages are limited to the claim period.
-  const { wageByShiftId } = useFetchProjectShiftWages(
-    scope.projectId,
-    true,
-    scope.period,
-    wageOrganization,
-  );
+  const { wageByShiftId } = useFetchClaimShiftWages(scope);
 
   const entries = useMemo(
     () => buildPlannerScheduleEntries(schedules, shifts),
