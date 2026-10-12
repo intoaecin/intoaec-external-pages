@@ -13,8 +13,6 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import DislikeIcon from "@/assets/icons/dislike-icon";
 import { PageLayout } from "@/components/layout/PageLayout";
-import { ConfirmDialog } from "@/components_v2/DialogModal";
-import { useDialog } from "@/features/components/providers/DialogProvider";
 import StatusLabel from "@/components/StatusLabel";
 import UISignatureUploader from "@/features/components/HelperComponents/UISignatureUploader";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
@@ -22,6 +20,7 @@ import { formatNumberITL, getLocalizationValue } from "@/lib/helpers";
 import type { ProgressClaim } from "../hooks/api/create-progress-claim";
 import { useAcceptProgressClaim } from "../hooks/api/accept-progress-claim";
 import { useRejectProgressClaimByClient } from "../hooks/api/reject-progress-claim-by-client";
+import RejectClaimDialog from "./RejectClaimDialog";
 import { useProgressClaimAcceptance } from "./useProgressClaimAcceptance";
 import ProgressClaimDownloadButton from "../ProgressClaimDownloadButton";
 import ProgressClaimDocumentContent from "../components/ProgressClaimDocumentContent";
@@ -45,8 +44,7 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
 
   const [claim, setClaim] = useState(initialClaim);
   const [submitAttempted, setSubmitAttempted] = useState(false);
-  const { popup } = useDialog();
-  const rejectionReason = useRef("");
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
 
   const acceptance = useProgressClaimAcceptance(claim);
   const claimSettings = useMemo(
@@ -108,36 +106,18 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
     }
   };
 
-  const handleRejectClick = () => {
-    rejectionReason.current = "";
-    popup({
-      content: (
-        <ConfirmDialog
-          titleKey={t("progressClaimExternal.rejectClaim", { defaultValue: "Reject" })}
-          isReason={true}
-          isMandatoryReason={true}
-          onReasonChange={(value) => {
-            rejectionReason.current = value;
-          }}
-        />
-      ),
-      onYes: async () => {
-        const reason = rejectionReason.current.trim();
-        if (!reason) {
-          toast.error(t("toast.reasonMandatory"));
-          return;
-        }
-        try {
-          setClaim(await rejectProgressClaimByClient(claim.id, reason));
-        } catch {
-          toast.error(
-            t("progressClaimExternal.rejectFailed", {
-              defaultValue: "Failed to reject the claim. Please try again.",
-            }),
-          );
-        }
-      },
-    });
+  const handleRejectConfirm = async (reason: string) => {
+    try {
+      const rejected = await rejectProgressClaimByClient(claim.id, reason);
+      setClaim(rejected);
+      setRejectDialogOpen(false);
+    } catch {
+      toast.error(
+        t("progressClaimExternal.rejectFailed", {
+          defaultValue: "Failed to reject the claim. Please try again.",
+        }),
+      );
+    }
   };
 
   const statusLabelProps = isAccepted
@@ -191,7 +171,7 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
             <span>
               <IconButton
                 disabled={loading || rejecting}
-                onClick={handleRejectClick}
+                onClick={() => setRejectDialogOpen(true)}
                 aria-label={t("progressClaimExternal.rejectClaim", { defaultValue: "Reject" })}
               >
                 {rejecting ? (
@@ -281,6 +261,13 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
         // The claim's own "accepted" toast follows once the accept call succeeds.
         suppressUploadSuccessToast
         onChange={handleSignatureChangeAndAccept}
+      />
+
+      <RejectClaimDialog
+        open={rejectDialogOpen}
+        loading={rejecting}
+        onClose={() => setRejectDialogOpen(false)}
+        onConfirm={handleRejectConfirm}
       />
     </>
   );

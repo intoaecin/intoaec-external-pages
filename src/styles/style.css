@@ -2845,14 +2845,6 @@ p {
 .MuiStepLabel-label {
   font-size: 13px !important;
 }
-.MuiFormLabel-root {
-  color: rgba(0, 0, 0, 0.6) !important;
-  letter-spacing: 0.1px !important;
-  font-style: normal !important;
-  font-weight: 600 !important;
-  line-height: 16px !important;
-  letter-spacing: 0.2px !important;
-}
 .MuiMenuItem-root {
   font-size: 13px !important;
   padding-left: 15px !important;

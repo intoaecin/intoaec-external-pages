@@ -63,6 +63,16 @@ export const createAppTheme = (fontFamily: string = DEFAULT_APP_FONT_FAMILY) =>
           },
         },
       },
+      MuiFormLabel: {
+        styleOverrides: {
+          // Standalone field labels read as text; floating InputLabels keep MUI's muted color.
+          root: ({ theme }) => ({
+            "&:not(.MuiInputLabel-root):not(.Mui-error)": {
+              color: theme.palette.text.primary,
+            },
+          }),
+        },
+      },
       MuiTextField: {
         styleOverrides: {
           root: {
