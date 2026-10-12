@@ -1,7 +1,11 @@
-// Trimmed port: the working-calendar types, defaults and normalizers, plus a
-// `useFetchWorkingCalendar` that returns the defaults. intoaec-UI's hook reads
-// the organization from the next-auth session and stays disabled without one,
-// so on its own session-less client page it also resolves to these defaults.
+// Port of intoaec-UI's working-calendar hook. intoaec-UI reads the organization
+// from the next-auth session; this app has none, so the organization and
+// project come from `WorkingCalendarScopeContext` (or the hook's own argument)
+// and the request goes out with the apiKey.
+import { createContext, useContext } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useAxiosWithAuth } from "@/features/hooks/useAxios";
+import { useEnv } from "@/features/hooks/useEnv";
 
 export interface WorkingDays {
   sunday: boolean;
@@ -144,9 +148,66 @@ export function normalizeWorkingHoursByDay(raw: unknown): WorkingHoursByDay {
   return out;
 }
 
-export const useFetchWorkingCalendar = (_projectId?: string | null) => ({
-  loading: false,
-  data: DEFAULT_WORKING_CALENDAR,
-  hasData: false,
-  refetch: async () => undefined,
-});
+/** Whose calendar to read: there is no session for the server to take it from. */
+export interface WorkingCalendarScope {
+  organizationId?: string;
+  organizationType?: string;
+  projectId?: string | null;
+}
+
+/** Set around the Planner boards so they read the right calendar without each one being told. */
+export const WorkingCalendarScopeContext = createContext<WorkingCalendarScope>({});
+
+export const WORKING_CALENDAR_QUERY_KEY = (
+  organizationId: string | undefined,
+  projectId: string | null | undefined
+) => ["workingCalendar", organizationId, projectId ?? null];
+
+export const useFetchWorkingCalendar = (
+  projectId?: string | null,
+  scope?: WorkingCalendarScope,
+) => {
+  const { NEXT_PUBLIC_LEADMANAGER_ENDPOINT } = useEnv();
+  const { post } = useAxiosWithAuth(
+    NEXT_PUBLIC_LEADMANAGER_ENDPOINT + "/working-calendar"
+  );
+  const contextScope = useContext(WorkingCalendarScopeContext);
+  const organizationId = scope?.organizationId ?? contextScope.organizationId;
+  const organizationType = scope?.organizationType ?? contextScope.organizationType;
+  const calendarProjectId = projectId ?? scope?.projectId ?? contextScope.projectId ?? null;
+
+  const { data, isLoading, refetch } = useQuery<WorkingCalendarData | null>({
+    queryKey: WORKING_CALENDAR_QUERY_KEY(organizationId, calendarProjectId),
+    queryFn: async () => {
+      const response = await post({
+        eventType: "FETCH_WORKING_CALENDAR",
+        organizationId,
+        organizationType,
+        projectId: calendarProjectId,
+      });
+      const parsed = typeof response === "string" ? JSON.parse(response) : response;
+      if (parsed?.result) {
+        return {
+          workingDays: normalizeWorkingDays(parsed.result.workingDays),
+          workingHoursByDay: normalizeWorkingHoursByDay(
+            parsed.result.workingHoursByDay
+          ),
+          publicHolidays: parsed.result.publicHolidays ?? [],
+          inheritGlobal: parsed.result.inheritGlobal ?? true,
+        };
+      }
+      return null;
+    },
+    enabled: !!organizationId,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const hasData = data !== null && data !== undefined;
+
+  return {
+    loading: isLoading,
+    data: data ?? DEFAULT_WORKING_CALENDAR,
+    hasData,
+    refetch,
+  };
+};

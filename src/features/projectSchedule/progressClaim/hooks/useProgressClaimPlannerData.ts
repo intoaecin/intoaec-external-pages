@@ -56,7 +56,8 @@ export const useProgressClaimPlannerData = (claim: ProgressClaim, withAuth: bool
 
   // The Quantity tab's plan, for the schedules running in the claim period.
   const schedules = useFetchClaimSchedules(scope);
-  const { data: workingCalendar } = useFetchWorkingCalendar(claim.projectId);
+  // The download runs outside the Planner tabs, so it names the calendar's owner itself.
+  const { data: workingCalendar } = useFetchWorkingCalendar(claim.projectId, scope);
   const { localizationValue } = useOrganizationLocalization();
   const organizationTimezone =
     (localizationValue && getLocalizationValue(localizationValue, "TIMEZONE", "ID")) || "UTC";

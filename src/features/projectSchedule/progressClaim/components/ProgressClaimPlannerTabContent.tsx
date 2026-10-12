@@ -36,8 +36,8 @@ export default function ProgressClaimPlannerTabContent({
           height: standalone ? STANDALONE_PAGE_HEIGHT_WITH_TAB : PAGE_HEIGHT_WITH_TAB,
           minHeight: 0,
           overflow: "hidden",
-          // The Resources and Assets boards fill the tab; the table tabs sit on the page background.
-          bgcolor: tab === "RESOURCES" || tab === "ASSETS" ? "background.paper" : undefined,
+          // The boards fill the tab; the Materials table sits on the page background.
+          bgcolor: tab === "MATERIALS" ? undefined : "background.paper",
         }}
       >
         {tab === "MATERIALS" ? (

@@ -4,6 +4,7 @@ import {
   ScheduleContext,
   type ScheduleContextType,
 } from "../../context/ScheduleProvider";
+import { WorkingCalendarScopeContext } from "../../hooks/api/fetch-working-calendar";
 import { useFetchClaimSchedules } from "../hooks/api/fetch-claim-schedules";
 import type { ProgressClaimPlannerScope } from "../types";
 
@@ -35,5 +36,15 @@ export default function ProgressClaimScheduleProvider({
     [loading, schedules, viewMode],
   );
 
-  return <ScheduleContext.Provider value={value}>{children}</ScheduleContext.Provider>;
+  const { organizationId, organizationType, projectId } = scope;
+  const workingCalendarScope = useMemo(
+    () => ({ organizationId, organizationType, projectId }),
+    [organizationId, organizationType, projectId],
+  );
+
+  return (
+    <WorkingCalendarScopeContext.Provider value={workingCalendarScope}>
+      <ScheduleContext.Provider value={value}>{children}</ScheduleContext.Provider>
+    </WorkingCalendarScopeContext.Provider>
+  );
 }
