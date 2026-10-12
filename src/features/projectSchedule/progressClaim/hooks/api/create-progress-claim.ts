@@ -5,6 +5,8 @@ export interface CreateProgressClaimLineInput {
   descriptionSnapshot: string;
   claimValueSnapshot: number;
   previousAcceptedPct: number;
+  /** Amount accepted before this claim; absent on claims saved before it was tracked. */
+  previousAcceptedAmount?: number | null;
   scheduleSuggestedPct: number;
   claimedCumulativePct: number;
   claimedPeriodAmount: number;

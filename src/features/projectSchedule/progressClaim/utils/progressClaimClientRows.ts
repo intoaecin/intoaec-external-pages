@@ -7,13 +7,18 @@ import {
 } from "../../helpers/scheduleHierarchy";
 import type { ProgressClaim } from "../hooks/api/create-progress-claim";
 import type { ProgressClaimLine, ProgressClaimTotals } from "../types";
-import { calculatePeriodAmount, calculateWeightedPct } from "./progressClaimCalculations";
+import {
+  calculatePeriodAmount,
+  calculatePreviousAcceptedAmount,
+  calculateWeightedPct,
+} from "./progressClaimCalculations";
 
 type ClaimLine = ProgressClaim["lines"][number];
 
 interface LeafFigures {
   claimValue: number;
   previousAcceptedPct: number;
+  previousAcceptedAmount: number;
   claimPct: number;
   periodAmount: number;
 }
@@ -21,11 +26,17 @@ interface LeafFigures {
 const toLeafFigures = (line: ClaimLine, claimPct: number): LeafFigures => {
   const claimValue = Number(line.claimValueSnapshot) || 0;
   const previousAcceptedPct = Number(line.previousAcceptedPct) || 0;
+  const previousAcceptedAmount = calculatePreviousAcceptedAmount(
+    previousAcceptedPct,
+    claimValue,
+    line.previousAcceptedAmount,
+  );
   return {
     claimValue,
     previousAcceptedPct,
+    previousAcceptedAmount,
     claimPct,
-    periodAmount: calculatePeriodAmount(claimPct, previousAcceptedPct, claimValue),
+    periodAmount: calculatePeriodAmount(claimPct, claimValue, previousAcceptedAmount),
   };
 };
 
@@ -78,6 +89,7 @@ export const buildClaimRows = (
       plannedQuantity: Number(schedule?.plannedQuantity) || null,
       unit: schedule?.quantityUnit ?? null,
       previousAcceptedPct: leaf.previousAcceptedPct,
+      previousAcceptedAmount: leaf.previousAcceptedAmount,
       scheduleSuggestedPct: Number(line.scheduleSuggestedPct) || 0,
       claimPct: leaf.claimPct,
       periodAmount: leaf.periodAmount,
@@ -103,6 +115,9 @@ export const buildClaimRows = (
       plannedQuantity: null,
       unit: null,
       previousAcceptedPct: weighted((leaf) => leaf.previousAcceptedPct),
+      previousAcceptedAmount: roundNumber(
+        leaves.reduce((sum, leaf) => sum + leaf.previousAcceptedAmount, 0),
+      ),
       scheduleSuggestedPct: 0,
       claimPct: weighted((leaf) => leaf.claimPct),
       periodAmount: roundNumber(leaves.reduce((sum, leaf) => sum + leaf.periodAmount, 0)),
@@ -132,7 +147,7 @@ export const getClaimRowTotals = (rows: ProgressClaimLine[]): ProgressClaimTotal
   return {
     claimValue: roundNumber(leaves.reduce((sum, row) => sum + row.claimValue, 0)),
     previousAcceptedAmount: roundNumber(
-      leaves.reduce((sum, row) => sum + (row.previousAcceptedPct / 100) * row.claimValue, 0),
+      leaves.reduce((sum, row) => sum + row.previousAcceptedAmount, 0),
     ),
     periodAmount: roundNumber(leaves.reduce((sum, row) => sum + row.periodAmount, 0)),
   };

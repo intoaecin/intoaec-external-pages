@@ -1,6 +1,5 @@
 import { roundNumber } from "@/utils/numbers";
 import type { ProgressClaimLine, ProgressClaimTotals } from "../types";
-import { calculateCumulativeAmount } from "./progressClaimCalculations";
 
 export interface ProgressClaimStatementLine {
   id: string;
@@ -42,12 +41,10 @@ export const resolveRetentionPct = (retentionValue?: number | string | null): nu
   return Number.isFinite(pct) && pct > 0 && pct <= 100 ? pct : 0;
 };
 
-// Group amounts already count only selected lines; a childless row must be
-// selected to be part of the claim at all.
+// Work done to date is what was accepted before plus what this claim adds, so
+// a row with nothing new this period still shows its earlier accepted work.
 const getCumulativeAmount = (row: ProgressClaimLine): number =>
-  row.isGroup || row.selected
-    ? calculateCumulativeAmount(row.claimPct === "" ? 0 : row.claimPct, row.claimValue)
-    : 0;
+  roundNumber(row.previousAcceptedAmount + row.periodAmount);
 
 export const buildProgressClaimStatement = (
   summaryRows: ProgressClaimLine[],

@@ -451,7 +451,11 @@ export function PageLayout({
             flexDirection: "column",
             boxSizing: "border-box",
             overflowX: "hidden",
-            overflowY: stickyHeader ? "hidden" : "auto",
+            /**
+             * Only the body scrolls. Header/tabs stay pinned by the root flex shell
+             * (`overflow: hidden`).
+             */
+            overflowY: "auto",
             /**
              * Tab / Bootstrap hosts often omit a height-bounded flex parent, so `flex: 1` alone
              * does not grow. For empty states, reserve viewport space so content can center vertically.

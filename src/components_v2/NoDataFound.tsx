@@ -82,7 +82,7 @@ const NoDataFound: React.FC<NoDataFoundProps> = ({
         component="span"
         variant={textVariant}
         fontWeight="500"
-        sx={{ mt: 2, ...textSx }}
+        sx={{ mt: 1, ...textSx }}
       >
         {text || t("common.noDataFound")}
       </Typography>

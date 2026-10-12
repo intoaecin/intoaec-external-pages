@@ -13,6 +13,8 @@ export interface ProgressClaimLine {
   plannedQuantity: number | null;
   unit: string | null;
   previousAcceptedPct: number;
+  /** What earlier claims actually had accepted for this line (a sum, for groups). */
+  previousAcceptedAmount: number;
   scheduleSuggestedPct: number;
   /** "" while the user is mid-edit and has cleared the field. */
   claimPct: NumberInputBoxValue;

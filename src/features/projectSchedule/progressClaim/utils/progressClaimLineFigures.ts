@@ -55,13 +55,13 @@ export const getLineFigures = (line: ProgressClaimLine): ProgressClaimLineFigure
     rate: quantity ? roundNumber(line.claimValue / quantity) : null,
     previousQty: toQty(line.previousAcceptedPct, quantity),
     previousPct: line.previousAcceptedPct,
-    previousAmount: roundNumber(pctOf(line.previousAcceptedPct, line.claimValue)),
+    previousAmount: line.previousAcceptedAmount,
     currentQty: toQty(currentPct, quantity),
     currentPct,
     currentAmount: line.periodAmount,
     toDateQty: toQty(claimPct, quantity),
     toDatePct: claimPct,
-    toDateAmount: roundNumber(pctOf(claimPct, line.claimValue)),
+    toDateAmount: roundNumber(line.previousAcceptedAmount + line.periodAmount),
   };
 };
 
@@ -122,10 +122,13 @@ export interface ProgressClaimLineTotals {
   toDateAmount: number;
 }
 
-/** Footer totals: only lines checked into the claim count, like the group subtotals. */
+/**
+ * Footer totals over every line, like the group subtotals: a line with nothing
+ * claimed this period still counts its value and what was accepted before.
+ */
 export const getLineTotals = (rows: ProgressClaimLine[]): ProgressClaimLineTotals =>
   rows
-    .filter((row) => !row.isGroup && row.selected)
+    .filter((row) => !row.isGroup)
     .reduce<ProgressClaimLineTotals>(
       (totals, row) => {
         const figures = getLineFigures(row);
