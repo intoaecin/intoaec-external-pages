@@ -9,6 +9,7 @@ import {
 } from "@/types/excelExport";
 import type { AssetPlan } from "../../types/assetPlanner";
 import type { MaterialPlan } from "../../types/materialPlanner";
+import { groupMaterialPlans } from "../../helpers/materialPlanGrouping";
 import { getShiftPresentSummary } from "../../components/createScheduleModal/scheduleShiftGridUtils";
 import {
   addCalendarDayKey,
@@ -37,58 +38,41 @@ interface PlannerSheetFormatters {
   t: TFunction;
 }
 
-const optionalNumber = (value?: number | null) =>
-  value === undefined || value === null ? null : Number(value);
-
-/** A planner list sheet: one styled header row, frozen while scrolling. */
-const listSheet = (
-  name: string,
-  header: ExcelCell[],
-  body: ExcelCell[][],
-  columnWidths: number[],
-  columnFormats: ExcelSheetSpec["columnFormats"] = [],
-): ExcelSheetSpec => ({
-  name,
-  rows: [header, ...body],
-  columnWidths,
-  columnFormats,
-  rowStyles: [{ row: 0, style: "header" }],
-  freezeRows: 1,
-});
-
+/**
+ * The Materials tab as it reads on the page: one row per material (the tab's
+ * own grouping, quantities summed across schedules) with the tab's columns.
+ */
 export const buildMaterialsSheet = (
   name: string,
   plans: MaterialPlan[],
-  { formatDate, t }: PlannerSheetFormatters,
-): ExcelSheetSpec =>
-  listSheet(
-    name,
+  { t }: PlannerSheetFormatters,
+): ExcelSheetSpec => ({
+  name,
+  rows: [
     [
-      t("schedule.scheduleName"), t("schedule.materialName"), t("common.category"), t("common.unit"),
+      t("schedule.materialName"), t("common.category"), t("common.unit"),
       t("schedule.plannedQuantity"), t("schedule.receivedQty"), t("schedule.usedQty"),
-      t("schedule.unusedQty"), t("common.rate"), t("common.totalCost"),
-      t("common.startDate"), t("common.endDate"),
+      t("schedule.unusedQty"),
     ],
-    plans.map((plan) => [
-      plan.scheduleName || t("schedule.projectLevel"),
-      plan.materialName,
-      plan.category ?? null,
-      plan.unit ?? null,
-      Number(plan.plannedQuantity) || 0,
-      optionalNumber(plan.receivedQuantity),
-      optionalNumber(plan.usedQuantity),
-      optionalNumber(plan.unusedQuantity),
-      optionalNumber(plan.rate),
-      optionalNumber(plan.totalCost),
-      formatDate(plan.startDate),
-      formatDate(plan.endDate),
-    ]),
-    [30, 30, 16, 8, 12, 12, 12, 12, 14, 16, 14, 14],
-    [
-      ...[4, 5, 6, 7].map((column) => ({ column, numberFormat: EXCEL_QTY_FORMAT })),
-      ...[8, 9].map((column) => ({ column, numberFormat: EXCEL_MONEY_FORMAT })),
-    ],
-  );
+    ...groupMaterialPlans(plans).map((plan) => {
+      const received = Number(plan.receivedQuantity) || 0;
+      const used = Number(plan.usedQuantity) || 0;
+      return [
+        plan.materialName,
+        plan.category ?? null,
+        plan.unit ?? null,
+        Number(plan.plannedQuantity) || 0,
+        received,
+        used,
+        Math.max(0, received - used),
+      ];
+    }),
+  ],
+  rowStyles: [{ row: 0, style: "header" }],
+  columnWidths: [30, 16, 8, 14, 14, 14, 14],
+  columnFormats: [3, 4, 5, 6].map((column) => ({ column, numberFormat: EXCEL_QTY_FORMAT })),
+  freezeRows: 1,
+});
 
 /** YYYY-MM-DD of a timestamp in the organization's timezone — the day a shift's column is. */
 const toDayKey = (timestamp: number, timeZone: string): string =>
