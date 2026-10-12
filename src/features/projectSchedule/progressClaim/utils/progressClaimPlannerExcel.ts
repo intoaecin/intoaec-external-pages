@@ -10,7 +10,11 @@ import {
 import type { AssetPlan } from "../../types/assetPlanner";
 import type { MaterialPlan } from "../../types/materialPlanner";
 import { getShiftPresentSummary } from "../../components/createScheduleModal/scheduleShiftGridUtils";
-import { eachCalendarDayInTimezone, getDateKeyInTimezone } from "../../helpers/dateUtil";
+import {
+  addCalendarDayKey,
+  eachCalendarDayInTimezone,
+  getDateKeyInTimezone,
+} from "../../helpers/dateUtil";
 import type { PlannerQuantityEntry } from "../../hooks/usePlannerQuantityEntries";
 import { buildDateKey } from "../../utils/workloadDateKeys";
 
@@ -243,6 +247,19 @@ const dayGridSheet = (
 });
 
 /**
+ * The days an asset plan is booked for, as YYYY-MM-DD keys. A plan is saved
+ * from the first day's start to the last day's end in the timezone of whoever
+ * created it, which need not be the organization's. Counting calendar days in
+ * the organization's timezone can then spill the last day's end into one more
+ * day, so the number of days comes from the plan's own length instead.
+ */
+const getAssetPlanDayKeys = (plan: AssetPlan, timeZone: string): string[] => {
+  const dayCount = Math.max(1, Math.round((plan.endDate - plan.startDate) / DAY_MS));
+  const firstDayKey = getDateKeyInTimezone(new Date(plan.startDate), timeZone);
+  return Array.from({ length: dayCount }, (_, index) => addCalendarDayKey(firstDayKey, index));
+};
+
+/**
  * The Assets tab as a grid: one column per day, a row per schedule with its
  * assets underneath, and the quantity planned for each day the asset is booked
  * (a day's own override when it has one).
@@ -264,15 +281,12 @@ export const buildAssetsSheet = (
     .sort((a, b) => a.startDate - b.startDate)
     .forEach((plan) => {
       const days = new Map<string, ExcelCell>();
-      eachCalendarDayInTimezone(new Date(plan.startDate), new Date(plan.endDate), timeZone).forEach(
-        (date) => {
-          const dayKey = getDateKeyInTimezone(date, timeZone);
-          const quantity =
-            Number(plan.dailyOverrides?.[dayKey]?.plannedQuantity ?? plan.plannedQuantity) || 0;
-          days.set(dayKey, quantity);
-          totals.set(dayKey, (Number(totals.get(dayKey)) || 0) + quantity);
-        },
-      );
+      getAssetPlanDayKeys(plan, timeZone).forEach((dayKey) => {
+        const quantity =
+          Number(plan.dailyOverrides?.[dayKey]?.plannedQuantity ?? plan.plannedQuantity) || 0;
+        days.set(dayKey, quantity);
+        totals.set(dayKey, (Number(totals.get(dayKey)) || 0) + quantity);
+      });
       const scheduleName = plan.scheduleName || t("schedule.projectLevel");
       bySchedule.set(scheduleName, [...(bySchedule.get(scheduleName) ?? []), { plan, days }]);
     });
