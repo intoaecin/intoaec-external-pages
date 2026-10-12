@@ -182,8 +182,10 @@ export function eachCalendarDayInTimezone(
 
   // Step by calendar-day keys, not `add(1, "day")`, so DST transitions (e.g.
   // Australia/Sydney) never emit duplicate or skipped column dates.
+  // `dayjs.tz(key, tz)` is already that day's midnight. Adding `.startOf("day")`
+  // moves it an hour on a DST-change day when the viewer's own timezone differs.
   while (currentKey <= lastKey) {
-    result.push(dayjs.tz(currentKey, tz).startOf("day").toDate());
+    result.push(dayjs.tz(currentKey, tz).toDate());
     currentKey = addCalendarDayKey(currentKey);
   }
 
