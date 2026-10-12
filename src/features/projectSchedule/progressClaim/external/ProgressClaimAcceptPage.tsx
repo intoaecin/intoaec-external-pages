@@ -158,14 +158,23 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
 
   const headerActions = (
     <Stack direction="row" spacing={1.5} alignItems="center">
+      {/* Centred in the header and filled, as on the estimate and change order pages. */}
       {redirectQuery ? (
-        <Button variant="outlined" onClick={() => void router.push(redirectQuery)}>
+        <Button
+          variant="contained"
+          onClick={() => void router.push(redirectQuery)}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
           {t("common.backToPortal", { defaultValue: "Back to Portal" })}
         </Button>
       ) : null}
       <ProgressClaimDownloadButton claim={claim} acceptance={acceptance} withAuth={false} />
-      {/* Accept/reject belong where the claimed numbers are reviewed, not on the planner tabs. */}
-      {!isDecided && activeTab.kind !== "PLANNER" ? (
+      {!isDecided ? (
         <>
           <Tooltip title={t("progressClaimExternal.rejectClaim", { defaultValue: "Reject" })} arrow>
             <span>
@@ -232,6 +241,7 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
         title={pageTitle}
         actions={headerActions}
         sx={{ height: "100vh" }}
+        titleRowSx={{ position: "relative" }}
         tabs
         tabItems={tabItems}
         tabValue={tabValue}
