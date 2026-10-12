@@ -8,6 +8,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import DislikeIcon from "@/assets/icons/dislike-icon";
@@ -33,6 +34,9 @@ interface ProgressClaimAcceptPageProps {
 const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPageProps) => {
   const { t } = useTranslation();
   const theme = useTheme();
+  const router = useRouter();
+  // Set when the page was opened from the customer portal, which passes its own URL.
+  const redirectQuery = router.query.redirect as string | undefined;
   const { localizationValue } = useOrganizationLocalization();
   const { acceptProgressClaim, loading } = useAcceptProgressClaim();
   const { rejectProgressClaimByClient, loading: rejecting } = useRejectProgressClaimByClient();
@@ -154,6 +158,11 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
 
   const headerActions = (
     <Stack direction="row" spacing={1.5} alignItems="center">
+      {redirectQuery ? (
+        <Button variant="outlined" onClick={() => void router.push(redirectQuery)}>
+          {t("common.backToPortal", { defaultValue: "Back to Portal" })}
+        </Button>
+      ) : null}
       <ProgressClaimDownloadButton claim={claim} acceptance={acceptance} withAuth={false} />
       {/* Accept/reject belong where the claimed numbers are reviewed, not on the planner tabs. */}
       {!isDecided && activeTab.kind !== "PLANNER" ? (

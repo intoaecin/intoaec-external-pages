@@ -10,18 +10,28 @@ export const toClaimPeriod = (
 ): ProgressClaimPeriod | null =>
   periodFrom && periodTo ? { from: Number(periodFrom), to: Number(periodTo) } : null;
 
+/**
+ * The instants a claim period spans. Both ends are saved as the start of
+ * their day in the organization's timezone, so the last day runs for a full
+ * day from `to`. Re-deriving day edges here would use the viewer's timezone
+ * and can cut a one-day period short of the schedules on that day.
+ */
+export const getClaimPeriodBounds = (period: ProgressClaimPeriod) => ({
+  start: dayjs(period.from),
+  end: dayjs(period.to).add(1, "day").subtract(1, "millisecond"),
+});
+
 /** Whether a schedule runs on any day of the claim period; no period means no filtering. */
 export const isScheduleInClaimPeriod = (
   schedule: Pick<Schedule, "scheduleStartDate" | "scheduleEndDate">,
   period?: ProgressClaimPeriod | null,
 ): boolean => {
   if (!period) return true;
-  const periodStart = dayjs(period.from).startOf("day");
-  const periodEnd = dayjs(period.to).endOf("day");
+  const { start, end } = getClaimPeriodBounds(period);
 
   return (
-    !dayjs(schedule.scheduleStartDate).isAfter(periodEnd) &&
-    !dayjs(schedule.scheduleEndDate).isBefore(periodStart)
+    !dayjs(schedule.scheduleStartDate).isAfter(end) &&
+    !dayjs(schedule.scheduleEndDate).isBefore(start)
   );
 };
 

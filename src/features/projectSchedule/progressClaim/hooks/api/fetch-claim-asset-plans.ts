@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import dayjs from "dayjs";
 import { useAxios } from "@/features/hooks/useAxios";
 import { useEnv } from "@/features/hooks/useEnv";
 import type { AssetPlan } from "../../../types/assetPlanner";
 import { toAssetPlan, type StoredAssetPlan } from "../../../utils/plannerPlanMappers";
 import type { ProgressClaimPlannerScope } from "../../types";
+import { getClaimPeriodBounds } from "../../utils/progressClaimPeriod";
 
 export const useFetchClaimAssetPlans = ({
   organizationId,
@@ -25,8 +25,8 @@ export const useFetchClaimAssetPlans = ({
         // Whole days: plans overlapping any part of the period come back.
         ...(period
           ? {
-              startDate: dayjs(period.from).startOf("day").valueOf(),
-              endDate: dayjs(period.to).endOf("day").valueOf(),
+              startDate: getClaimPeriodBounds(period).start.valueOf(),
+              endDate: getClaimPeriodBounds(period).end.valueOf(),
             }
           : {}),
       });
