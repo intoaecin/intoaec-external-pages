@@ -1176,6 +1176,7 @@ const Section: React.FC<{
   selectedItemIds,
   onToggleItemSelect,
 }) => {
+  const { t } = useTranslation();
   const columnsToRender = Array.isArray(visibleColumns) ? visibleColumns : [];
   const totalColumns = columnsToRender.length + 1;
   const totalCost = (section.sectionItems ?? []).reduce(
