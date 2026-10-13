@@ -60,9 +60,9 @@ const ProgressClaimStatementRow = ({
           {label}
         </Typography>
       </TableCell>
-      <TableCell align="right">
+      <TableCell>
         {amount === undefined ? null : loading ? (
-          <Skeleton variant="text" width={100} sx={{ ml: "auto" }} />
+          <Skeleton variant="text" width={100} />
         ) : (
           <Typography variant="body2" fontWeight={fontWeight} sx={{ whiteSpace: "nowrap" }}>
             {amount}
