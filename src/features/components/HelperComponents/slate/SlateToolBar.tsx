@@ -1,5 +1,5 @@
 import TickIcon from "@/assets/icons/tick-icon";
-import { formatSeedValues } from "@/lib/helpers";
+import { debounce, formatSeedValues } from "@/lib/helpers";
 import FormatBold from "@mui/icons-material/FormatBold";
 import {
   Box,
@@ -32,7 +32,6 @@ import InsertLink from "@mui/icons-material/InsertLink";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import FormatListNumberedIcon from "@mui/icons-material/FormatListNumbered";
 import TableViewIcon from "@mui/icons-material/TableView";
-import { debounce } from "lodash";
 import {
   PopupState,
   bindPopover,

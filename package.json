@@ -87,7 +87,6 @@
     "intoaec-react-icons": "^1.0.4",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
-    "lodash": "^4.17.21",
     "lucide-react": "^0.576.0",
     "material-ui-popup-state": "^5.0.10",
     "moment": "^2.29.4",
@@ -119,7 +118,6 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.199",
     "@types/nprogress": "^0.2.3",
     "@types/react-signature-canvas": "^1.0.5",
     "@types/react-swipeable-views": "^0.13.5",
