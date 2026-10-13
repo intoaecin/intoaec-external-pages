@@ -8,7 +8,7 @@ import type { ProgressClaimTab } from "../hooks/useProgressClaimTabs";
 import ProgressClaimAcceptSheet from "../external/ProgressClaimAcceptSheet";
 import type { useProgressClaimAcceptance } from "../external/useProgressClaimAcceptance";
 import { toClaimPeriod } from "../utils/progressClaimPeriod";
-import { getPhaseRows } from "../utils/progressClaimPhases";
+import { getPhaseRows, SCHEDULES_TAB_ID } from "../utils/progressClaimPhases";
 import { getLineAttachments } from "../utils/scheduleAttachments";
 import ProgressClaimChangeOrderTable from "./ProgressClaimChangeOrderTable";
 import ProgressClaimDetailsFields from "./ProgressClaimDetailsFields";
@@ -81,10 +81,20 @@ const ProgressClaimDocumentContent = ({
   }
 
   if (activeTab.kind === "PHASE") {
+    // The claim is read with every phase under one Schedules tab.
+    const showsAllPhases = activeTab.phaseId === SCHEDULES_TAB_ID;
     return (
       <ProgressClaimAcceptSheet
-        claimedRows={getPhaseRows(acceptance.claimedRows, activeTab.phaseId)}
-        acceptedRows={getPhaseRows(acceptance.acceptedRows, activeTab.phaseId)}
+        claimedRows={
+          showsAllPhases
+            ? acceptance.claimedRows
+            : getPhaseRows(acceptance.claimedRows, activeTab.phaseId)
+        }
+        acceptedRows={
+          showsAllPhases
+            ? acceptance.acceptedRows
+            : getPhaseRows(acceptance.acceptedRows, activeTab.phaseId)
+        }
         reasonByScheduleId={acceptance.reasonByScheduleId}
         attachmentsByScheduleId={getLineAttachments(claim.lines)}
         readOnly={readOnly}

@@ -25,6 +25,7 @@ import { useProgressClaimAcceptance } from "./useProgressClaimAcceptance";
 import ProgressClaimDownloadButton from "../ProgressClaimDownloadButton";
 import ProgressClaimDocumentContent from "../components/ProgressClaimDocumentContent";
 import { useProgressClaimTabs } from "../hooks/useProgressClaimTabs";
+import { SCHEDULES_TAB_ID } from "../utils/progressClaimPhases";
 import { resolveProgressClaimSettings } from "../utils/progressClaimSettings";
 
 interface ProgressClaimAcceptPageProps {
@@ -52,8 +53,16 @@ const ProgressClaimAcceptPage = ({ claim: initialClaim }: ProgressClaimAcceptPag
     [initialClaim.progressClaimSettings],
   );
   const hasChangeOrders = Boolean(claim.coLines && claim.coLines.length > 0);
+  // Like the claim form, the client reads every phase under one Schedules tab.
+  const scheduleTabs = useMemo(
+    () =>
+      acceptance.phases.length > 0
+        ? [{ id: SCHEDULES_TAB_ID, name: t("common.schedules") }]
+        : [],
+    [acceptance.phases, t],
+  );
   const { activeTab, tabItems, tabValue, handleTabChange } = useProgressClaimTabs(
-    acceptance.phases,
+    scheduleTabs,
     claimSettings,
     hasChangeOrders,
   );

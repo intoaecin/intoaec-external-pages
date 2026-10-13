@@ -5,6 +5,9 @@ export interface ProgressClaimPhase {
   name: string;
 }
 
+/** Tab id for the single Schedules tab that holds every phase at once. */
+export const SCHEDULES_TAB_ID = "SCHEDULES";
+
 /**
  * Every top-level schedule gets its own tab — including one with no children,
  * since the read-only Summary is no longer a place to claim it.
