@@ -5,6 +5,8 @@ import DownloadIcon from "@/assets/icons/download-icon";
 import { useExcelExport } from "@/features/hooks/api/useExcelExport";
 import { useBusinessAndClientDetails } from "@/features/hooks/api/useBusinessAndClientDetails";
 import { useOrganizationLocalization } from "@/features/hooks/useOrganizationLocalization";
+import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
+import { getOrganizationExcelTheme } from "@/utils/createOrganizationTheme";
 import {
   formatDateBasedOnOrganizationLocalization,
   formatTimeBasedOnOrganizationLocalization,
@@ -36,6 +38,7 @@ const ProgressClaimDownloadButton = ({
 }: ProgressClaimDownloadButtonProps) => {
   const { t } = useTranslation();
   const { localizationValue } = useOrganizationLocalization();
+  const { mainColor, textColor } = useOrganization();
   const { planner, loading: plannerLoading } = useProgressClaimPlannerData(claim, withAuth);
   const { exportExcel, exporting } = useExcelExport();
   const { business, client, loading: partiesLoading } = useBusinessAndClientDetails({
@@ -65,7 +68,8 @@ const ProgressClaimDownloadButton = ({
           (localizationValue && getLocalizationValue(localizationValue, "TIMEZONE", "ID")) || "UTC",
         t,
       });
-      await exportExcel(workbook);
+      // The workbook takes the customer's colors, like the page it's downloaded from.
+      await exportExcel({ ...workbook, theme: getOrganizationExcelTheme(mainColor, textColor) });
     } catch {
       toast.error(t("progressClaim.downloadFailed"));
     }

@@ -39,7 +39,7 @@ interface ProgressClaimAcceptSheetProps {
 
 /** Column widths in render order: name, total Qty/Rate/Amount, then Qty/%/Amount per group, reason, attachments. */
 const COLUMN_WIDTHS = [
-  220, 110, 110, 120, 110, 70, 120, 110, 70, 120, 150, 110, 120, 220, 140,
+  220, 140, 110, 120, 140, 70, 120, 140, 70, 120, 170, 110, 120, 220, 140,
 ];
 const MIN_WIDTH = COLUMN_WIDTHS.reduce((sum, width) => sum + width, 0);
 

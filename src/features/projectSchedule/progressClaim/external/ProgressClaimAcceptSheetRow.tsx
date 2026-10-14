@@ -68,8 +68,8 @@ const ProgressClaimAcceptSheetRow = ({
 
   const text = (value: string, align: "left" | "right" = "right") => (
     <TableCell align={align}>
-      <Typography variant="body2" fontWeight={fontWeight} sx={{ whiteSpace: "nowrap" }}>
-        {value}
+      <Typography variant="body2" fontWeight={fontWeight}>
+        <TruncatedText text={value} useEllipsis />
       </Typography>
     </TableCell>
   );
@@ -96,7 +96,7 @@ const ProgressClaimAcceptSheetRow = ({
     <TableRow sx={[LINE_TABLE_CELL_SX, isGroup ? { bgcolor: "grey.50" } : {}]}>
       <TableCell>
         <Box sx={{ pl: `${claimedRow.depth * INDENT_PER_DEPTH_PX}px`, fontWeight }}>
-          <TruncatedText text={claimedRow.name} limit={40} />
+          <TruncatedText text={claimedRow.name} useEllipsis />
         </Box>
       </TableCell>
 
@@ -125,7 +125,13 @@ const ProgressClaimAcceptSheetRow = ({
             maxFractionDigits={3}
             allowEmpty
             fullWidth
-            endAdornment={unit ? <Typography variant="caption">{unit}</Typography> : undefined}
+            endAdornment={
+              unit ? (
+                <Typography variant="caption">
+                  <TruncatedText text={unit} useEllipsis maxWidth={64} />
+                </Typography>
+              ) : undefined
+            }
             aria-label={t("progressClaim.table.acceptedQtyAria", { name: claimedRow.name })}
           />
         </TableCell>

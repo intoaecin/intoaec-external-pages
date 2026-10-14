@@ -6,7 +6,7 @@
 
 export type ExcelCell = string | number | null;
 
-/** Row looks shared by every export: header (brand blue), subHeader (light blue), section/total (bold, subtle fill), highlight (brand blue, e.g. a grand total). */
+/** Row looks shared by every export: header (brand colour), subHeader (light brand colour), section/total (bold, subtle fill), highlight (brand colour, e.g. a grand total). */
 export type ExcelRowStyle = "header" | "subHeader" | "section" | "total" | "highlight";
 
 /** Inclusive cell range, 0-based. */
@@ -37,9 +37,24 @@ export interface ExcelSheetSpec {
   gridLines?: boolean;
 }
 
+/**
+ * Brand colours for the workbook, as 6-digit hex. Omit for the intoaec
+ * defaults; the external pages send the customer's own (see
+ * `getOrganizationExcelTheme`).
+ */
+export interface ExcelTheme {
+  /** Header and highlight rows, and links. */
+  primary: string;
+  /** Sub-header rows. */
+  primaryLight: string;
+  /** Text on `primary`. */
+  contrastText: string;
+}
+
 export interface ExcelWorkbookSpec {
   fileName: string;
   sheets: ExcelSheetSpec[];
+  theme?: ExcelTheme;
 }
 
 export const EXCEL_MONEY_FORMAT = "#,##0.00";

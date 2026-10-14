@@ -42,7 +42,9 @@ export const TruncatedText: React.FC<TruncatedTextProps> = ({
 
   if (useEllipsis) {
     return (
-      <Tooltip title={text || ""} arrow disableHoverListener={!isTruncated}>
+      // An empty title keeps the tooltip closed. Disabling the hover listener
+      // instead would miss the hover that first measures the truncation.
+      <Tooltip title={isTruncated ? text || "" : ""} arrow>
         <span
           ref={textRef}
           onMouseEnter={checkTruncation}
