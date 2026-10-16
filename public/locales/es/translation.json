@@ -3929,6 +3929,10 @@
     }
   },
   "inventoryManagement": {
+    "quantityUpdate": {
+      "usedBy": "Usado por",
+      "remarks": "Observaciones"
+    },
     "receivedQtyTooltipInstruction": "Para registrar los artículos recibidos, use la opción \"Agregar desde P.O.\" para ingresar o actualizar la cantidad recibida.",
     "requestInventory": "Solicitar Artículo(s)",
     "inventoryRequest": "Solicitud de Inventario",

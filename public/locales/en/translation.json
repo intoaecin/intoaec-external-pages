@@ -4103,6 +4103,10 @@
     }
   },
   "inventoryManagement": {
+    "quantityUpdate": {
+      "usedBy": "Used By",
+      "remarks": "Remarks"
+    },
     "receivedQtyTooltipInstruction": "To record received items, use the \"Add from P.O\" option to enter or update the received quantity.",
     "requestInventory": "Request Item(s)",
     "Inventory request": "Inventory Request",
