@@ -94,6 +94,9 @@ const IndentReportPage = lazy(() => import("@/pages/reportsPage/Indent"));
 const InventoryReportPage = lazy(
   () => import("@/pages/reportsPage/Inventory"),
 );
+const ClaimAndRetentionReportPage = lazy(
+  () => import("@/pages/reportsPage/ClaimAndRetention"),
+);
 const InventoryHistoryReportPage = lazy(
   () => import("@/pages/reportsPage/InventoryHistory"),
 );
@@ -222,6 +225,7 @@ export default function App() {
                 <Route path="/reportsPage" element={<ReportsPage />} />
                 <Route path="/reportsPage/Assets" element={<AssetsReportPage />} />
                 <Route path="/reportsPage/BillsExpenses" element={<BillsExpensesReportPage />} />
+                <Route path="/reportsPage/ClaimAndRetention" element={<ClaimAndRetentionReportPage />} />
                 <Route path="/reportsPage/Clients" element={<ClientsReportPage />} />
                 <Route path="/reportsPage/Emails" element={<EmailsReportPage />} />
                 <Route path="/reportsPage/Estimate" element={<EstimateReportPage />} />

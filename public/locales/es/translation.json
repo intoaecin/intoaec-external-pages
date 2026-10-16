@@ -1,4 +1,22 @@
 {
+  "claimAndRetention": {
+    "claims": "Reclamos",
+    "retention": "Retención",
+    "claimNumber": "N.º de Reclamo",
+    "acceptedAmount": "Monto Aceptado",
+    "retentionRate": "Tasa de retención",
+    "heldOn": "Retenido el",
+    "retentionHeld": "Retención retenida",
+    "submittedOn": "Enviado El",
+    "claimedAmount": "Monto del reclamo",
+    "statusPendingApproval": "Pendiente de Aprobación",
+    "statusApprovedInternal": "Aprobado",
+    "statusSent": "Enviado",
+    "statusAccepted": "Aceptado",
+    "statusRejectedByApprover": "Rechazado por el aprobador",
+    "statusRejectedByClient": "Rechazado por el cliente",
+    "statusCancelled": "Cancelado"
+  },
   "clientCreditNote": {
     "title": "Nota de crédito",
     "status": {
@@ -104,6 +122,7 @@
     "highlightColor": "Color de resaltado"
   },
   "common": {
+    "claimAndRetention": "Reclamos y Retenciones",
     "logo": "Logotipo",
     "subject": "Asunto",
     "organization": "Organización",
@@ -3929,6 +3948,10 @@
     }
   },
   "inventoryManagement": {
+    "quantityUpdate": {
+      "usedBy": "Usado por",
+      "remarks": "Observaciones"
+    },
     "quantityUpdate": {
       "usedBy": "Usado por",
       "remarks": "Observaciones"
@@ -8787,6 +8810,11 @@
     }
   },
   "reports": {
+    "retentionAmount": "Monto de retención",
+    "totalRetentionHeld": "Total de retención retenida",
+    "totalAcceptedAmount": "Monto total aceptado",
+    "claimsHoldingRetention": "Reclamos con retención",
+    "totalClaimedAmount": "Monto total del reclamo",
     "successfullyApproved": "Aprobado con éxito",
     "awaitingApproval": "Esperando aprobación",
     "totalIndentSent": "Total de requisición enviados",

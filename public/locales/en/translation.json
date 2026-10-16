@@ -1,4 +1,22 @@
 {
+  "claimAndRetention": {
+    "claims": "Claims",
+    "retention": "Retention",
+    "claimNumber": "Claim #",
+    "acceptedAmount": "Accepted Amount",
+    "retentionRate": "Retention Rate",
+    "heldOn": "Held On",
+    "retentionHeld": "Retention Held",
+    "submittedOn": "Submitted On",
+    "claimedAmount": "Claim Amount",
+    "statusPendingApproval": "Pending Approval",
+    "statusApprovedInternal": "Approved",
+    "statusSent": "Sent",
+    "statusAccepted": "Accepted",
+    "statusRejectedByApprover": "Rejected by Approver",
+    "statusRejectedByClient": "Rejected by Client",
+    "statusCancelled": "Cancelled"
+  },
   "clientCreditNote": {
     "title": "Credit note",
     "status": {
@@ -104,6 +122,7 @@
     "highlightColor": "Highlight color"
   },
   "common": {
+    "claimAndRetention": "Claims & Retentions",
     "logo": "Logo",
     "subject": "Subject",
     "answered": "Answered",
@@ -4103,6 +4122,10 @@
     }
   },
   "inventoryManagement": {
+    "quantityUpdate": {
+      "usedBy": "Used By",
+      "remarks": "Remarks"
+    },
     "quantityUpdate": {
       "usedBy": "Used By",
       "remarks": "Remarks"
@@ -8814,6 +8837,11 @@
     }
   },
   "reports": {
+    "retentionAmount": "Retention Amount",
+    "totalRetentionHeld": "Total Retention Held",
+    "totalAcceptedAmount": "Total Accepted Amount",
+    "claimsHoldingRetention": "Claims Holding Retention",
+    "totalClaimedAmount": "Total Claim Amount",
     "successfullyApproved": "SuccessFully Approved",
     "awaitingApproval": "Awaiting Approval",
     "totalIndentSent": "Total Indent Sent",
