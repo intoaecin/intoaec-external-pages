@@ -1,8 +1,9 @@
 {
   "drawingPreview": {
     "version": "Versión {{version}}",
-    "zoomIn": "Acercar",
-    "zoomOut": "Alejar",
+    "zoomIn": "Acercar (+)",
+    "zoomOut": "Alejar (-)",
+    "resetZoom": "Restablecer zoom al 100 %",
     "downloadFailed": "No se pudo descargar el plano. Inténtelo de nuevo.",
     "notFoundTitle": "Plano no disponible",
     "notFoundDescription": "Este enlace al plano ya no está disponible. Comuníquese con el remitente para obtener un enlace actualizado.",

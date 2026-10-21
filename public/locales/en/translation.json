@@ -1,8 +1,9 @@
 {
   "drawingPreview": {
     "version": "Version {{version}}",
-    "zoomIn": "Zoom in",
-    "zoomOut": "Zoom out",
+    "zoomIn": "Zoom in (+)",
+    "zoomOut": "Zoom out (-)",
+    "resetZoom": "Reset zoom to 100%",
     "downloadFailed": "Could not download the drawing. Please try again.",
     "notFoundTitle": "Drawing not available",
     "notFoundDescription": "This drawing link is no longer available. Please contact the sender for an updated link.",

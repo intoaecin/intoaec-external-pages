@@ -5,7 +5,6 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import { Minus, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "@/assets/icons/download-icon";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
@@ -14,11 +13,6 @@ import { useOrganization } from "@/features/components/providers/OrganizationThe
 interface DrawingPreviewHeaderProps {
   fileName: string;
   versionNumber?: number;
-  zoom: number;
-  canZoomIn: boolean;
-  canZoomOut: boolean;
-  onZoomIn: () => void;
-  onZoomOut: () => void;
   /** Omitted when the file does not allow downloads */
   onDownload?: () => void;
   canDownload: boolean;
@@ -28,11 +22,6 @@ interface DrawingPreviewHeaderProps {
 export function DrawingPreviewHeader({
   fileName,
   versionNumber,
-  zoom,
-  canZoomIn,
-  canZoomOut,
-  onZoomIn,
-  onZoomOut,
   onDownload,
   canDownload,
   isDownloading,
@@ -75,31 +64,6 @@ export function DrawingPreviewHeader({
         )}
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
-        <Tooltip title={t("drawingPreview.zoomOut")}>
-          <span>
-            <IconButton
-              onClick={onZoomOut}
-              disabled={!canZoomOut}
-              aria-label={t("drawingPreview.zoomOut")}
-            >
-              <Minus size={16} />
-            </IconButton>
-          </span>
-        </Tooltip>
-        <Typography variant="caption" sx={{ minWidth: 40, textAlign: "center" }}>
-          {Math.round(zoom * 100)}%
-        </Typography>
-        <Tooltip title={t("drawingPreview.zoomIn")}>
-          <span>
-            <IconButton
-              onClick={onZoomIn}
-              disabled={!canZoomIn}
-              aria-label={t("drawingPreview.zoomIn")}
-            >
-              <Plus size={16} />
-            </IconButton>
-          </span>
-        </Tooltip>
         {onDownload && (
           <Tooltip title={t("tooltips.downloadAsPdf")} arrow>
             <span>
