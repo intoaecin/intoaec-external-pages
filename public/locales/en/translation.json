@@ -1,4 +1,14 @@
 {
+  "drawingPreview": {
+    "version": "Version {{version}}",
+    "zoomIn": "Zoom in",
+    "zoomOut": "Zoom out",
+    "downloadFailed": "Could not download the drawing. Please try again.",
+    "notFoundTitle": "Drawing not available",
+    "notFoundDescription": "This drawing link is no longer available. Please contact the sender for an updated link.",
+    "loadFailedTitle": "Couldn't load the drawing",
+    "loadFailedDescription": "Something went wrong while opening this drawing. Please refresh the page to try again."
+  },
   "claimAndRetention": {
     "claims": "Claims",
     "retention": "Retention",

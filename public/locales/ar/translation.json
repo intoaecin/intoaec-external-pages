@@ -1,4 +1,14 @@
 {
+  "drawingPreview": {
+    "version": "الإصدار {{version}}",
+    "zoomIn": "تكبير",
+    "zoomOut": "تصغير",
+    "downloadFailed": "تعذّر تنزيل المخطط. يرجى المحاولة مرة أخرى.",
+    "notFoundTitle": "المخطط غير متاح",
+    "notFoundDescription": "رابط هذا المخطط لم يعد متاحًا. يرجى التواصل مع المرسل للحصول على رابط محدّث.",
+    "loadFailedTitle": "تعذّر تحميل المخطط",
+    "loadFailedDescription": "حدث خطأ أثناء فتح هذا المخطط. يرجى تحديث الصفحة والمحاولة مرة أخرى."
+  },
   "timeTracking": {
     "wage": "Wage",
     "totalWage": "Total Wage"

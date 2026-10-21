@@ -1,4 +1,14 @@
 {
+  "drawingPreview": {
+    "version": "Versión {{version}}",
+    "zoomIn": "Acercar",
+    "zoomOut": "Alejar",
+    "downloadFailed": "No se pudo descargar el plano. Inténtelo de nuevo.",
+    "notFoundTitle": "Plano no disponible",
+    "notFoundDescription": "Este enlace al plano ya no está disponible. Comuníquese con el remitente para obtener un enlace actualizado.",
+    "loadFailedTitle": "No se pudo cargar el plano",
+    "loadFailedDescription": "Algo salió mal al abrir este plano. Actualice la página para intentarlo de nuevo."
+  },
   "claimAndRetention": {
     "claims": "Reclamos",
     "retention": "Retención",

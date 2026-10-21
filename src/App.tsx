@@ -59,6 +59,9 @@ const ProgressClaimPreviewPage = lazy(
   () => import("@/pages/progress-claim-preview/[progressClaimId]"),
 );
 const ClientReportPage = lazy(() => import("@/pages/client-report"));
+const DrawingPreviewPage = lazy(
+  () => import("@/pages/drawing-preview/[leadFileId]"),
+);
 const SubscriptionCheckoutPage = lazy(
   () => import("@/pages/subscription/checkout-payment"),
 );
@@ -194,6 +197,10 @@ export default function App() {
                   element={<ProgressClaimPreviewPage />}
                 />
                 <Route path="/client-report" element={<ClientReportPage />} />
+                <Route
+                  path="/drawing-preview/:leadFileId"
+                  element={<DrawingPreviewPage />}
+                />
                 <Route
                   path="/subscription/checkout-payment"
                   element={<SubscriptionCheckoutPage />}
