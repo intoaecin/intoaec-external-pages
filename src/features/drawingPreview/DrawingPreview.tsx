@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import type { SharedDrawing } from "./types";
+import { DrawingDecisionActions } from "./components/DrawingDecisionActions";
 import { DrawingPages } from "./components/DrawingPages";
 import { DrawingPreviewHeader } from "./components/DrawingPreviewHeader";
 import { DrawingZoomControls } from "./components/DrawingZoomControls";
@@ -41,6 +42,7 @@ export function DrawingPreview({ drawing }: { drawing: SharedDrawing }) {
         onDownload={drawing.allowDownload === false ? undefined : handleDownload}
         canDownload={isReady}
         isDownloading={isDownloading}
+        decisionActions={<DrawingDecisionActions drawing={drawing} />}
       />
       <DrawingZoomControls
         zoom={zoomState.zoom}

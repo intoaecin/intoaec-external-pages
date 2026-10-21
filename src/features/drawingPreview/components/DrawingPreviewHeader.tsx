@@ -5,6 +5,7 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "@/assets/icons/download-icon";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
@@ -17,6 +18,8 @@ interface DrawingPreviewHeaderProps {
   onDownload?: () => void;
   canDownload: boolean;
   isDownloading: boolean;
+  /** Accept / reject controls, or the client's decision once made */
+  decisionActions?: ReactNode;
 }
 
 export function DrawingPreviewHeader({
@@ -25,6 +28,7 @@ export function DrawingPreviewHeader({
   onDownload,
   canDownload,
   isDownloading,
+  decisionActions,
 }: DrawingPreviewHeaderProps) {
   const { t } = useTranslation();
   const { logoUrl } = useOrganization();
@@ -63,7 +67,8 @@ export function DrawingPreviewHeader({
           </Typography>
         )}
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0 }}>
+      <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0, gap: 1 }}>
+        {decisionActions}
         {onDownload && (
           <Tooltip title={t("tooltips.downloadAsPdf")} arrow>
             <span>

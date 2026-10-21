@@ -24,6 +24,8 @@ export interface MarkupShapeData {
   fontSize?: number;
 }
 
+export type ClientApprovalStatus = "PENDING" | "ACCEPTED" | "REJECTED";
+
 export interface SharedDrawingMarkup {
   annotationId: string;
   text: string;
@@ -42,6 +44,10 @@ export interface SharedDrawing {
   versionNumber?: number;
   /** The file's own download setting; false hides the client download */
   allowDownload?: boolean;
+  /** PENDING while awaiting the client; null for drawings shared before approvals existed */
+  clientApprovalStatus?: ClientApprovalStatus | null;
+  clientRejectionReason?: string | null;
+  clientRespondedAt?: number | null;
   markups: SharedDrawingMarkup[];
 }
 
