@@ -34,7 +34,7 @@ export function DrawingPreview({ drawing }: { drawing: SharedDrawing }) {
   };
 
   return (
-    <Box ref={previewRef} sx={{ minHeight: "100dvh", bgcolor: "background.default" }}>
+    <Box ref={previewRef} sx={{ minHeight: "100dvh" }}>
       <DrawingPreviewHeader
         fileName={drawing.fileName}
         versionNumber={drawing.versionNumber}
