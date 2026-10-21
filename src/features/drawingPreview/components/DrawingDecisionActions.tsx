@@ -66,7 +66,7 @@ export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) 
     );
   }
   // Drawings shared before approvals existed have no status and are view-only.
-  if (status !== "PENDING") return null;
+  if (status !== "SENT") return null;
 
   const isBusy = Boolean(pendingResponse);
   return (
