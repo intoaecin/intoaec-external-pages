@@ -16,7 +16,7 @@ const CLOSED_TOOLS: MarkupTool[] = [...BOX_TOOLS, "polygon"];
 
 const HIGHLIGHTER_OPACITY = 0.35;
 const FILL_OPACITY = 0.35;
-const ARROW_HEAD_PER_MILLE = 14;
+const ARROW_HEAD_PER_MILLE = 8;
 const CLOUD_SCALLOP_PER_MILLE = 12;
 const DEFAULT_MARKUP_TEXT_SIZE = 16;
 /** Narrow drawings render text as if this wide, so small sizes stay legible and keep their ratios. */
@@ -34,8 +34,14 @@ export const resolveMarkupColor = (color: string, palette: Palette) =>
     ? palette[color as LegacyPaletteColor].main
     : color;
 
+/**
+ * Saved stroke widths render at this fraction, so markups (new and already saved)
+ * stay fine lines on detailed drawings instead of bold strokes.
+ */
+const MARKUP_STROKE_SCALE = 0.3;
+
 export const getMarkupStrokeWidthPx = (shape: MarkupShapeData, width: number) =>
-  (shape.strokeWidth * width) / 1000;
+  (shape.strokeWidth * width * MARKUP_STROKE_SCALE) / 1000;
 
 export const getMarkupOpacity = (shape: MarkupShapeData) =>
   shape.tool === "highlighter" ? HIGHLIGHTER_OPACITY : 1;
@@ -43,6 +49,12 @@ export const getMarkupOpacity = (shape: MarkupShapeData) =>
 /** Fill opacity for filled shapes, or 0 when the shape is outline-only. */
 export const getMarkupFillOpacity = (shape: MarkupShapeData) =>
   shape.filled && CLOSED_TOOLS.includes(shape.tool) ? FILL_OPACITY : 0;
+
+/** Regular weight for text markups and measurement labels, so they read lighter than the drawing's lines. */
+export const MARKUP_FONT_WEIGHT = 400;
+
+/** Measurement labels ("8.00 m") are smaller than default text so they don't cover the drawing. */
+export const MEASUREMENT_LABEL_TEXT_SIZE = 8;
 
 export const getMarkupFontSizePx = (
   width: number,

@@ -7,6 +7,7 @@ import {
   getMarkupOpacity,
   getMarkupPath,
   getMarkupStrokeWidthPx,
+  MARKUP_FONT_WEIGHT,
   resolveMarkupColor,
 } from "../utils/markupShapes";
 import {
@@ -51,7 +52,7 @@ export function MarkupShapeSvg({ shape, text, size }: MarkupShapeSvgProps) {
         fill={color}
         fontSize={getMarkupFontSizePx(width, shape.fontSize)}
         fontFamily={theme.typography.fontFamily}
-        fontWeight={500}
+        fontWeight={MARKUP_FONT_WEIGHT}
         dominantBaseline="hanging"
       >
         {shape.label || text}

@@ -32,7 +32,7 @@ export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) 
   const signatureUploadRef = useRef<SignatureUploaderHandle | null>(null);
   const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
   const [pendingResponse, setPendingResponse] = useState<"ACCEPTED" | "REJECTED">();
-  const status = drawing.clientApprovalStatus;
+  const status = drawing.approvalStatus;
 
   const respond = async (payload: Parameters<typeof respondMutation.mutateAsync>[0]) => {
     setPendingResponse(payload.response);
@@ -53,7 +53,7 @@ export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) 
   if (status === "ACCEPTED" || status === "REJECTED") {
     const isAccepted = status === "ACCEPTED";
     return (
-      <Tooltip title={drawing.clientRejectionReason ?? ""} arrow>
+      <Tooltip title={drawing.rejectionReason ?? ""} arrow>
         <span>
           <StatusLabel
             status={status}

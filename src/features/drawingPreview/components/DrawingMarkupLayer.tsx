@@ -1,6 +1,10 @@
 import { useTheme } from "@mui/material/styles";
 import type { MarkupShapeData, PageSize, SharedDrawingMarkup } from "../types";
-import { getMarkupFontSizePx } from "../utils/markupShapes";
+import {
+  getMarkupFontSizePx,
+  MARKUP_FONT_WEIGHT,
+  MEASUREMENT_LABEL_TEXT_SIZE,
+} from "../utils/markupShapes";
 import {
   getMeasurementLabel,
   getMeasurementLabelPoint,
@@ -63,9 +67,9 @@ export function DrawingMarkupLayer({
                 x={(labelX / 100) * width}
                 y={(labelY / 100) * height - LABEL_OFFSET_PX}
                 textAnchor="middle"
-                fontSize={getMarkupFontSizePx(width)}
+                fontSize={getMarkupFontSizePx(width, MEASUREMENT_LABEL_TEXT_SIZE)}
                 fontFamily={theme.typography.fontFamily}
-                fontWeight={500}
+                fontWeight={MARKUP_FONT_WEIGHT}
                 fill={theme.palette.text.primary}
                 stroke={theme.palette.background.paper}
                 strokeWidth={LABEL_HALO_PX}

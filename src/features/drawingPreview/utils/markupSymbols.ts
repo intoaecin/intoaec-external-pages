@@ -163,4 +163,4 @@ export const getMarkupSymbolIcon = (key?: string) =>
   key ? MARKUP_SYMBOL_ICONS[key] : undefined;
 
 /** Symbol size as per-mille of the drawing width, so it scales with the page. */
-export const SYMBOL_SIZE_PER_MILLE = 28;
+export const SYMBOL_SIZE_PER_MILLE = 12;
