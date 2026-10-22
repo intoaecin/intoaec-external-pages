@@ -42,8 +42,10 @@ export function DrawingPreviewHeader({
         bgcolor: "background.paper",
         borderBottom: 1,
         borderColor: "divider",
-        px: { xs: 1.5, sm: 3 },
-        py: 1.5,
+        // Same height and padding as the other external pages' headers.
+        px: { xs: 2, md: 3 },
+        py: { xs: 1.5, md: 2 },
+        minHeight: { xs: 64, md: 72 },
         display: "flex",
         alignItems: "center",
         gap: 2,

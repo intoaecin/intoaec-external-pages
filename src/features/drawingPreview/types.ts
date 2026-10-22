@@ -44,6 +44,8 @@ export interface SharedDrawing {
   versionNumber?: number;
   /** The file's own download setting; false hides the client download */
   allowDownload?: boolean;
+  /** Only drawings ask the client to accept or reject; sent documents are view-only */
+  isDrawing?: boolean;
   /** SENT while awaiting the client's answer, then ACCEPTED or REJECTED */
   approvalStatus?: ClientApprovalStatus | null;
   /** The client's own reason when they rejected it */

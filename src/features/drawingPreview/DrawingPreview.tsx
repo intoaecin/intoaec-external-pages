@@ -42,7 +42,11 @@ export function DrawingPreview({ drawing }: { drawing: SharedDrawing }) {
         onDownload={drawing.allowDownload === false ? undefined : handleDownload}
         canDownload={isReady}
         isDownloading={isDownloading}
-        decisionActions={<DrawingDecisionActions drawing={drawing} />}
+        decisionActions={
+          drawing.isDrawing === false ? undefined : (
+            <DrawingDecisionActions drawing={drawing} />
+          )
+        }
       />
       <DrawingZoomControls
         zoom={zoomState.zoom}
