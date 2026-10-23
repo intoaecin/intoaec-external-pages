@@ -24,7 +24,9 @@ interface DrawingPreviewHeaderProps {
   onDownload?: () => void;
   canDownload: boolean;
   isDownloading: boolean;
-  /** Accept / reject controls, or the client's decision once made */
+  /** The client's decision (or superseded), shown beside the file name like an estimate's status */
+  statusBadge?: ReactNode;
+  /** Accept / reject controls while the request is open */
   decisionActions?: ReactNode;
 }
 
@@ -36,6 +38,7 @@ export function DrawingPreviewHeader({
   onDownload,
   canDownload,
   isDownloading,
+  statusBadge,
   decisionActions,
 }: DrawingPreviewHeaderProps) {
   const { t } = useTranslation();
@@ -89,9 +92,12 @@ export function DrawingPreviewHeader({
         />
       )}
       <Box sx={{ minWidth: 0, flex: 1 }}>
-        <Typography variant="body1" noWrap sx={{ fontWeight: 500 }}>
-          {fileName}
-        </Typography>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
+          <Typography variant="body1" noWrap sx={{ fontWeight: 500, minWidth: 0 }}>
+            {fileName}
+          </Typography>
+          {statusBadge && <Box sx={{ flexShrink: 0 }}>{statusBadge}</Box>}
+        </Box>
         {versionNumber && versionOptions.length <= 1 && (
           <Typography variant="caption" color="text.secondary">
             {t("drawingPreview.version", { version: versionNumber })}

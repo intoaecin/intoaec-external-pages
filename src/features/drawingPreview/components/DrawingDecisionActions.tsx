@@ -25,30 +25,11 @@ interface SignatureUploaderHandle {
  * a reject icon with a reason dialog and a "Sign & Accept" button, replaced by a
  * status label once the client has decided.
  */
-export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) {
+/** The client's decision (or a superseded request), shown beside the file name like an estimate's status. */
+export function DrawingDecisionStatus({ drawing }: { drawing: SharedDrawing }) {
   const { t } = useTranslation();
   const theme = useTheme();
-  const respondMutation = useRespondToSharedDrawing(drawing.leadFileId);
-  const signatureUploadRef = useRef<SignatureUploaderHandle | null>(null);
-  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
-  const [pendingResponse, setPendingResponse] = useState<"ACCEPTED" | "REJECTED">();
   const status = drawing.approvalStatus;
-
-  const respond = async (payload: Parameters<typeof respondMutation.mutateAsync>[0]) => {
-    setPendingResponse(payload.response);
-    try {
-      await respondMutation.mutateAsync(payload);
-      toast.success(
-        t(payload.response === "ACCEPTED" ? "drawingPreview.acceptSuccess" : "drawingPreview.rejectSuccess"),
-      );
-      return true;
-    } catch {
-      toast.error(t("drawingPreview.respondFailed"));
-      return false;
-    } finally {
-      setPendingResponse(undefined);
-    }
-  };
 
   if (status === "ACCEPTED" || status === "REJECTED") {
     const isAccepted = status === "ACCEPTED";
@@ -76,8 +57,36 @@ export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) 
       />
     );
   }
+  return null;
+}
+
+export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) {
+  const { t } = useTranslation();
+  const respondMutation = useRespondToSharedDrawing(drawing.leadFileId);
+  const signatureUploadRef = useRef<SignatureUploaderHandle | null>(null);
+  const [rejectDialogOpen, setRejectDialogOpen] = useState(false);
+  const [pendingResponse, setPendingResponse] = useState<"ACCEPTED" | "REJECTED">();
+  const status = drawing.approvalStatus;
+
+  const respond = async (payload: Parameters<typeof respondMutation.mutateAsync>[0]) => {
+    setPendingResponse(payload.response);
+    try {
+      await respondMutation.mutateAsync(payload);
+      toast.success(
+        t(payload.response === "ACCEPTED" ? "drawingPreview.acceptSuccess" : "drawingPreview.rejectSuccess"),
+      );
+      return true;
+    } catch {
+      toast.error(t("drawingPreview.respondFailed"));
+      return false;
+    } finally {
+      setPendingResponse(undefined);
+    }
+  };
+
+  // Only an active request can be answered; decided and superseded ones show their status by the name.
   // Drawings shared before approvals existed have no status and are view-only.
-  if (status !== "SENT") return null;
+  if (status !== "SENT" || drawing.isSuperseded) return null;
 
   const isBusy = Boolean(pendingResponse);
   return (
