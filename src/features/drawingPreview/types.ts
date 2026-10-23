@@ -21,6 +21,8 @@ export interface MarkupShapeData {
   label?: string;
   filled?: boolean;
   symbolKey?: string;
+  /** Per-mille of the page width; older symbols have none */
+  symbolSize?: number;
   fontSize?: number;
 }
 

@@ -11,9 +11,10 @@ import {
   resolveMarkupColor,
 } from "../utils/markupShapes";
 import {
-  SYMBOL_SIZE_PER_MILLE,
-  getMarkupSymbolIcon,
+  getMarkupSymbolArt,
+  getSymbolSizePerMille,
 } from "../utils/markupSymbols";
+import { SymbolArtIcon } from "./SymbolArtIcon";
 
 interface MarkupShapeSvgProps {
   shape: MarkupShapeData;
@@ -32,10 +33,11 @@ export function MarkupShapeSvg({ shape, text, size }: MarkupShapeSvgProps) {
   const y = (yPercent / 100) * height;
 
   if (shape.tool === "symbol") {
-    const Icon = getMarkupSymbolIcon(shape.symbolKey);
-    const symbolSize = (SYMBOL_SIZE_PER_MILLE * width) / 1000;
-    return Icon ? (
-      <Icon
+    const art = getMarkupSymbolArt(shape.symbolKey);
+    const symbolSize = (getSymbolSizePerMille(shape) * width) / 1000;
+    return art ? (
+      <SymbolArtIcon
+        art={art}
         x={x - symbolSize / 2}
         y={y - symbolSize / 2}
         size={symbolSize}

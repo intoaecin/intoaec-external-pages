@@ -1,0 +1,152 @@
+/** One stroke of a symbol; `filled` paints its inside in the symbol colour too. */
+export interface SymbolArtPath {
+  d: string;
+  width: number;
+  filled?: boolean;
+}
+
+/** A symbol's drawing, in its own units inside a square `viewBox` [x, y, side]. */
+export interface SymbolArt {
+  viewBox: [number, number, number];
+  paths: SymbolArtPath[];
+  /** Short tag drawn inside the symbol (e.g. "SD", "CO2") */
+  text?: { x: number; y: number; size: number; value: string };
+}
+
+/**
+ * Line art for every markup symbol, by category then name (stored as
+ * `shapeData.symbolKey = "category.name"`; keep keys stable once markups use them).
+ */
+export const MARKUP_SYMBOL_ART = {
+  audiovisual: {
+    antenna: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 5.38, y: 11, size: 8, value: "A" } },
+    audiovisualDevice: { viewBox: [0.61, 0.61, 16.78], paths: [{ d: "M1.41,9a7.59,7.64 0 1,0 15.18,0 a7.59,7.64 0 1,0 -15.18,0", width: 1.5 }], text: { x: 4.02, y: 11.64, size: 8, value: "AV" } },
+    buttonPanel: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.91, y: 11, size: 8, value: "BP" } },
+    ceilingMountedDropSetDataOnly: { viewBox: [0.74, 0.73, 16.53], paths: [{ d: "M1.49,9a7.51,7.51 0 1,0 15.03,0 a7.51,7.51 0 1,0 -15.03,0", width: 1.5 }, { d: "M3 13L9 2L15 13z", width: 1.5 }] },
+    ceilingMountedDropSetVoiceAndData: { viewBox: [0.74, 0.73, 16.53], paths: [{ d: "M1.49,9a7.51,7.51 0 1,0 15.03,0 a7.51,7.51 0 1,0 -15.03,0", width: 1.5 }, { d: "M3 13L9 2L15 13z", width: 1.5 }, { d: "M10 5L10 12L13 12L10 7L10 12L12 11L11 10", width: 1.5 }, { d: "M9 3L9 12", width: 1 }] },
+    ceilingMountedDropSetVoiceOnly: { viewBox: [0.74, 0.73, 16.53], paths: [{ d: "M1.49,9a7.51,7.51 0 1,0 15.03,0 a7.51,7.51 0 1,0 -15.03,0", width: 1.5 }, { d: "M3 13L9 2L15 13z", width: 1.5 }, { d: "M10 5L10 12L13 12L10 7L10 12L12 11L11 10", width: 1.5 }, { d: "M9 5L5 12L9 12L9 7L7 11L9 11L8 10", width: 1.5 }, { d: "M9 4L14 12L9 12z", width: 1, filled: true }] },
+    floorMountedDropSetDataOnly: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M2 12L8 2L14 12z", width: 1.5 }] },
+    floorMountedDropSetVoiceAndData: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M9 4L9 11L12 11L9 6L9 11L11 10L10 9", width: 1.5 }, { d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M2 12L8 2L14 12z", width: 1.5 }] },
+    floorMountedDropSetVoiceOnly: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M8 5L9 6L12 11L9 11z", width: 1, filled: true }, { d: "M4 11L8 4L8 11z", width: 1, filled: true }, { d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M2 12L8 2L14 12z", width: 1.5 }] },
+    microphone: { viewBox: [0.5, 0, 16], paths: [{ d: "M8 2L8 8", width: 1.5 }, { d: "M9 1L9 8", width: 1.5 }, { d: "M7 1L10 1L10 9L7 9z", width: 1.5 }, { d: "M4 6L4 11L13 11L13 6", width: 2 }, { d: "M9 11L9 14", width: 1.5 }, { d: "M8 11L8 14", width: 1.5 }, { d: "M5 15L12 15", width: 1.5 }] },
+    speaker: { viewBox: [0.75, 0.25, 16.5], paths: [{ d: "M3 5L7 5L7 12L3 12z", width: 1.5 }, { d: "M7 5L15 1L15 16L7 12z", width: 1.5 }] },
+    tvDisplay: { viewBox: [0.25, 0.25, 13.5], paths: [{ d: "M1 1L13 1L13 13L1 13z", width: 1.5 }], text: { x: 2.37, y: 10, size: 8, value: "TV" } },
+    wallMountedDropSetDataOnly: { viewBox: [0.75, 0.25, 16.5], paths: [{ d: "M2 1L16 1", width: 1.5 }, { d: "M2 16L9 2L16 16z", width: 1.5 }] },
+    wallMountedDropSetVoiceAndDataOnly: { viewBox: [0.5, 0, 17], paths: [{ d: "M2 1L16 1", width: 1.5 }, { d: "M2 16L9 2L16 16z", width: 1.5 }, { d: "M9 4L9 15", width: 2 }, { d: "M10 6L14 15L10 15z", width: 1, filled: true }] },
+    wallMountedDropSetVoiceOnly: { viewBox: [0.5, 0, 17], paths: [{ d: "M2 1L16 1", width: 1.5 }, { d: "M2 16L9 2L16 16z", width: 2 }, { d: "M10 4L14 15L10 15z", width: 1, filled: true }, { d: "M4 15L9 4L9 15z", width: 1, filled: true }] },
+    wallPlate: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.11, y: 11, size: 8, value: "WP" } },
+    wirelessAccessPoint: { viewBox: [-1.28, 1.25, 21.8], paths: [{ d: "M1.8,8a5.2,5.2 0 1,0 10.39,0 a5.2,5.2 0 1,0 -10.39,0", width: 1.5 }, { d: "M3 8L9 4L9 12z", width: 1.5 }, { d: "M10 12L12 14", width: 1.5 }, { d: "M1 2L3 4", width: 1.5 }, { d: "M1 14L3 12", width: 1.5 }, { d: "M13 2L11 4", width: 1.5 }], text: { x: 3.36, y: 21.5, size: 8, value: "WAP" } },
+  },
+  electrical: {
+    disconnectSwitch: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 3L1 8", width: 1.5 }, { d: "M1 8L4 8", width: 1.5 }, { d: "M4 3L15 3L15 13L4 13z", width: 1.5 }] },
+    junctionBox: { viewBox: [0.44, 0.44, 13.12], paths: [{ d: "M1.19,7a5.81,5.81 0 1,0 11.62,0 a5.81,5.81 0 1,0 -11.62,0", width: 1.5 }], text: { x: 5.17, y: 9.81, size: 8, value: "J" } },
+    motor: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 5L5 10", width: 1.5 }, { d: "M11 6L15 11", width: 1.5 }, { d: "M4.43,8a3.57,3.57 0 1,0 7.14,0 a3.57,3.57 0 1,0 -7.14,0", width: 1.5 }] },
+    receptacleDoubleDuplex: { viewBox: [0.25, 0.46, 17.5], paths: [{ d: "M3.29,7a5.71,5.58 0 1,0 11.42,0 a5.71,5.58 0 1,0 -11.42,0", width: 1.5 }, { d: "M1 5L17 5", width: 1.5 }, { d: "M1 9L17 9", width: 1.5 }, { d: "M11 2L11 17", width: 1.5 }, { d: "M7 2L7 17", width: 1.5 }] },
+    receptacleDuplex: { viewBox: [0.46, 0.67, 17.08], paths: [{ d: "M3.29,7a5.71,5.58 0 1,0 11.42,0 a5.71,5.58 0 1,0 -11.42,0", width: 1.5 }, { d: "M11 2L11 17", width: 1.5 }, { d: "M7 2L7 17", width: 1.5 }] },
+    receptacleSimplex: { viewBox: [0.46, 0.67, 17.08], paths: [{ d: "M3.29,7a5.71,5.58 0 1,0 11.42,0 a5.71,5.58 0 1,0 -11.42,0", width: 1.5 }, { d: "M9 2L9 17", width: 1.5 }] },
+    receptacleSpecial: { viewBox: [0.46, 0.67, 17.08], paths: [{ d: "M3.29,7a5.71,5.58 0 1,0 11.42,0 a5.71,5.58 0 1,0 -11.42,0", width: 1.5 }, { d: "M6 2L6 17", width: 1.5 }, { d: "M9 2L9 17", width: 1.5 }, { d: "M12 2L12 17", width: 1.5 }] },
+  },
+  fireLifeSafety: {
+    existingPendentSprinkler: { viewBox: [0.43, 0.43, 17.14], paths: [{ d: "M1.54,9a7.46,7.57 0 1,0 14.93,0 a7.46,7.57 0 1,0 -14.93,0", width: 1.5 }, { d: "M7.19,9a1.81,1.81 0 1,0 3.61,0 a1.81,1.81 0 1,0 -3.61,0", width: 2 }, { d: "M8,9a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0", width: 2 }] },
+    existingUprightSprinkler: { viewBox: [1.96, 1.96, 18.09], paths: [{ d: "M4.46,11a6.54,6.54 0 1,0 13.09,0 a6.54,6.54 0 1,0 -13.09,0", width: 5 }] },
+    exposedUprightSprinkler: { viewBox: [-0.24, -0.23, 16.47], paths: [{ d: "M0.51,8a7.49,7.3 0 1,0 14.97,0 a7.49,7.3 0 1,0 -14.97,0", width: 1.5 }] },
+    heatDetector: { viewBox: [-0.02, -0.02, 16.04], paths: [{ d: "M0.98,8a7.02,6.99 0 1,0 14.04,0 a7.02,6.99 0 1,0 -14.04,0", width: 1.5 }, { d: "M6.84,10a1.16,1 0 1,0 2.31,0 a1.16,1 0 1,0 -2.31,0", width: 2 }, { d: "M8 5L8 10", width: 1.5 }] },
+    pullStation: { viewBox: [0.25, 0.25, 13.5], paths: [{ d: "M1 1L13 1L13 13L1 13z", width: 1.5 }], text: { x: 4.82, y: 10, size: 8, value: "F" } },
+    sidewallSprinkler: { viewBox: [1, 0.5, 17], paths: [{ d: "M17 16L2 16L9 2z", width: 2 }, { d: "M4 15L9 4L15 15z", width: 1, filled: true }, { d: "M9 14L11 11L13 13L14 15z", width: 1, filled: true }] },
+    smokeDetector: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,6.78 0 1,0 14.23,0 a7.12,6.78 0 1,0 -14.23,0", width: 1.5 }], text: { x: 2.88, y: 11.34, size: 8, value: "SD" } },
+    speakerHornAndStrobeCombined: { viewBox: [0.25, 0.25, 16.5], paths: [{ d: "M6,9a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0", width: 1.5 }, { d: "M12 3L1 14", width: 1.5 }, { d: "M1 3L12 14", width: 1.5 }, { d: "M1 3L12 3L12 14L1 14z", width: 1.5 }, { d: "M12 9L16 5L16 13z", width: 1.5 }] },
+    standardPendentSprinkler: { viewBox: [0.51, 0.52, 16.97], paths: [{ d: "M3 8L4 5L9 3L13 4L14 5L16 10L13 15L4 13L3 10z", width: 1, filled: true }, { d: "M1.51,9a7.49,7.3 0 1,0 14.97,0 a7.49,7.3 0 1,0 -14.97,0", width: 2 }, { d: "M3 7L12 10L14 14L11 16L5 14z", width: 1, filled: true }] },
+    strobe: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M5.16,8a2.84,2.84 0 1,0 5.68,0 a2.84,2.84 0 1,0 -5.68,0", width: 1.5 }, { d: "M15 1L11 5", width: 1.5 }, { d: "M1 1L5 5", width: 1.5 }, { d: "M1 15L5 11", width: 1.5 }, { d: "M11 11L15 15", width: 1.5 }] },
+    valve: { viewBox: [0.25, 0.25, 14.5], paths: [{ d: "M1 3L1 12L7 7z", width: 1.5 }, { d: "M14 3L8 7L14 12z", width: 1.5 }] },
+  },
+  geometric: {
+    check: { viewBox: [1, 0.5, 16], paths: [{ d: "M2 9L7 15", width: 2 }, { d: "M7 15L16 2", width: 2 }] },
+    circle: { viewBox: [-0.24, -0.23, 16.47], paths: [{ d: "M0.51,8a7.49,7.3 0 1,0 14.97,0 a7.49,7.3 0 1,0 -14.97,0", width: 1.5 }] },
+    circleFilled: { viewBox: [0.51, 0.52, 16.97], paths: [{ d: "M1.51,9a7.49,7.3 0 1,0 14.97,0 a7.49,7.3 0 1,0 -14.97,0", width: 2, filled: true }] },
+    diamond: { viewBox: [0.25, 0.25, 17.5], paths: [{ d: "M9 1L17 9L9 17L1 9z", width: 1.5 }] },
+    diamondFilled: { viewBox: [1, 1, 18], paths: [{ d: "M10 2L18 10L10 18L2 10z", width: 2, filled: true }] },
+    door: { viewBox: [1, 1, 31], paths: [{ d: "M2 28L6 28L6 5", width: 2 }, { d: "M27 28L31 28", width: 2 }, { d: "M6 7L14 7L22 12L26 19L27 28", width: 1 }] },
+    doubleDoor: { viewBox: [1, 0.5, 57], paths: [{ d: "M2 41L7 41", width: 2 }, { d: "M7 17L7 41", width: 2 }, { d: "M52 17L52 41", width: 2 }, { d: "M52 41L57 41", width: 2 }, { d: "M7 21L15 21L22 26L27 32L29 41", width: 1 }, { d: "M29 41L31 32L36 26L43 21L51 21", width: 1 }] },
+    hexagon: { viewBox: [0.25, 0.25, 17.5], paths: [{ d: "M5 2L13 2L17 9L13 16L5 16L1 9z", width: 1.5 }] },
+    hexagonFilled: { viewBox: [1, 1, 18], paths: [{ d: "M6 3L14 3L18 10L14 17L6 17L2 10z", width: 2, filled: true }, { d: "M9 10L9 12", width: 2 }] },
+    square: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }] },
+    squareFilled: { viewBox: [1, 1, 16], paths: [{ d: "M2 2L16 2L16 16L2 16z", width: 2, filled: true }] },
+    triangle: { viewBox: [0.25, 0.75, 16.5], paths: [{ d: "M16 16L1 16L8 2z", width: 1.5 }] },
+    triangleFilled: { viewBox: [1, 0.5, 17], paths: [{ d: "M17 16L2 16L9 2z", width: 2, filled: true }] },
+    x: { viewBox: [1, 1, 16], paths: [{ d: "M2 2L16 16", width: 2 }, { d: "M16 2L2 16", width: 2 }] },
+  },
+  lighting: {
+    recessedLight2x2: { viewBox: [0.4, 0.4, 15.2], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.2 }] },
+    recessedLightOnEmergencyBranch2x2: { viewBox: [0, 0, 16], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.2 }, { d: "M1 1L15 15", width: 1 }, { d: "M2 3L13 14L2 13z", width: 1, filled: true }, { d: "M2 14L10 13", width: 2 }, { d: "M7 12L4 12", width: 2 }, { d: "M3 6L4 11", width: 2 }] },
+    recessedLight2x4: { viewBox: [0.4, 0.4, 15.2], paths: [{ d: "M1 4L15 4L15 12L1 12z", width: 1.2 }] },
+    emergencyLighting: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M4 7L12 7L12 13L4 13z", width: 1.5 }, { d: "M4 3L1 5L4 7z", width: 1.5 }, { d: "M12 3L15 5L12 7z", width: 1.5 }] },
+    emergencyPowerLighting: { viewBox: [0, 0, 17], paths: [{ d: "M1 4L16 4L16 13L1 13z", width: 1.5 }, { d: "M15 5L2 12", width: 2 }, { d: "M5 12L7 10L14 8L15 8z", width: 1, filled: true }, { d: "M15 9L7 12", width: 2 }, { d: "M15 10L8 12", width: 2 }, { d: "M15 11L12 12", width: 2 }, { d: "M15 12L13 12", width: 2 }, { d: "M4 12L15 7L15 12z", width: 1, filled: true }, { d: "M14 7L8 10", width: 2 }] },
+    emergencyWallPack: { viewBox: [0.25, 0.25, 13.5], paths: [{ d: "M1 7L13 7L13 13L1 13z", width: 1.5 }, { d: "M9 1L13 1L11 6z", width: 1.5 }, { d: "M1 1L5 1L3 6z", width: 1.5 }] },
+    exitSignBasic: { viewBox: [0, 0, 16], paths: [{ d: "M4 4L13 13", width: 1.5 }, { d: "M13 4L4 13", width: 1.5 }, { d: "M1,8a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0", width: 1.5 }, { d: "M6 3L8 2L10 3z", width: 1, filled: true }, { d: "M5 4L12 4L9 7z", width: 1, filled: true }, { d: "M4 3L12 3", width: 2 }, { d: "M6 2L10 2", width: 2 }] },
+    exitSignDoubleSided: { viewBox: [0, 0, 16], paths: [{ d: "M5 13L8 10L12 13L6 14z", width: 1, filled: true }, { d: "M6 13L8 11L11 13z", width: 1, filled: true }, { d: "M4 4L13 13", width: 1.5 }, { d: "M13 4L4 13", width: 1.5 }, { d: "M1,8a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0", width: 1.5 }, { d: "M6 3L8 2L10 3z", width: 1, filled: true }, { d: "M5 4L12 4L9 7z", width: 1, filled: true }, { d: "M4 3L12 3", width: 2 }, { d: "M6 2L10 2", width: 2 }] },
+    occupancySensor: { viewBox: [0.25, 0.25, 13.5], paths: [{ d: "M1 1L13 1L13 13L1 13z", width: 1.5 }], text: { x: 2.77, y: 9, size: 8, value: "os" } },
+    recessedCanLight: { viewBox: [-0.15, -0.14, 14.28], paths: [{ d: "M0.36,7a6.64,6.64 0 1,0 13.27,0 a6.64,6.64 0 1,0 -13.27,0", width: 1 }] },
+    recessedLinearLight: { viewBox: [0.4, 0.4, 19.2], paths: [{ d: "M1 8L19 8L19 12L1 12z", width: 1.2 }] },
+    recessedLinearLightOnEmergencyBranch: { viewBox: [0.4, 0.4, 19.2], paths: [{ d: "M1 8L19 8L19 12L1 12z", width: 1.2 }, { d: "M1 8L18 12", width: 1.2 }, { d: "M2 9L4 9L12 11L2 11z", width: 1, filled: true }] },
+    recessedWallWashLight: { viewBox: [-0.65, 0.36, 15.28], paths: [{ d: "M0.36,8a6.64,6.64 0 1,0 13.27,0 a6.64,6.64 0 1,0 -13.27,0", width: 1 }, { d: "M7 2L7 14", width: 2 }, { d: "M8 2L8 14", width: 2 }, { d: "M9 3L9 13", width: 2 }, { d: "M10 3L10 13", width: 2 }, { d: "M11 4L11 12", width: 2 }, { d: "M12 5L12 11", width: 2 }, { d: "M13 7L13 9", width: 2 }] },
+    surfaceMountedUtilityLight: { viewBox: [0.5, 0, 16], paths: [{ d: "M1 8L16 8", width: 1 }, { d: "M16 6L16 10", width: 1 }, { d: "M1 6L1 10", width: 1 }] },
+    switch: { viewBox: [1.46, 2.25, 16.5], paths: [{ d: "M10 3L10 18", width: 1.5 }], text: { x: 4.75, y: 15.5, size: 16, value: "S" } },
+    trackLighting: { viewBox: [0.5, 0, 16], paths: [{ d: "M5 8L5 9", width: 1 }, { d: "M11 8L11 9", width: 1 }, { d: "M9,6a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0", width: 1 }, { d: "M1 10L16 10", width: 1 }, { d: "M16 8L16 12", width: 1 }, { d: "M1 8L1 12", width: 1 }, { d: "M3,6a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0", width: 1 }] },
+    wallSconce: { viewBox: [0.59, -0.06, 14.81], paths: [{ d: "M3.69,5a4.31,4.31 0 1,0 8.62,0 a4.31,4.31 0 1,0 -8.62,0", width: 1.5 }, { d: "M8 10L8 13", width: 1.5 }, { d: "M4 14L12 14", width: 1.5 }] },
+  },
+  mechanical: {
+    airFilter: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M3 1L13 1L13 15L3 15z", width: 1.5 }, { d: "M13 2L3 5", width: 1.5 }, { d: "M3 5L13 6", width: 1.5 }, { d: "M13 6L3 10", width: 1.5 }, { d: "M3 10L13 11", width: 1.5 }, { d: "M13 11L3 14", width: 1.5 }] },
+    buildingManagementSystem: { viewBox: [0.25, 0.25, 23.5], paths: [{ d: "M1 6L23 6L23 18L1 18z", width: 1.5 }], text: { x: 2.91, y: 15, size: 8, value: "BMS" } },
+    carbonDioxideSensor: { viewBox: [0.25, 0.25, 23.5], paths: [{ d: "M1 6L23 6L23 18L1 18z", width: 1.5 }], text: { x: 4.15, y: 15, size: 8, value: "CO2" } },
+    carbonMonoxideSensor: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,6.78 0 1,0 14.23,0 a7.12,6.78 0 1,0 -14.23,0", width: 1.5 }], text: { x: 2.07, y: 11.12, size: 8, value: "CO" } },
+    damper: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 5L15 5L15 11", width: 1.5 }] },
+    diffuserReturn: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M15 1L2 14", width: 1.5 }] },
+    diffuserSupply: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M15 1L2 14", width: 1.5 }, { d: "M2 2L15 15", width: 1.5 }] },
+    directionOfReturnAir: { viewBox: [0.25, 0.25, 19.5], paths: [{ d: "M16 13L19 10L16 7", width: 1.5 }, { d: "M1 10L6 10L6 5L12 15L12 10L18 10", width: 1.5 }] },
+    equipmentTag: { viewBox: [0.25, 0.25, 33.5], paths: [{ d: "M2 17L32 17", width: 1.5 }, { d: "M1 17L8 2L26 2L33 17L26 32L9 32z", width: 1.5 }] },
+    flexibleConnection: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M3 1L13 1L13 15L3 15z", width: 1.5 }, { d: "M3 1L13 8L3 15", width: 1.5 }, { d: "M13 15L3 8L13 1", width: 1.5 }] },
+    humidistat: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,7.09 0 1,0 14.23,0 a7.12,7.09 0 1,0 -14.23,0", width: 1.5 }], text: { x: 4.87, y: 11.03, size: 8, value: "H" } },
+    pointOfConnection: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1,8a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0", width: 1.5 }, { d: "M8 2L8 15", width: 1.5 }, { d: "M1 8L14 8", width: 1.5 }, { d: "M9 2L11 2L14 7L9 7z", width: 1, filled: true }, { d: "M2 9L7 9L7 14L4 13L2 10z", width: 1, filled: true }, { d: "M2 9L7 9L7 14L4 13L2 10z", width: 1, filled: true }] },
+    pressureSensor: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 5.82, y: 11, size: 8, value: "P" } },
+    refrigerantLine: { viewBox: [0.25, 0.65, 24.5], paths: [{ d: "M20 13L24 13", width: 1.5 }, { d: "M1 13L5 13", width: 1.5 }], text: { x: 6.8, y: 15.5, size: 8, value: "RX" } },
+    relativeHumiditySensor: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 1.8, y: 11, size: 8, value: "RH" } },
+    switchFlow: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.82, y: 11, size: 8, value: "FS" } },
+    thermostat: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,7.09 0 1,0 14.23,0 a7.12,7.09 0 1,0 -14.23,0", width: 1.5 }], text: { x: 6.07, y: 11.3, size: 8, value: "T" } },
+    vavBox: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 5L12 5L12 15L1 15z", width: 1.5 }, { d: "M12 8L15 8L15 13L12 13z", width: 1.5 }, { d: "M2 1L15 1L15 5L2 5z", width: 1.5 }] },
+  },
+  plumbing: {
+    fireHydrant: { viewBox: [0.13, 0.24, 16.62], paths: [{ d: "M0.88,9a7.12,7.09 0 1,0 14.23,0 a7.12,7.09 0 1,0 -14.23,0", width: 1.5 }, { d: "M12 1L11 2L14 2z", width: 1.5, filled: true }, { d: "M14 13L16 14L14 16L13 15z", width: 1.5, filled: true }] },
+    flowDirection: { viewBox: [0, 0, 18], paths: [{ d: "M1 9L17 9", width: 1.5 }, { d: "M6 6L13 9L6 12L6 6L12 9L7 10L7 8L10 9L8 10", width: 1.5 }, { d: "M7 8L7 11L10 10L7 9", width: 2 }] },
+    manhole: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,7.09 0 1,0 14.23,0 a7.12,7.09 0 1,0 -14.23,0", width: 1.5 }, { d: "M4,8a4,4 0 1,0 8,0 a4,4 0 1,0 -8,0", width: 1.5 }] },
+    pipeReducer: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M2 1L2 15L14 10L14 6z", width: 1.5 }] },
+    pump: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1,8a7,7 0 1,0 14,0 a7,7 0 1,0 -14,0", width: 1.5 }, { d: "M5 3L5 14L14 8L5 3", width: 1.5 }, { d: "M6 4L12 8L6 12z", width: 1, filled: true }] },
+    sink: { viewBox: [0.25, 0.75, 18.5], paths: [{ d: "M4 7L15 7L15 14L4 14z", width: 1.5 }, { d: "M9 5L9 10z", width: 1.5 }, { d: "M1 3L18 3L18 17L1 17z", width: 1.5 }] },
+    switchPressure: { viewBox: [0.25, -0.07, 20.14], paths: [{ d: "M5 10L8 10", width: 1.5 }, { d: "M1 8L5 8L5 12L1 12z", width: 1.5 }, { d: "M8.36,10a5.64,5.76 0 1,0 11.28,0 a5.64,5.76 0 1,0 -11.28,0", width: 1.5 }], text: { x: 11.32, y: 13.32, size: 8, value: "P" } },
+    switchTemperature: { viewBox: [0.25, -0.07, 20.14], paths: [{ d: "M1 8L5 8L5 12L1 12z", width: 1.5 }, { d: "M8.36,10a5.64,5.76 0 1,0 11.28,0 a5.64,5.76 0 1,0 -11.28,0", width: 1.5 }, { d: "M5 10L8 10", width: 1.5 }], text: { x: 12.07, y: 13.4, size: 8, value: "T" } },
+    teeOrElbowDown: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M8 1L3 3L1 8L3 13L8 15L13 13L15 8L13 3z", width: 1.5 }] },
+    toilet: { viewBox: [0.25, -0.19, 20.37], paths: [{ d: "M1 3L6 3L6 17L1 17z", width: 1.5 }, { d: "M6.14,10a6.86,5.83 0 1,0 13.73,0 a6.86,5.83 0 1,0 -13.73,0", width: 1.5 }, { d: "M9.7,10a3.3,2.72 0 1,0 6.61,0 a3.3,2.72 0 1,0 -6.61,0", width: 1.5 }] },
+    valve: { viewBox: [0.25, 0.25, 14.5], paths: [{ d: "M1 3L1 12L7 7z", width: 1.5 }, { d: "M14 3L8 7L14 12z", width: 1.5 }] },
+    valve3WayControl: { viewBox: [0.75, 0.25, 14.5], paths: [{ d: "M5 14L8 8L11 14z", width: 1.5 }, { d: "M2 5L8 8L2 11z", width: 1.5 }, { d: "M14 5L8 8L14 11z", width: 1.5 }, { d: "M6 1L10 1L10 4L6 4z", width: 1.5 }, { d: "M8 4L8 8", width: 1.5 }] },
+    valveBall: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M4.38,8a3.62,3.72 0 1,0 7.23,0 a3.62,3.72 0 1,0 -7.23,0", width: 1.5 }, { d: "M11 5L15 3L15 13L11 11", width: 1.5 }, { d: "M5 5L1 3L1 13L5 11", width: 1.5 }] },
+    valveButterfly: { viewBox: [0, 0.5, 15], paths: [{ d: "M1 2L1 14L14 2L14 14", width: 1.5 }, { d: "M6,8a2,2 0 1,0 4,0 a2,2 0 1,0 -4,0", width: 2, filled: true }] },
+    valveControl: { viewBox: [0.25, 0.25, 13.5], paths: [{ d: "M1 6L7 9L1 12z", width: 1.5 }, { d: "M13 6L7 9L13 12z", width: 1.5 }, { d: "M5 2L9 2L9 5L5 5z", width: 1.5 }, { d: "M7 5L7 9", width: 1.5 }] },
+    valveGlobe: { viewBox: [0.25, 0.75, 15.5], paths: [{ d: "M8 11L8 4", width: 1.5 }, { d: "M4 3L12 3", width: 1.5 }, { d: "M5.73,11a2.27,2.27 0 1,0 4.55,0 a2.27,2.27 0 1,0 -4.55,0", width: 1.5, filled: true }, { d: "M15 8L8 11L15 14z", width: 1.5 }, { d: "M1 8L8 11L1 14z", width: 1.5 }] },
+    valvePressureRelease: { viewBox: [0.25, 0.75, 16.5], paths: [{ d: "M12 10L12 16L5 13z", width: 1.5 }, { d: "M12 13L16 13", width: 1.5 }, { d: "M1 5L8 5L5 13z", width: 1.5 }, { d: "M5 4L5 2L8 2", width: 1.5 }] },
+  },
+  security: {
+    adoPushButton: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M4.08,11a1.92,1.92 0 1,0 3.83,0 a1.92,1.92 0 1,0 -3.83,0", width: 1.5 }, { d: "M8 10L11 10", width: 1.5 }, { d: "M11 10L12 12", width: 1.5 }, { d: "M6 4L6 9", width: 1.5 }, { d: "M7 7L10 7", width: 1.5 }, { d: "M5,4a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0", width: 1.5 }] },
+    buttonDoor: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M3.66,8a4.34,4.34 0 1,0 8.68,0 a4.34,4.34 0 1,0 -8.68,0", width: 1.5 }] },
+    buttonEmergency: { viewBox: [0, 0, 16], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }, { d: "M3.66,8a4.34,4.34 0 1,0 8.68,0 a4.34,4.34 0 1,0 -8.68,0", width: 2 }, { d: "M4.71,8a3.29,3.32 0 1,0 6.58,0 a3.29,3.32 0 1,0 -6.58,0", width: 2 }, { d: "M6.01,8a1.99,1.99 0 1,0 3.98,0 a1.99,1.99 0 1,0 -3.98,0", width: 2 }, { d: "M7,8a1,1 0 1,0 2,0 a1,1 0 1,0 -2,0", width: 2 }] },
+    camera: { viewBox: [0.25, 0.75, 15.5], paths: [{ d: "M1 5L11 5L11 12L1 12z", width: 1.5 }, { d: "M11 8L15 6L15 11z", width: 1.5 }] },
+    cardReader: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.15, y: 11, size: 8, value: "CR" } },
+    doorContact: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 1.86, y: 11, size: 8, value: "DC" } },
+    electricLock: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.82, y: 11, size: 8, value: "EL" } },
+    electricStrike: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.82, y: 11, size: 8, value: "ES" } },
+    glassBreakSensor: { viewBox: [0.13, 0.13, 15.73], paths: [{ d: "M0.88,8a7.12,6.78 0 1,0 14.23,0 a7.12,6.78 0 1,0 -14.23,0", width: 1.5 }], text: { x: 2.23, y: 11.12, size: 8, value: "GB" } },
+    intercom: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 3.71, y: 11, size: 8, value: "IC" } },
+    junctionBox: { viewBox: [0.44, 0.44, 13.12], paths: [{ d: "M1.19,7a5.81,5.81 0 1,0 11.62,0 a5.81,5.81 0 1,0 -11.62,0", width: 1.5 }], text: { x: 5.17, y: 9.81, size: 8, value: "J" } },
+    keypad: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M3 1L13 1L13 15L3 15z", width: 1.5 }, { d: "M4 10L13 10", width: 1.5 }, { d: "M4 6L13 6", width: 1.5 }, { d: "M8 2L8 14", width: 1.5 }] },
+    magneticLock: { viewBox: [0.25, 0.25, 15.5], paths: [{ d: "M1 1L15 1L15 15L1 15z", width: 1.5 }], text: { x: 2.16, y: 11, size: 8, value: "ML" } },
+    motionSensor: { viewBox: [0.25, 0.75, 19.5], paths: [{ d: "M2.41,10a7.59,7.64 0 1,0 15.18,0 a7.59,7.64 0 1,0 -15.18,0", width: 1.5 }, { d: "M16 16L19 19", width: 1.5 }, { d: "M19 2L16 5", width: 1.5 }, { d: "M1 2L4 5", width: 1.5 }, { d: "M4 16L1 19", width: 1.5 }], text: { x: 3.91, y: 12.5, size: 8, value: "MS" } },
+  },
+} satisfies Record<string, Record<string, SymbolArt>>;
