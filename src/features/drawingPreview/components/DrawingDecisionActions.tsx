@@ -7,6 +7,7 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
+import { alpha } from "@mui/material/styles";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import DislikeIcon from "@/assets/icons/dislike-icon";
@@ -52,8 +53,9 @@ export function DrawingDecisionStatus({ drawing }: { drawing: SharedDrawing }) {
       <StatusLabel
         status="SUPERSEDED"
         labelOverride={t("drawingPreview.statusSuperseded")}
-        customBackground={theme.palette.grey[500]}
-        customColor={theme.palette.common.white}
+        // Soft amber, as on the admin side: replaced by a newer version.
+        customBackground={alpha(theme.palette.warning.main, 0.16)}
+        customColor={theme.palette.warning.dark}
       />
     );
   }
