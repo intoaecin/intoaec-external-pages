@@ -10,6 +10,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "@/assets/icons/download-icon";
 import Autocomplete from "@/components_v2/Autocomplete";
+import { TruncatedText } from "@/components_v2/TruncatedText";
 import { formatDate } from "@/lib/helpers";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
@@ -93,8 +94,9 @@ export function DrawingPreviewHeader({
       )}
       <Box sx={{ minWidth: 0, flex: 1 }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1, minWidth: 0 }}>
-          <Typography variant="body1" noWrap sx={{ fontWeight: 500, minWidth: 0 }}>
-            {fileName}
+          {/* Long names stop at half the header and show in full on hover. */}
+          <Typography variant="body1" noWrap sx={{ fontWeight: 500, minWidth: 0, maxWidth: "50%" }}>
+            <TruncatedText text={fileName} useEllipsis />
           </Typography>
           {statusBadge && <Box sx={{ flexShrink: 0 }}>{statusBadge}</Box>}
         </Box>
