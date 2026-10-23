@@ -1,6 +1,7 @@
 {
   "drawingPreview": {
     "version": "Versión {{version}}",
+    "receivedOn": "Recibida el: {{date}}",
     "zoomIn": "Acercar (+)",
     "zoomOut": "Alejar (-)",
     "accept": "Aceptar",

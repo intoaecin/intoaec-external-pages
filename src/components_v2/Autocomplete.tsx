@@ -19,7 +19,8 @@ import { TruncatedText } from "./TruncatedText";
 const EMPTY_SELECTED_OPTIONS: Array<{ label: string; value: string }> = [];
 
 interface AutocompleteProps {
-  options: Array<{ label: string; value: string }>;
+  /** `description` adds a smaller second line under the option in the list */
+  options: Array<{ label: string; value: string; description?: string }>;
   placeholder?: string;
   label?: React.ReactNode;
   required?: boolean;
@@ -47,6 +48,8 @@ interface AutocompleteProps {
   maxVisibleOptions?: number;
   optionHeight?: number;
   disableSearch?: boolean;
+  /** When set, the open list may be wider than the field (e.g. options with a second line). */
+  listMinWidth?: number | string;
   /** Auto-focus the inner input on mount (useful for inline-edit cells). */
   autoFocus?: boolean;
   /** Open the dropdown as soon as the input gains focus. */
@@ -88,6 +91,7 @@ const AutocompleteComponent: React.FC<AutocompleteProps> = ({
   maxVisibleOptions,
   optionHeight = 40,
   disableSearch = false,
+  listMinWidth,
   autoFocus = false,
   openOnFocus = false,
   error = false,
@@ -368,7 +372,21 @@ const AutocompleteComponent: React.FC<AutocompleteProps> = ({
             key={option.value || option.label}
             sx={{ fontSize: "0.875rem" }}
           >
-            <TruncatedText text={option.label} limit={maxDisplayLength || 25} />
+            {option.description?.trim() ? (
+              <Box sx={{ display: "flex", flexDirection: "column", gap: 0.25, minWidth: 0 }}>
+                <Box component="span" sx={{ fontWeight: 500, lineHeight: 1.3 }}>
+                  <TruncatedText text={option.label} limit={maxDisplayLength || 25} />
+                </Box>
+                <Box
+                  component="span"
+                  sx={{ fontSize: "0.75rem", color: "text.secondary", lineHeight: 1.3 }}
+                >
+                  <TruncatedText text={option.description ?? ""} limit={maxDisplayLength || 48} />
+                </Box>
+              </Box>
+            ) : (
+              <TruncatedText text={option.label} limit={maxDisplayLength || 25} />
+            )}
           </Box>
         );
       }}
@@ -571,9 +589,9 @@ const AutocompleteComponent: React.FC<AutocompleteProps> = ({
           style: {
             marginTop: (placement || "bottom").startsWith("top") ? 0 : 8,
             marginBottom: (placement || "bottom").startsWith("top") ? 8 : 0,
-            width: "100%",
+            width: listMinWidth != null ? "max-content" : "100%",
             boxSizing: "border-box",
-            minWidth: 0,
+            minWidth: listMinWidth ?? 0,
             overflowY: "auto",
           },
         },

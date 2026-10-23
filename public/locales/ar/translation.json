@@ -1,6 +1,7 @@
 {
   "drawingPreview": {
     "version": "الإصدار {{version}}",
+    "receivedOn": "تم الاستلام في: {{date}}",
     "zoomIn": "تكبير",
     "zoomOut": "تصغير",
     "accept": "قبول",

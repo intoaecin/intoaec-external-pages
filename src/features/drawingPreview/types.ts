@@ -43,7 +43,7 @@ export interface SharedDrawing {
   fileUrl: string;
   versionNumber?: number;
   /** Versions of this file the client was sent, newest first */
-  fileVersions?: Array<{ leadFileId: string; versionNumber: number }>;
+  fileVersions?: Array<{ leadFileId: string; versionNumber: number; sentAt?: number | null }>;
   /** The file's own download setting; false hides the client download */
   allowDownload?: boolean;
   /** Only drawings ask the client to accept or reject; sent documents are view-only */

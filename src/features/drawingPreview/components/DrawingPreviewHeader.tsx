@@ -10,6 +10,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "@/assets/icons/download-icon";
 import Autocomplete from "@/components_v2/Autocomplete";
+import { formatDate } from "@/lib/helpers";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 
@@ -18,7 +19,7 @@ interface DrawingPreviewHeaderProps {
   fileName: string;
   versionNumber?: number;
   /** Versions the client was sent; the select shows when there is more than one */
-  fileVersions?: Array<{ leadFileId: string; versionNumber: number }>;
+  fileVersions?: Array<{ leadFileId: string; versionNumber: number; sentAt?: number | null }>;
   /** Omitted when the file does not allow downloads */
   onDownload?: () => void;
   canDownload: boolean;
@@ -40,9 +41,17 @@ export function DrawingPreviewHeader({
   const { t } = useTranslation();
   const router = useRouter();
   const { logoUrl } = useOrganization();
+  // The sent date, under each version, explains gaps in the numbering: unsent versions are never listed.
   const versionOptions = fileVersions.map((version) => ({
     label: t("drawingPreview.version", { version: version.versionNumber }),
     value: version.leadFileId,
+    description: version.sentAt
+      ? t("drawingPreview.receivedOn", {
+          date: formatDate(String(version.sentAt)),
+          // React escapes the text; i18next escaping would show "/" as "&#x2F;".
+          interpolation: { escapeValue: false },
+        })
+      : undefined,
   }));
   const handleVersionChange = (nextLeadFileId?: string) => {
     if (!nextLeadFileId || nextLeadFileId === leadFileId) return;
@@ -98,6 +107,8 @@ export function DrawingPreviewHeader({
             disableClearable
             disableSearch
             showSelectedInList
+            // Same select width as the internal viewer; the list widens so each received date fits.
+            listMinWidth={200}
             onChange={handleVersionChange}
           />
         </Box>
