@@ -4,6 +4,7 @@ import {
   getMarkupFontSizePx,
   MARKUP_FONT_WEIGHT,
   MEASUREMENT_LABEL_TEXT_SIZE,
+  resolveMarkupColor,
 } from "../utils/markupShapes";
 import {
   getMeasurementLabel,
@@ -70,7 +71,8 @@ export function DrawingMarkupLayer({
                 fontSize={getMarkupFontSizePx(width, MEASUREMENT_LABEL_TEXT_SIZE)}
                 fontFamily={theme.typography.fontFamily}
                 fontWeight={MARKUP_FONT_WEIGHT}
-                fill={theme.palette.text.primary}
+                // Same colour as the measured shape, as in the viewer.
+                fill={resolveMarkupColor(markup.shapeData.color, theme.palette)}
                 stroke={theme.palette.background.paper}
                 strokeWidth={LABEL_HALO_PX}
                 paintOrder="stroke"
