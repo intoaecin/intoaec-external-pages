@@ -42,12 +42,16 @@ export interface SharedDrawing {
   fileExtension?: string;
   fileUrl: string;
   versionNumber?: number;
+  /** Versions of this file the client was sent, newest first */
+  fileVersions?: Array<{ leadFileId: string; versionNumber: number }>;
   /** The file's own download setting; false hides the client download */
   allowDownload?: boolean;
   /** Only drawings ask the client to accept or reject; sent documents are view-only */
   isDrawing?: boolean;
   /** SENT while awaiting the client's answer, then ACCEPTED or REJECTED */
   approvalStatus?: ClientApprovalStatus | null;
+  /** A newer version replaced this pending request; Accept / Reject are not offered */
+  isSuperseded?: boolean;
   /** The client's own reason when they rejected it */
   rejectionReason?: string | null;
   acceptedAt?: number | null;

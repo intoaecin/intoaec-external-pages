@@ -5,15 +5,20 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
+import { useRouter } from "next/router";
 import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import DownloadIcon from "@/assets/icons/download-icon";
+import Autocomplete from "@/components_v2/Autocomplete";
 import LanguageSwitcher from "@/features/components/LanguageSwitcher";
 import { useOrganization } from "@/features/components/providers/OrganizationThemeProvider";
 
 interface DrawingPreviewHeaderProps {
+  leadFileId: string;
   fileName: string;
   versionNumber?: number;
+  /** Versions the client was sent; the select shows when there is more than one */
+  fileVersions?: Array<{ leadFileId: string; versionNumber: number }>;
   /** Omitted when the file does not allow downloads */
   onDownload?: () => void;
   canDownload: boolean;
@@ -23,15 +28,30 @@ interface DrawingPreviewHeaderProps {
 }
 
 export function DrawingPreviewHeader({
+  leadFileId,
   fileName,
   versionNumber,
+  fileVersions = [],
   onDownload,
   canDownload,
   isDownloading,
   decisionActions,
 }: DrawingPreviewHeaderProps) {
   const { t } = useTranslation();
+  const router = useRouter();
   const { logoUrl } = useOrganization();
+  const versionOptions = fileVersions.map((version) => ({
+    label: t("drawingPreview.version", { version: version.versionNumber }),
+    value: version.leadFileId,
+  }));
+  const handleVersionChange = (nextLeadFileId?: string) => {
+    if (!nextLeadFileId || nextLeadFileId === leadFileId) return;
+    // Each version has its own share link; keep any other query params.
+    void router.push({
+      pathname: router.pathname,
+      query: { ...router.query, leadFileId: nextLeadFileId },
+    });
+  };
 
   return (
     <Box
@@ -63,12 +83,25 @@ export function DrawingPreviewHeader({
         <Typography variant="body1" noWrap sx={{ fontWeight: 500 }}>
           {fileName}
         </Typography>
-        {versionNumber && (
+        {versionNumber && versionOptions.length <= 1 && (
           <Typography variant="caption" color="text.secondary">
             {t("drawingPreview.version", { version: versionNumber })}
           </Typography>
         )}
       </Box>
+      {versionOptions.length > 1 && (
+        <Box sx={{ width: 120, flexShrink: 0 }}>
+          <Autocomplete
+            options={versionOptions}
+            value={leadFileId}
+            size="small"
+            disableClearable
+            disableSearch
+            showSelectedInList
+            onChange={handleVersionChange}
+          />
+        </Box>
+      )}
       <Box sx={{ display: "flex", alignItems: "center", flexShrink: 0, gap: 1 }}>
         {decisionActions}
         {onDownload && (

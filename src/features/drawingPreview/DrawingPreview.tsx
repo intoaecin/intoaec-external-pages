@@ -37,8 +37,10 @@ export function DrawingPreview({ drawing }: { drawing: SharedDrawing }) {
   return (
     <Box ref={previewRef} sx={{ minHeight: "100dvh" }}>
       <DrawingPreviewHeader
+        leadFileId={drawing.leadFileId}
         fileName={drawing.fileName}
         versionNumber={drawing.versionNumber}
+        fileVersions={drawing.fileVersions}
         onDownload={drawing.allowDownload === false ? undefined : handleDownload}
         canDownload={isReady}
         isDownloading={isDownloading}

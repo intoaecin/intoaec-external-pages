@@ -10,6 +10,7 @@
     "rejectionReasonPlaceholder": "Let us know why you're rejecting this drawing.",
     "statusAccepted": "Accepted",
     "statusRejected": "Rejected",
+    "statusSuperseded": "Superseded",
     "acceptSuccess": "Thank you, the drawing has been accepted.",
     "rejectSuccess": "Your feedback has been sent.",
     "respondFailed": "Could not save your response. Please try again.",

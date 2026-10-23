@@ -10,6 +10,7 @@
     "rejectionReasonPlaceholder": "أخبرنا لماذا ترفض هذا المخطط.",
     "statusAccepted": "مقبول",
     "statusRejected": "مرفوض",
+    "statusSuperseded": "تم استبداله",
     "acceptSuccess": "شكرًا، تم قبول المخطط.",
     "rejectSuccess": "تم إرسال ملاحظاتك.",
     "respondFailed": "تعذّر حفظ ردك. يرجى المحاولة مرة أخرى.",

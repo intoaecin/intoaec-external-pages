@@ -10,6 +10,7 @@
     "rejectionReasonPlaceholder": "Indíquenos por qué rechaza este plano.",
     "statusAccepted": "Aceptado",
     "statusRejected": "Rechazado",
+    "statusSuperseded": "Reemplazado",
     "acceptSuccess": "Gracias, el plano ha sido aceptado.",
     "rejectSuccess": "Sus comentarios han sido enviados.",
     "respondFailed": "No se pudo guardar su respuesta. Inténtelo de nuevo.",

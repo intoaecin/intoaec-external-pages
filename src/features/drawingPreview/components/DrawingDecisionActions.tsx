@@ -65,6 +65,17 @@ export function DrawingDecisionActions({ drawing }: { drawing: SharedDrawing }) 
       </Tooltip>
     );
   }
+  // A newer version replaced this request: read-only, no decision can be made.
+  if (status === "SENT" && drawing.isSuperseded) {
+    return (
+      <StatusLabel
+        status="SUPERSEDED"
+        labelOverride={t("drawingPreview.statusSuperseded")}
+        customBackground={theme.palette.grey[500]}
+        customColor={theme.palette.common.white}
+      />
+    );
+  }
   // Drawings shared before approvals existed have no status and are view-only.
   if (status !== "SENT") return null;
 
