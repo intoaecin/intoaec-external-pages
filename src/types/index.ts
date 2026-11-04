@@ -56,7 +56,7 @@ export interface FormInputTypes {
 
 type BasicPermissionType = "ALL" | "ASSIGNED";
 type DashboardType = "LEAD" | "REVENUE" | "PROJECT";
-type BillsAndExpensesType = "ALL" | "READ_ONLY" | "WRITE_ONLY";
+type BillsAndExpensesType = "APPROVER" | "CREATOR";
 type InventoryType = "APPROVER" | "REQUESTER";
 type PoType = "APPROVER" | "CREATOR";
 type EstimatesType = "APPROVER" | "CREATOR";

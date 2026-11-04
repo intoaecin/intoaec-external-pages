@@ -9192,9 +9192,8 @@
         "project": "Establecer el Panel de Proyecto como vista de panel predeterminada"
       },
       "billsAndExpenses": {
-        "all": "Acceso completo para ver, crear y modificar facturas y gastos",
-        "read": "Acceso de solo lectura para ver facturas y gastos",
-        "write": "Permiso para crear y modificar facturas y gastos"
+        "creator": "Permiso para crear gastos, que necesitan aprobación antes de poder pagarse",
+        "approver": "Permiso para aprobar, rechazar y marcar gastos como pagados"
       },
       "inventory": {
         "approver": "Permiso para aprobar solicitudes de inventario",

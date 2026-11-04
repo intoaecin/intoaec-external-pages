@@ -16,7 +16,7 @@ export const userHubFeaturePermissionsDetails = {
     default_Dashboard: ["LEAD", "REVENUE", "PROJECT"],
   },
   billsAndExpenses: {
-    billsAndExpenses: ["ALL", "READ", "WRITE"],
+    billsAndExpenses: ["CREATOR", "APPROVER"],
   },
   inventory: {
     inventory: ["APPROVER", "REQUESTER"],
@@ -77,9 +77,9 @@ export const getUserHubPermissionTooltip = (
       project: "Set Project Dashboard as the default dashboard view",
     },
     billsAndExpenses: {
-      all: "Full access to view, create, and modify bills and expenses",
-      read: "Read-only access to view bills and expenses",
-      write: "Permission to create and modify bills and expenses",
+      creator:
+        "Permission to create expenses, which need approval before they can be paid",
+      approver: "Permission to approve, reject and mark expenses as paid",
     },
     inventory: {
       approver: "Permission to approve inventory requests",
